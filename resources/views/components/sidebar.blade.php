@@ -6,8 +6,8 @@
 }
 </style>
 
-<aside id="sidebar" class="sidebar grid  bg-[#1C2434] text-white p-4 transition-transform transform -translate-x-full md:translate-x-0">
-    <div class="flex items-center justify-between mb-[40px]">
+<aside id="sidebar" class="sidebar flex flex-col bg-[#1C2434] text-white p-4 transition-transform transform -translate-x-full md:translate-x-0">
+    <div class="flex items-start mb-[40px] mt-[40px]">
         <h2 class="text-2xl font-bold flex gap-4">
           <img src="{{ asset('/assets/img/logo.svg') }}" />
           <span class="text-4xl	">sisUni</span>
@@ -25,8 +25,8 @@
                 Cadastro
             </a>
             <ul id="cadastroSubmenu" class="ml-4 hidden">
-                <li><a href="#" class="block py-1 px-4 hover:bg-gray-700">Novo Cadastro</a></li>
-                <li><a href="#" class="block py-1 px-4 hover:bg-gray-700">Listar Cadastros</a></li>
+                <li><a href="#" class="block py-1 px-4 hover:bg-gray-700 rounded">Novo Cadastro</a></li>
+                <li><a href="#" class="block py-1 px-4 hover:bg-gray-700 rounded">Listar Cadastros</a></li>
             </ul>
         </div>
         
@@ -37,8 +37,8 @@
               Relatórios
             </a>
             <ul id="relatoriosSubmenu" class="ml-4 hidden">
-                <li><a href="#" class="block py-1 px-4 hover:bg-gray-700">Relatório Mensal</a></li>
-                <li><a href="#" class="block py-1 px-4 hover:bg-gray-700">Relatório Anual</a></li>
+                <li><a href="#" class="block py-1 px-4 hover:bg-gray-700 rounded">Relatório Mensal</a></li>
+                <li><a href="#" class="block py-1 px-4 hover:bg-gray-700 rounded">Relatório Anual</a></li>
             </ul>
         </div>
         
