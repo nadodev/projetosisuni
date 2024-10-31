@@ -1,6 +1,5 @@
-
 @extends('layouts.master')
 
 @section('content')
- teste
+@include('components.cards')
 @stop
