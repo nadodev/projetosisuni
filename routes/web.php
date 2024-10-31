@@ -16,7 +16,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
 
 
 Route::get('/plano-de-ensino/cadastrar', [PlanoDeEnsinoController::class, 'index'])->name('plano.index');
+Route::get('/plano-de-ensino/listar', [PlanoDeEnsinoController::class, 'listar'])->name('plano.listar');

@@ -10,4 +10,9 @@ class PlanoDeEnsinoController extends Controller
     {
         return view('plano.index');
     }
+
+    public function listar()
+    {
+        return view('plano.listar');
+    }
 }
