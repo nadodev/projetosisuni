@@ -17,11 +17,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
         integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+        {{-- <link rel="stylesheet" href="{{ asset('build/assets/app-DZ0lIMIZ.css') }}"> --}}
 </head>
 
 <body class="h-screen bg-gray-100">
     <div id="layout"
-        class="grid grid-cols-1 md:grid-cols-[16rem,1fr] transition-all duration-300 ease-in-out h-screen">
+        class="grid grid-cols-1  md:grid-cols-[16rem,1fr] transition-all duration-300 ease-in-out h-screen">
         @include('components.sidebar')
         <div class="flex flex-col">
             @include('components.header')
