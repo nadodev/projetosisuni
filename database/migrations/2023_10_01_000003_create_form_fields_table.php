@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('form_id')->constrained()->onDelete('cascade');
             $table->foreignId('field_id')->constrained()->onDelete('cascade');
-            $table->integer('order')->default(0); // Ordem dos campos no formulário
+            $table->integer('order')->default(0); // Adiciona a coluna de ordem
             $table->timestamps();
         });
     }

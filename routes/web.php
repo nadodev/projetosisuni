@@ -56,3 +56,5 @@ Route::get('/fields/{field}', [FieldController::class, 'show'])->name('fields.sh
 Route::get('/fields/{field}/edit', [FieldController::class, 'edit'])->name('fields.edit');
 Route::put('/fields/{field}', [FieldController::class, 'update'])->name('fields.update');
 Route::delete('/fields/{field}', [FieldController::class, 'destroy'])->name('fields.destroy');
+
+Route::post('/fields/update-order', [FieldController::class, 'updateOrder'])->name('fields.updateOrder');

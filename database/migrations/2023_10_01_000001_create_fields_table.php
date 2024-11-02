@@ -12,6 +12,7 @@ return new class extends Migration
             $table->id();
             $table->string('name'); // Nome do campo, ex: "Nome", "Email"
             $table->string('type'); // Tipo do campo: "text", "number", "textarea"
+            $table->integer('order')->default(0); // Adiciona a coluna de ordem
             $table->timestamps();
         });
     }

@@ -83,8 +83,7 @@
                 <li><a href="{{ route('fields.create') }}" class="block px-4 py-1 rounded hover:bg-gray-700">Criar Campo</a></li>
                 <li><a href="{{ route('fields.index') }}" class="block px-4 py-1 rounded hover:bg-gray-700">Gerenciar Campos</a></li>
                 <li><a href="{{ route('forms.create') }}" class="block px-4 py-1 rounded hover:bg-gray-700">Criar Formulário</a></li>
-                <li><a href="{{ route('forms.index') }}" class="block px-4 py-1 rounded hover:bg-gray-700">Administrar Formulários</a></li>
-                <li><a href="{{ route('forms.index') }}" class="block px-4 py-1 rounded hover:bg-gray-700">Ver Respostas</a></li>
+                <li><a href="{{ route('forms.index') }}" class="block px-4 py-1 rounded hover:bg-gray-700">Listar Formulários</a></li>
             </ul>
         </div>
 

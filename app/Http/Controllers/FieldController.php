@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Field;
+use App\Models\FormField;
 use Illuminate\Http\Request;
 
 class FieldController extends Controller
 {
     public function index()
     {
-        $fields = Field::all();
+        $fields = Field::orderBy('order')->get();
         return view('fields.index', compact('fields'));
     }
 
@@ -37,7 +38,8 @@ class FieldController extends Controller
 
     public function edit(Field $field)
     {
-        return view('fields.edit', compact('field'));
+        $fields = Field::orderBy('order')->get();
+        return view('fields.edit', compact('field', 'fields'));
     }
 
     public function update(Request $request, Field $field)
@@ -49,6 +51,12 @@ class FieldController extends Controller
 
         $field->update($request->all());
 
+        if ($request->has('order')) {
+            foreach ($request->order as $order => $fieldId) {
+                Field::where('id', $fieldId)->update(['order' => $order]);
+            }
+        }
+
         return redirect()->route('fields.index')->with('success', 'Campo atualizado com sucesso!');
     }
 
@@ -56,5 +64,16 @@ class FieldController extends Controller
     {
         $field->delete();
         return redirect()->route('fields.index')->with('success', 'Campo deletado com sucesso!');
+    }
+
+    public function updateOrder(Request $request)
+    {
+        $order = $request->input('order');
+
+        foreach ($order as $item) {
+            Field::where('id', $item['id'])->update(['order' => $item['order']]);
+        }
+
+        return response()->json(['success' => true]);
     }
 }

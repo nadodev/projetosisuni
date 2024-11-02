@@ -1,13 +1,13 @@
 @extends('layouts.master')
 
 @section('content')
-<div class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-md">
-    <h2 class="text-2xl font-semibold text-gray-800 mb-4">Administrar Formulários</h2>
+<div class="w-full max-w-[900px] p-6  bg-white rounded-lg shadow-md">
+    <h2 class="mb-4 text-2xl font-semibold text-gray-800">Administrar Formulários</h2>
     <table class="w-full table-auto">
         <thead>
             <tr>
-                <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Nome do Formulário</th>
-                <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Ações</th>
+                <th class="px-4 py-2 text-sm font-medium text-left text-gray-700">Nome do Formulário</th>
+                <th class="px-4 py-2 text-sm font-medium text-left text-gray-700">Ações</th>
             </tr>
         </thead>
         <tbody>

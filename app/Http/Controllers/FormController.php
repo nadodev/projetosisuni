@@ -45,7 +45,7 @@ class FormController extends Controller
 
     public function edit(Form $form)
     {
-        $fields = Field::all();
+        $fields = Field::orderBy('order')->get();
         $formFields = $form->fields()->pluck('field_id')->toArray();
         return view('forms.edit', compact('form', 'fields', 'formFields'));
     }
