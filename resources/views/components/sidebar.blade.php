@@ -1,9 +1,9 @@
 <aside id="sidebar"
-    class=" sidebar flex flex-col bg-[#1C2434] text-white p-4 transition-transform transform -translate-x-full md:translate-x-0 ">
+    class="sidebar flex flex-col bg-[#1C2434] text-white p-4 transition-transform transform -translate-x-full md:translate-x-0">
     <div class="flex items-start mb-[40px] mt-[40px]">
         <h2 class="flex gap-4 text-2xl font-bold">
             <img src="{{ asset('/assets/img/logo.svg') }}" />
-            <span class="text-4xl ">sisUni</span>
+            <span class="text-4xl">sisUni</span>
         </h2>
     </div>
     <nav class="flex flex-col mt-4 gap-y-4">
@@ -14,7 +14,20 @@
             Página Inicial
         </a>
 
-        <!-- Item com Submenu -->
+        <a href="{{ route('chat') }}"
+            class="flex items-center gap-4 py-2 px-4 text-[#DEE4EE] hover:bg-gray-600 rounded
+          {{ Route::is('chat') ? 'bg-gray-600' : '' }}">
+            <i class="fa-solid fa-comments"></i>
+            Chat
+        </a>
+
+        <a href="{{ route('calendar') }}"
+            class="flex items-center gap-4 py-2 px-4 text-[#DEE4EE] hover:bg-gray-600 rounded
+          {{ Route::is('calendar') ? 'bg-gray-600' : '' }}">
+            <i class="fa-solid fa-calendar"></i>
+            Calendário
+        </a>
+
         <div class="group">
             <a href="#"
                 class="
@@ -42,15 +55,12 @@
                 <li><a href="{{ route('plano.listar') }}"
                         class="flex items-center gap-2 px-4 py-1 rounded hover:bg-gray-700 {{ Route::is('plano.listar') ? 'text-white' : 'text-gray-500' }}">
                         <i class="fa-solid fa-circle text-[8px] {{ Route::is('plano.listar') ? 'text-white' : 'text-gray-500' }}"></i>
-
-
                         Listar
                     </a>
                 </li>
             </ul>
         </div>
 
-        <!-- Outro Item com Submenu -->
         <div class="group">
             <a href="#" class="flex items-center gap-4 py-2 px-4 hover:bg-gray-600  text-[#DEE4EE]   rounded"
                 onclick="toggleSubmenu('relatoriosSubmenu')">
@@ -62,6 +72,22 @@
                 <li><a href="#" class="block px-4 py-1 rounded hover:bg-gray-700">Relatório Anual</a></li>
             </ul>
         </div>
+
+        <div class="group">
+            <a href="#" class="flex items-center gap-4 py-2 px-4 hover:bg-gray-600  text-[#DEE4EE]   rounded"
+                onclick="toggleSubmenu('formSubmenu')">
+                <i class="fa-solid fa-wpforms"></i>
+                Formulários
+            </a>
+            <ul id="formSubmenu" class="hidden ml-4">
+                <li><a href="{{ route('fields.create') }}" class="block px-4 py-1 rounded hover:bg-gray-700">Criar Campo</a></li>
+                <li><a href="{{ route('fields.index') }}" class="block px-4 py-1 rounded hover:bg-gray-700">Gerenciar Campos</a></li>
+                <li><a href="{{ route('forms.create') }}" class="block px-4 py-1 rounded hover:bg-gray-700">Criar Formulário</a></li>
+                <li><a href="{{ route('forms.index') }}" class="block px-4 py-1 rounded hover:bg-gray-700">Administrar Formulários</a></li>
+                <li><a href="{{ route('forms.index') }}" class="block px-4 py-1 rounded hover:bg-gray-700">Ver Respostas</a></li>
+            </ul>
+        </div>
+
         <a href="#" class="flex items-center gap-4 py-2 px-4 hover:bg-gray-600  text-[#DEE4EE]   rounded">
             <i class="fa-solid fa-gear"></i>
             Configurações

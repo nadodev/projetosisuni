@@ -7,15 +7,23 @@
             <div class="flex flex-col flex-shrink-0 gap-2 mt-4">
                 <button class="px-4 py-2  text-white bg-[#3C50E0] rounded-full hover:bg-blue-700 flex items-center gap-2">
                     <i class="fa-regular fa-file"></i>
-                    <a href="{{ route('plano.index') }}">Plano de Ensino</a>
+                    Plano de Ensino
                 </button>
-                <button class="px-4 py-2  text-[#3C50E0] bg-transparent border border-[#3C50E0] rounded-full hover:bg-blue-700 hover:text-white flex items-center gap-2">
-                    <i class="fa-solid fa-brain"></i>
-                    <a href="{{ route('plano.index') }}">Habilidades</a>
-                </button>
-                <button class="px-4 py-2  text-[#3C50E0] bg-transparent border border-[#3C50E0] rounded-full hover:bg-blue-700 hover:text-white flex items-center gap-2">
+                <button
+                id="habilidades"
+                disabled class="disabled:opacity-75 px-4 py-2 text-[#3C50E0] bg-transparent border border-[#3C50E0] rounded-full flex items-center gap-2
+                hover:bg-blue-700 hover:text-white
+                disabled:hover:bg-transparent disabled:hover:text-[#3C50E0]">
+                <i class="fa-solid fa-brain"></i>
+                Habilidades
+            </button>
+            <button
+            id="medicamentos"
+            disabled class="disabled:opacity-75 px-4 py-2 text-[#3C50E0] bg-transparent border border-[#3C50E0] rounded-full flex items-center gap-2
+            hover:bg-blue-700 hover:text-white
+            disabled:hover:bg-transparent disabled:hover:text-[#3C50E0]">
                     <i class="fa-solid fa-cube"></i>
-                    <a href="{{ route('plano.index') }}">Medicamentos</a>
+                    Medicamentos
                 </button>
             </div>
 
