@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="{{ asset('build/assets/app-DIAhMKAP.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/assets/app-BnevzZkE.css') }}">
     @livewireStyles
 </head>
 
@@ -69,7 +69,7 @@
     </script>
     @livewireScripts
     @stack('scripts')
-    <script src="{{ asset('build/assets/app-DIPG68ca.js') }}"></script>
+    <script src="{{ asset('build/assets/app-B66rlq3v.js') }}"></script>
 <!-- Place the first <script> tag in your HTML's <head> -->
     <script src="https://cdn.tiny.cloud/1/inzoe7ztffweub1gbnd9u98z2dtbtybopy3o8886ehgq86f6/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
 
