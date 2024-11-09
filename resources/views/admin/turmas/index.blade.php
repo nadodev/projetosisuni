@@ -24,12 +24,12 @@
                 <tbody class="bg-white divide-y divide-gray-200">
                     @foreach($turmas as $turma)
                         <tr>
-                            <td class="px-6 py-4 whitespace-nowrap">{{ $turma->codigo }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ $turma->id }}</td>
                             <td class="px-6 py-4 whitespace-nowrap">{{ $turma->nome }}</td>
                             <td class="px-6 py-4 whitespace-nowrap">{{ $turma->quantidade_vagas }}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <a href="{{ route('admin.turmas.edit', $turma) }}" class="text-indigo-600 hover:text-indigo-900 mr-3">Editar</a>
-                                <form action="{{ route('admin.turmas.destroy', $turma) }}" method="POST" class="inline">
+                                <a href="{{ route('admin.turmas.edit', ['id' => $turma->id]) }}" class="text-indigo-600 hover:text-indigo-900 mr-3">Editar</a>
+                                <form action="{{ route('admin.turmas.destroy', ['id' => $turma->id]) }}" method="POST" class="inline">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="text-red-600 hover:text-red-900"

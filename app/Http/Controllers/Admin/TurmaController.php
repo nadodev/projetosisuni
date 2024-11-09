@@ -32,13 +32,16 @@ class TurmaController extends Controller
             ->with('success', 'Turma criada com sucesso!');
     }
 
-    public function edit(Turma $turma)
+    public function edit($codigo)
     {
+        $turma = Turma::findOrFail($codigo);
         return view('admin.turmas.edit', compact('turma'));
     }
 
-    public function update(Request $request, Turma $turma)
+    public function update(Request $request, $codigo)
     {
+        $turma = Turma::findOrFail($codigo);
+
         $request->validate([
             'nome' => 'required|string|max:255|unique:turmas,nome,' . $turma->codigo . ',codigo',
             'quantidade_vagas' => 'required|integer|min:1'
@@ -50,9 +53,11 @@ class TurmaController extends Controller
             ->with('success', 'Turma atualizada com sucesso!');
     }
 
-    public function destroy(Turma $turma)
+    public function destroy($codigo)
     {
+        $turma = Turma::findOrFail($codigo);
         $turma->delete();
+
         return redirect()->route('admin.turmas.index')
             ->with('success', 'Turma excluída com sucesso!');
     }

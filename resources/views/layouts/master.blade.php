@@ -21,10 +21,9 @@
     @livewireStyles
 </head>
 
-<body class="h-screen bg-gray-100">
+<body class="bg-gray-100">
     <div id="layout"
-        class="grid grid-cols-1 md:grid-cols-[16rem,1fr] transition-all duration-300 ease-in-out h-screen">
-        @auth
+    class="grid grid-cols-1 md:grid-cols-[16rem,1fr] transition-all duration-300 ease-in-out h-screen">        @auth
             @if(auth()->user()->role === 'user_admin')
                 <x-admin-sidebar />
             @elseif(auth()->user()->role === 'user_teacher')
@@ -43,6 +42,17 @@
             </main>
         </div>
     </div>
+
+    <script>
+        function toggleSubmenu(submenuId) {
+            const submenu = document.getElementById(submenuId);
+            if (submenu) {
+                submenu.classList.toggle('hidden');
+            }
+        }
+    </script>
+
+    @stack('scripts')
 </body>
 
 </html>

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Turma extends Model
 {
-    protected $primaryKey = 'codigo';
+    protected $primaryKey = 'id';
 
     protected $fillable = [
         'nome',
@@ -15,6 +15,6 @@ class Turma extends Model
 
     public function alunos()
     {
-        return $this->hasMany(User::class, 'id_turma');
+        return $this->hasMany(User::class, 'id_turma', 'id');
     }
 }

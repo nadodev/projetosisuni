@@ -21,6 +21,22 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
     Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
 
+    // Gerenciamento de Turmas
+    Route::get('/turmas', [TurmaController::class, 'index'])->name('turmas.index');
+    Route::get('/turmas/create', [TurmaController::class, 'create'])->name('turmas.create');
+    Route::post('/turmas', [TurmaController::class, 'store'])->name('turmas.store');
+    Route::get('/turmas/{id}/edit', [TurmaController::class, 'edit'])->name('turmas.edit');
+    Route::put('/turmas/{id}', [TurmaController::class, 'update'])->name('turmas.update');
+    Route::delete('/turmas/{id}', [TurmaController::class, 'destroy'])->name('turmas.destroy');
+
+    // Gerenciamento de Instituições
+    Route::get('/instituicoes', [InstituicaoController::class, 'index'])->name('instituicoes.index');
+    Route::get('/instituicoes/create', [InstituicaoController::class, 'create'])->name('instituicoes.create');
+    Route::post('/instituicoes', [InstituicaoController::class, 'store'])->name('instituicoes.store');
+    Route::get('/instituicoes/{instituicao}/edit', [InstituicaoController::class, 'edit'])->name('instituicoes.edit');
+    Route::put('/instituicoes/{instituicao}', [InstituicaoController::class, 'update'])->name('instituicoes.update');
+    Route::delete('/instituicoes/{instituicao}', [InstituicaoController::class, 'destroy'])->name('instituicoes.destroy');
+
     // Gerenciamento de Formulários
     Route::resource('forms', FormController::class);
     Route::get('forms/{form}/responses', [FormController::class, 'responses'])->name('forms.responses');
@@ -32,10 +48,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // Gerenciamento de Eventos
     Route::resource('events', EventController::class);
 
-    // Gerenciamento de Turmas
-    Route::resource('turmas', TurmaController::class);
-
-    // Gerenciamento de Instituições
-    Route::resource('instituicoes', InstituicaoController::class);
+    // Adicione dentro do grupo de rotas admin
+    Route::get('/atribuir-turmas', [UserController::class, 'atribuirTurmasIndex'])->name('atribuir-turmas.index');
+    Route::post('/atribuir-turmas/{user}', [UserController::class, 'atribuirTurma'])->name('atribuir-turmas.update');
 });
 
