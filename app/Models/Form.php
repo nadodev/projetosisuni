@@ -6,10 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Form extends Model
 {
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'user_id'];
 
-    public function fields()
+    public function user()
     {
-        return $this->belongsToMany(Field::class, 'form_fields')->withPivot('order');
+        return $this->belongsTo(User::class);
+    }
+
+    public function responses()
+    {
+        return $this->hasMany(FormResponse::class);
     }
 }

@@ -9,7 +9,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('fields', function (Blueprint $table) {
-            $table->integer('order')->default(0)->after('type'); // Adiciona a coluna de ordem após a coluna 'type'
+            // $table->integer('order')->default(0)->after('type'); // Adiciona a coluna de ordem após a coluna 'type'
         });
     }
 

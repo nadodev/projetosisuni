@@ -17,9 +17,24 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('cpf')->unique();
+            $table->date('data_nascimento');
+            $table->string('genero');
+            $table->string('telefone')->nullable();
+            $table->string('cep');
+            $table->string('endereco');
+            $table->string('bairro');
+            $table->string('cidade');
+            $table->string('uf', 2);
+            $table->integer('numero')->nullable();
+            $table->string('complemento')->nullable();
+            $table->foreignId('id_turma')->nullable()->constrained('turmas');
+            $table->string('categoria');
+            $table->foreignId('id_instituicao')->constrained('instituicoes');
             $table->rememberToken();
             $table->timestamps();
         });
+
     }
 
     /**

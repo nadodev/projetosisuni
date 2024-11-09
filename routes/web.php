@@ -1,60 +1,46 @@
 <?php
 
-use App\Http\Controllers\FieldController;
-use App\Http\Controllers\FormController;
-use App\Http\Controllers\PlanoDeEnsinoController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Teacher\DashboardController as TeacherDashboardController;
+use App\Http\Controllers\Student\DashboardController as StudentDashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Chat;
 use App\Livewire\Calendar;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
-
+// Rota principal
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-Route::get('/plano-de-ensino/cadastrar', [PlanoDeEnsinoController::class, 'index'])->name('plano.index');
-Route::get('/plano-de-ensino/listar', [PlanoDeEnsinoController::class, 'listar'])->name('plano.listar');
+// Rotas de autenticação
+require __DIR__.'/auth.php';
 
-// Rotas para campos
-Route::get('/fields/create', [FieldController::class, 'create'])->name('fields.create');
-Route::post('/fields', [FieldController::class, 'store'])->name('fields.store');
+// Rotas protegidas por autenticação
+Route::middleware('auth')->group(function () {
+    // Rota de dashboard padrão que redireciona baseado na role
+    Route::get('/dashboard', function () {
+        $user = auth()->user();
 
-// Rotas para formulários
-Route::get('/forms/create', [FormController::class, 'create'])->name('forms.create');
-Route::post('/forms', [FormController::class, 'store'])->name('forms.store');
+        return match($user->role) {
+            'user_admin' => redirect()->route('admin.dashboard'),
+            'user_teacher' => redirect()->route('teacher.dashboard'),
+            'user_student' => redirect()->route('student.dashboard'),
+            default => redirect()->route('home'),
+        };
+    })->name('dashboard');
 
-// Rota para exibir formulário
-Route::get('/forms/{form}', [FormController::class, 'show'])->name('forms.show');
+    // Rotas de perfil
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 
-// Rotas sem autenticação
+// Carrega as rotas específicas
+require __DIR__.'/admin.php';
+require __DIR__.'/teacher.php';
+require __DIR__.'/student.php';
+
+// Rotas públicas
 Route::get('/chat', Chat::class)->name('chat');
 Route::get('/calendar', Calendar::class)->name('calendar');
-
-Route::post('/forms/{form}/submit', [FormController::class, 'submit'])->name('forms.submit');
-Route::get('/forms/{form}/responses', [FormController::class, 'responses'])->name('forms.responses');
-
-Route::get('/forms', [FormController::class, 'index'])->name('forms.index');
-
-Route::get('/forms/{form}/edit', [FormController::class, 'edit'])->name('forms.edit');
-Route::put('/forms/{form}', [FormController::class, 'update'])->name('forms.update');
-
-Route::delete('/forms/{form}', [FormController::class, 'destroy'])->name('forms.destroy');
-Route::delete('/fields/{field}', [FieldController::class, 'destroy'])->name('fields.destroy');
-
-Route::get('/fields', [FieldController::class, 'index'])->name('fields.index');
-Route::get('/fields/{field}', [FieldController::class, 'show'])->name('fields.show');
-Route::get('/fields/{field}/edit', [FieldController::class, 'edit'])->name('fields.edit');
-Route::put('/fields/{field}', [FieldController::class, 'update'])->name('fields.update');
-Route::delete('/fields/{field}', [FieldController::class, 'destroy'])->name('fields.destroy');
-
-Route::post('/fields/update-order', [FieldController::class, 'updateOrder'])->name('fields.updateOrder');

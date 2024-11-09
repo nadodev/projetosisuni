@@ -21,85 +21,27 @@
     @livewireStyles
 </head>
 
-<body class="h-screen bg-gray-100">
-    <div id="layout"
-        class="grid grid-cols-1 md:grid-cols-[16rem,1fr] transition-all duration-300 ease-in-out h-screen">
-        @include('components.sidebar')
-        <div class="flex flex-col">
+<body class="bg-gray-100">
+    <div class="min-h-screen">
+        @auth
+            @if(auth()->user()->role === 'user_admin')
+                <x-admin-sidebar />
+            @elseif(auth()->user()->role === 'user_teacher')
+                <x-teacher-sidebar />
+            @else
+                <x-student-sidebar />
+            @endif
+        @else
+            <x-guest-sidebar />
+        @endauth
+
+        <div class="lg:ml-64 transition-all duration-300 ease-in-out">
             @include('components.header')
             <main class="p-4">
-                {{ $slot ?? '' }}
                 @yield('content')
             </main>
         </div>
     </div>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.6.0/Sortable.js"></script>
-    <script src="https://cdn.tiny.cloud/1/inzoe7ztffweub1gbnd9u98z2dtbtybopy3o8886ehgq86f6/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
-    <script>
-        const sidebar = document.getElementById("sidebar");
-        const layout = document.getElementById("layout");
-        const toggleSidebar = document.getElementById("toggleSidebar");
-        const closeSidebar = document.getElementById("closeSidebar");
-
-        function toggleSidebarVisibility() {
-            sidebar.classList.add("-translate-x-full");
-
-            if (sidebar.classList.contains("-translate-x-full")) {
-                layout.classList.toggle("md:grid-cols-[16rem,1fr]");
-                layout.classList.add("grid-cols-1");
-                sidebar.classList.toggle("hidden");
-                sidebar.classList.remove("-translate-x-full");
-                console.log("entrou");
-            } else {
-                layout.classList.remove("grid-cols-1");
-                console.log("saiu");
-                sidebar.classList.remove("hidden");
-                layout.classList.add("md:grid-cols-[16rem,1fr]");
-            }
-        }
-
-        toggleSidebar.addEventListener("click", toggleSidebarVisibility);
-        closeSidebar?.addEventListener("click", toggleSidebarVisibility);
-    </script>
-    <script>
-        function toggleSubmenu(id) {
-            const submenu = document.getElementById(id);
-            submenu.classList.toggle('hidden');
-        }
-    </script>
-    @livewireScripts
-    @stack('scripts')
-    <script src="{{ asset('build/assets/app-B66rlq3v.js') }}"></script>
-<!-- Place the first <script> tag in your HTML's <head> -->
-    <script src="https://cdn.tiny.cloud/1/inzoe7ztffweub1gbnd9u98z2dtbtybopy3o8886ehgq86f6/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
-
-    <!-- Place the following <script> and <textarea> tags your HTML's <body> -->
-    <script>
-      tinymce.init({
-        selector: 'textarea',
-        plugins: [
-          // Core editing features
-          'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount',
-          // Your account includes a free trial of TinyMCE premium features
-          // Try the most popular premium features until Nov 16, 2024:
-          'checklist', 'mediaembed', 'casechange', 'export', 'formatpainter', 'pageembed', 'a11ychecker', 'tinymcespellchecker', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'editimage', 'advtemplate', 'ai', 'mentions', 'tinycomments', 'tableofcontents', 'footnotes', 'mergetags', 'autocorrect', 'typography', 'inlinecss', 'markdown',
-          // Early access to document converters
-          'importword', 'exportword', 'exportpdf'
-        ],
-        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
-        tinycomments_mode: 'embedded',
-        tinycomments_author: 'Author name',
-        mergetags_list: [
-          { value: 'First.Name', title: 'First Name' },
-          { value: 'Email', title: 'Email' },
-        ],
-        ai_request: (request, respondWith) => respondWith.string(() => Promise.reject('See docs to implement AI Assistant')),
-        exportpdf_converter_options: { 'format': 'Letter', 'margin_top': '1in', 'margin_right': '1in', 'margin_bottom': '1in', 'margin_left': '1in' },
-        exportword_converter_options: { 'document': { 'size': 'Letter' } },
-        importword_converter_options: { 'formatting': { 'styles': 'inline', 'resets': 'inline',	'defaults': 'inline', } },
-      });
-    </script>
-
 </body>
 
 </html>
