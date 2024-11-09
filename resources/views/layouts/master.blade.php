@@ -21,8 +21,9 @@
     @livewireStyles
 </head>
 
-<body class="bg-gray-100">
-    <div class="min-h-screen">
+<body class="h-screen bg-gray-100">
+    <div id="layout"
+        class="grid grid-cols-1 md:grid-cols-[16rem,1fr] transition-all duration-300 ease-in-out h-screen">
         @auth
             @if(auth()->user()->role === 'user_admin')
                 <x-admin-sidebar />
@@ -35,8 +36,8 @@
             <x-guest-sidebar />
         @endauth
 
-        <div class="lg:ml-64 transition-all duration-300 ease-in-out">
-            @include('components.header')
+        <div class="flex flex-col">
+                        @include('components.header')
             <main class="p-4">
                 @yield('content')
             </main>
