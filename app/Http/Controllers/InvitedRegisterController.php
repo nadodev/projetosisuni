@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Models\InstitutionInvite;
 use App\Models\User;
+use App\Models\Instituicao;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
@@ -78,6 +79,13 @@ class InvitedRegisterController extends Controller
                 'status' => 'accepted',
                 'user_id' => $user->id
             ]);
+
+            $instituicao = Instituicao::find($invite->instituicoes_id);
+
+            if ($instituicao) {
+                $instituicao->invites_used += 1;
+                $instituicao->save();
+            }
 
             DB::commit();
             Log::info('Transação commitada com sucesso');

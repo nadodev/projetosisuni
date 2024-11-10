@@ -6,6 +6,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
 {
@@ -45,6 +46,11 @@ class User extends Authenticatable
     public function turma()
     {
         return $this->belongsTo(Turma::class, 'id_turma', 'id');
+    }
+
+    public function turmas(): HasMany
+    {
+        return $this->hasMany(Turma::class, 'professor_id');
     }
 
     public function categoria()

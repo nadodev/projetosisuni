@@ -1,13 +1,18 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex justify-between">
+        <div class="flex justify-between items-center">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Convites') }}
             </h2>
-            <a href="{{ route('institution.invites.create') }}"
-               class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                Novo Convite
-            </a>
+            <div class="flex items-center gap-4">
+                <span class="text-sm text-gray-600">
+                    Convites Restantes: {{ $remainingInvites }}
+                </span>
+                <a href="{{ route('institution.invites.create') }}"
+                   class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700">
+                    Novo Convite
+                </a>
+            </div>
         </div>
     </x-slot>
 

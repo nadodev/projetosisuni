@@ -11,9 +11,19 @@
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
+                    </x-nav-link>
+
+                    <x-nav-link :href="route('calendar')" :active="request()->routeIs('calendar')">
+                        <div class="flex items-center">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            {{ __('Calendário') }}
+                        </div>
                     </x-nav-link>
                 </div>
             </div>
@@ -61,6 +71,43 @@
                     </svg>
                 </button>
             </div>
+
+            <!-- Dentro do menu de navegação, após outros itens -->
+            @if(auth()->user()->isAdmin())
+                <div class="hidden sm:flex sm:items-center sm:ml-6">
+                    <x-dropdown align="right" width="48">
+                        <x-slot name="trigger">
+                            <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
+                                <div>Relatórios</div>
+
+                                <div class="ml-1">
+                                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                            </button>
+                        </x-slot>
+
+                        <x-slot name="content">
+                            <x-dropdown-link :href="route('admin.reports.turmas')">
+                                {{ __('Turmas') }}
+                            </x-dropdown-link>
+                            <x-dropdown-link :href="route('admin.reports.categorias')">
+                                {{ __('Categorias') }}
+                            </x-dropdown-link>
+                            <x-dropdown-link :href="route('admin.reports.estudantes')">
+                                {{ __('Estudantes') }}
+                            </x-dropdown-link>
+                            <x-dropdown-link :href="route('admin.reports.professores')">
+                                {{ __('Professores') }}
+                            </x-dropdown-link>
+                            <x-dropdown-link :href="route('admin.reports.usuarios-por-categoria')">
+                                {{ __('Usuários por Categoria') }}
+                            </x-dropdown-link>
+                        </x-slot>
+                    </x-dropdown>
+                </div>
+            @endif
         </div>
     </div>
 
@@ -69,6 +116,16 @@
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('calendar')" :active="request()->routeIs('calendar')">
+                <div class="flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    {{ __('Calendário') }}
+                </div>
             </x-responsive-nav-link>
         </div>
 

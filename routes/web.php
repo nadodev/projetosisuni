@@ -10,6 +10,7 @@ use App\Livewire\Chat;
 use App\Livewire\Calendar;
 use App\Http\Controllers\InvitedRegisterController;
 use App\Http\Controllers\Admin\PlanController;
+use App\Http\Controllers\Admin\ReportController;
 
 // Rota principal
 Route::get('/', function () {
@@ -61,7 +62,11 @@ require __DIR__.'/student.php';
 
 // Rotas públicas
 Route::get('/chat', Chat::class)->name('chat');
-Route::get('/calendar', Calendar::class)->name('calendar');
+Route::get('/calendar', function() {
+    return view('calendar', [
+        'title' => 'Calendário'
+    ]);
+})->name('calendar');
 
 // Rotas de convite para instituição
 Route::get('/institution/invite/{token}', [InstitutionInviteController::class, 'accept'])
@@ -80,9 +85,60 @@ Route::middleware(['auth', 'admin'])->group(function () {
     // Rotas de convites
     Route::get('/institution/invites', [InstitutionInviteController::class, 'index'])
         ->name('institution.invites.index');
+
+    // Rotas de relatórios
+    Route::prefix('admin/reports')->name('admin.reports.')->group(function () {
+        Route::get('/turmas', [ReportController::class, 'turmas'])->name('turmas');
+        Route::get('/turmas/pdf', [ReportController::class, 'exportTurmasPDF'])->name('turmas.pdf');
+        Route::get('/categorias', [ReportController::class, 'categorias'])->name('categorias');
+        Route::get('/categorias/pdf', [ReportController::class, 'exportCategoriasPDF'])->name('categorias.pdf');
+        Route::get('/estudantes', [ReportController::class, 'estudantes'])->name('estudantes');
+        Route::get('/professores', [ReportController::class, 'professores'])->name('professores');
+        Route::get('/usuarios-por-categoria', [ReportController::class, 'usuariosPorCategoria'])->name('usuarios-por-categoria');
+    });
 });
 
-// Adicione o middleware nas rotas que precisam de endereço completo
-Route::middleware(['auth', 'check.address'])->group(function () {
-    // Rotas que precisam de endereço completo
+// Rotas que precisam de endereço completo
+Route::middleware(['auth', 'require.address'])->group(function () {
+    // Suas rotas aqui
+    Route::get('/calendar', function() {
+        return view('calendar', [
+            'title' => 'Calendário'
+        ]);
+    })->name('calendar');
 });
+
+// Rotas que não precisam de endereço completo
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    // ... outras rotas ...
+});
+
+// Rotas do calendário específicas para cada tipo de usuário
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin/calendar', function () {
+        return view('admin.calendar');
+    })->name('admin.calendar');
+});
+
+Route::middleware(['auth', 'teacher'])->group(function () {
+    Route::get('/teacher/calendar', function () {
+        return view('teacher.calendar');
+    })->name('teacher.calendar');
+});
+
+Route::middleware(['auth', 'student'])->group(function () {
+    Route::get('/student/calendar', function () {
+        return view('student.calendar');
+    })->name('student.calendar');
+});
+
+Route::get('/admin/reports/usuarios-por-categoria/pdf', [ReportController::class, 'exportUsuariosPorCategoriaPDF'])
+    ->name('admin.reports.usuarios-por-categoria.pdf');
+
+Route::get('/admin/reports/professores/pdf', [ReportController::class, 'exportProfessoresPDF'])
+    ->name('admin.reports.professores.pdf');
+
+Route::get('/admin/reports/estudantes/pdf', [ReportController::class, 'exportEstudantesPDF'])
+    ->name('admin.reports.estudantes.pdf');

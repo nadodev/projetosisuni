@@ -37,7 +37,6 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\CheckFirstAccess::class,
-            \App\Http\Middleware\RequireAddress::class,
         ],
 
         'api' => [
@@ -83,5 +82,6 @@ class Kernel extends HttpKernel
         'check.instituicao' => \App\Http\Middleware\CheckInstituicao::class,
         'super.admin' => \App\Http\Middleware\SuperAdmin::class,
         'check.address' => \App\Http\Middleware\CheckAddress::class,
+        'require.address' => \App\Http\Middleware\RequireAddress::class,
     ];
 }

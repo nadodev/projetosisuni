@@ -3,53 +3,169 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Anamnese;
+use App\Models\User;
+use App\Models\Turma;
+use App\Models\Categoria;
 use Illuminate\Http\Request;
-use Barryvdh\DomPDF\Facade\Pdf;
-use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\AnamneseExport;
+use Illuminate\Support\Facades\DB;
+use PDF;
 
 class ReportController extends Controller
 {
-    public function generatePDF(Anamnese $anamnese)
+    public function turmas()
     {
-        $pdf = PDF::loadView('admin.reports.anamnese-pdf', [
-            'anamnese' => $anamnese->load(['evolucoes.professional', 'student', 'professional'])
-        ]);
+        $turmas = Turma::with(['professor', 'alunos'])
+            ->where('id_instituicao', auth()->user()->id_instituicao)
+            ->get()
+            ->map(function ($turma) {
+                return [
+                    'nome' => $turma->nome,
+                    'professor' => $turma->professor?->name ?? 'Sem professor',
+                    'total_alunos' => $turma->alunos->count(),
+                    'created_at' => $turma->created_at->format('d/m/Y'),
+                ];
+            });
 
-        $pdf->getDomPDF()->set_option("enable_php", true);
-        $pdf->getDomPDF()->set_option("enable_javascript", true);
-        $pdf->getDomPDF()->set_option("enable_remote", true);
-        $pdf->getDomPDF()->set_option("enable_html5_parser", true);
-
-        return $pdf->download('anamnese-' . $anamnese->student->name . '-' . now()->format('d-m-Y') . '.pdf');
+        return view('admin.reports.turmas', compact('turmas'));
     }
 
-    public function generateExcel(Anamnese $anamnese)
+    public function categorias()
     {
-        return Excel::download(
-            new AnamneseExport($anamnese),
-            'anamnese-' . $anamnese->student->name . '-' . now()->format('d-m-Y') . '.xlsx'
-        );
+        $categorias = Categoria::withCount(['users' => function($query) {
+            $query->where('id_instituicao', auth()->user()->id_instituicao);
+        }])->get();
+
+        return view('admin.reports.categorias', compact('categorias'));
     }
 
-    public function studentProgress(Request $request)
+    public function estudantes()
     {
-        $students = User::where('role', 'user_student')
-            ->with(['anamneses' => function($query) {
-                $query->with('evolucoes');
-            }])
+        $estudantes = User::with(['turma', 'categoria'])
+            ->where('id_instituicao', auth()->user()->id_instituicao)
+            ->where('role', 'user_student')
+            ->get()
+            ->map(function ($estudante) {
+                return [
+                    'nome' => $estudante->name,
+                    'email' => $estudante->email,
+                    'turma' => $estudante->turma?->nome ?? 'Sem turma',
+                    'categoria' => $estudante->categoria?->nome ?? 'Sem categoria',
+                    'created_at' => $estudante->created_at->format('d/m/Y'),
+                ];
+            });
+
+        return view('admin.reports.estudantes', compact('estudantes'));
+    }
+
+    public function professores()
+    {
+        $professores = User::with(['turmas'])
+            ->where('id_instituicao', auth()->user()->id_instituicao)
+            ->where('role', 'user_teacher')
+            ->get()
+            ->map(function ($professor) {
+                return [
+                    'nome' => $professor->name,
+                    'email' => $professor->email,
+                    'total_turmas' => $professor->turmas->count(),
+                    'turmas' => $professor->turmas->pluck('nome')->join(', '),
+                    'created_at' => $professor->created_at->format('d/m/Y'),
+                ];
+            });
+
+        return view('admin.reports.professores', compact('professores'));
+    }
+
+    public function usuariosPorCategoria()
+    {
+        $usuarios = DB::table('users')
+            ->join('categorias', 'users.categoria_id', '=', 'categorias.id')
+            ->where('users.id_instituicao', auth()->user()->id_instituicao)
+            ->select('categorias.nome as categoria', 'users.role', DB::raw('count(*) as total'))
+            ->groupBy('categorias.nome', 'users.role')
             ->get();
 
-        if ($request->format === 'pdf') {
-            $pdf = PDF::loadView('admin.reports.student-progress-pdf', compact('students'));
-            return $pdf->download('progresso-estudantes.pdf');
-        }
+        return view('admin.reports.usuarios-por-categoria', compact('usuarios'));
+    }
 
-        if ($request->format === 'excel') {
-            return Excel::download(new StudentProgressExport($students), 'progresso-estudantes.xlsx');
-        }
+    public function exportTurmasPDF()
+    {
+        $turmas = Turma::with(['professor', 'alunos'])
+            ->where('id_instituicao', auth()->user()->id_instituicao)
+            ->get()
+            ->map(function ($turma) {
+                return [
+                    'nome' => $turma->nome,
+                    'professor' => $turma->professor?->name ?? 'Sem professor',
+                    'total_alunos' => $turma->alunos->count(),
+                    'created_at' => $turma->created_at->format('d/m/Y'),
+                ];
+            });
 
-        return view('admin.reports.student-progress', compact('students'));
+        $pdf = PDF::loadView('admin.reports.pdf.turmas', compact('turmas'));
+        return $pdf->download('relatorio-turmas.pdf');
+    }
+
+    public function exportCategoriasPDF()
+    {
+        $categorias = Categoria::withCount(['users' => function($query) {
+            $query->where('id_instituicao', auth()->user()->id_instituicao);
+        }])->get();
+
+        $pdf = PDF::loadView('admin.reports.pdf.categorias', compact('categorias'));
+        return $pdf->download('relatorio-categorias.pdf');
+    }
+
+    public function exportUsuariosPorCategoriaPDF()
+    {
+        $usuarios = DB::table('users')
+            ->join('categorias', 'users.categoria_id', '=', 'categorias.id')
+            ->where('users.id_instituicao', auth()->user()->id_instituicao)
+            ->select('categorias.nome as categoria', 'users.role', DB::raw('count(*) as total'))
+            ->groupBy('categorias.nome', 'users.role')
+            ->get();
+
+        $pdf = PDF::loadView('admin.reports.pdf.usuarios-por-categoria', compact('usuarios'));
+        return $pdf->download('relatorio-usuarios-por-categoria.pdf');
+    }
+
+    public function exportProfessoresPDF()
+    {
+        $professores = User::with(['turmas'])
+            ->where('id_instituicao', auth()->user()->id_instituicao)
+            ->where('role', 'user_teacher')
+            ->get()
+            ->map(function ($professor) {
+                return [
+                    'nome' => $professor->name,
+                    'email' => $professor->email,
+                    'total_turmas' => $professor->turmas->count(),
+                    'turmas' => $professor->turmas->pluck('nome')->join(', '),
+                    'created_at' => $professor->created_at->format('d/m/Y'),
+                ];
+            });
+
+        $pdf = PDF::loadView('admin.reports.pdf.professores', compact('professores'));
+        return $pdf->download('relatorio-professores.pdf');
+    }
+
+    public function exportEstudantesPDF()
+    {
+        $estudantes = User::with(['turma', 'categoria'])
+            ->where('id_instituicao', auth()->user()->id_instituicao)
+            ->where('role', 'user_student')
+            ->get()
+            ->map(function ($estudante) {
+                return [
+                    'nome' => $estudante->name,
+                    'email' => $estudante->email,
+                    'turma' => $estudante->turma?->nome ?? 'Sem turma',
+                    'categoria' => $estudante->categoria?->nome ?? 'Sem categoria',
+                    'created_at' => $estudante->created_at->format('d/m/Y'),
+                ];
+            });
+
+        $pdf = PDF::loadView('admin.reports.pdf.estudantes', compact('estudantes'));
+        return $pdf->download('relatorio-estudantes.pdf');
     }
 }

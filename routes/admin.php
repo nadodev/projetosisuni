@@ -57,9 +57,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/turmas', [TurmaController::class, 'index'])->name('turmas.index');
     Route::get('/turmas/create', [TurmaController::class, 'create'])->name('turmas.create');
     Route::post('/turmas', [TurmaController::class, 'store'])->name('turmas.store');
-    Route::get('/turmas/{codigo}/edit', [TurmaController::class, 'edit'])->name('turmas.edit');
-    Route::put('/turmas/{codigo}', [TurmaController::class, 'update'])->name('turmas.update');
-    Route::delete('/turmas/{codigo}', [TurmaController::class, 'destroy'])->name('turmas.destroy');
+    Route::get('/turmas/{id}/edit', [TurmaController::class, 'edit'])->name('turmas.edit');
+    Route::put('/turmas/{id}', [TurmaController::class, 'update'])->name('turmas.update');
+    Route::delete('/turmas/{id}', [TurmaController::class, 'destroy'])->name('turmas.destroy');
 
     // Atribuição de Turmas
     Route::get('/atribuir-turmas', [TurmaController::class, 'atribuirTurmasIndex'])->name('atribuir-turmas.index');

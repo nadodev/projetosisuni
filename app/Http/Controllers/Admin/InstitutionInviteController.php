@@ -15,12 +15,24 @@ class InstitutionInviteController extends Controller
 {
     public function create()
     {
+        $instituicao = auth()->user()->instituicao;
+
+        if (!$instituicao->canSendInvite()) {
+            return redirect()->route('institution.invites.index')
+                ->with('error', 'Você não tem mais convites disponíveis. Por favor, atualize seu plano.');
+        }
+
         return view('admin.institution-invites.create');
     }
 
     public function store(Request $request)
     {
+        $instituicao = auth()->user()->instituicao;
 
+        if (!$instituicao->canSendInvite()) {
+            return redirect()->route('institution.invites.index')
+                ->with('error', 'Você não tem mais convites disponíveis. Por favor, atualize seu plano.');
+        }
 
         $request->validate([
             'email' => ['required', 'email', 'max:255'],
@@ -31,24 +43,27 @@ class InstitutionInviteController extends Controller
             'email' => $request->email,
             'role' => $request->role,
             'token' => Str::random(32),
-            'instituicoes_id' => auth()->user()->instituicao->id,
+            'instituicoes_id' => $instituicao->id,
             'status' => 'pending',
             'expires_at' => now()->addDays(7),
         ]);
 
-        // Enviar o email
         Mail::to($request->email)->send(new InstitutionInvitation($invite));
 
         return redirect()->route('institution.invites.index')
-            ->with('success', 'Convite enviado com sucesso!');
+            ->with('success', 'Convite enviado com sucesso! Convites restantes: ' . $instituicao->remaining_invites);
     }
 
     public function index()
     {
-        $invites = InstitutionInvite::where('instituicoes_id', auth()->user()->instituicao->id)
+        $instituicao = auth()->user()->instituicao;
+        $invites = InstitutionInvite::where('instituicoes_id', $instituicao->id)
             ->latest()
             ->paginate(10);
 
-        return view('admin.institution-invites.index', compact('invites'));
+        return view('admin.institution-invites.index', [
+            'invites' => $invites,
+            'remainingInvites' => $instituicao->remaining_invites
+        ]);
     }
 }

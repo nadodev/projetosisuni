@@ -3,57 +3,68 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Instituicao extends Model
 {
-
     protected $table = 'instituicoes';
 
     protected $fillable = [
         'nome',
+        'cnpj',
+        'email',
+        'telefone',
+        'cep',
+        'endereco',
+        'bairro',
+        'cidade',
+        'uf',
+        'numero',
+        'complemento',
         'plan_id',
-        'invites_used'
+        'available_invites'
     ];
 
-    public function plan()
-    {
-        return $this->belongsTo(Plan::class);
-    }
-
-    public function getInviteLimitAttribute()
-    {
-        return $this->plan ? $this->plan->invite_limit : 0;
-    }
-
-    public function getRemainingInvitesAttribute()
-    {
-        return $this->invite_limit - $this->invites_used;
-    }
-
-    public function canSendInvites()
-    {
-        return $this->remaining_invites > 0;
-    }
-
-    public function users()
+    public function users(): HasMany
     {
         return $this->hasMany(User::class, 'id_instituicao');
     }
 
-    public function turmas()
+    public function plan(): BelongsTo
     {
-        return $this->hasMany(Turma::class, 'id_instituicao');
+        return $this->belongsTo(Plan::class);
     }
 
-    public function anamneses()
+    public function invites(): HasMany
     {
-        return $this->hasManyThrough(
-            Anamnese::class,
-            User::class,
-            'id_instituicao', // Chave estrangeira em users
-            'student_id', // Chave estrangeira em anamneses
-            'id', // Chave local em instituicoes
-            'id' // Chave local em users
-        );
+        return $this->hasMany(InstitutionInvite::class, 'instituicoes_id');
+    }
+
+    // Método para calcular convites restantes
+    public function getRemainingInvitesAttribute(): int
+    {
+        $totalInvites = $this->plan->invite_limit ?? 0;
+        $usedInvites = $this->invites()
+            ->whereIn('status', ['pending', 'accepted'])
+            ->count();
+
+        return max(0, $totalInvites - $usedInvites);
+    }
+
+    // Método para verificar se ainda tem convites disponíveis
+    public function hasAvailableInvites(): bool
+    {
+        return $this->remaining_invites > 0;
+    }
+
+    // Método para verificar se pode enviar convite
+    public function canSendInvite(): bool
+    {
+        if (!$this->plan) {
+            return false;
+        }
+
+        return $this->remaining_invites > 0;
     }
 }

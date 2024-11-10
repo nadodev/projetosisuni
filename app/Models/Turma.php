@@ -3,18 +3,30 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Turma extends Model
 {
-    protected $primaryKey = 'id';
-
     protected $fillable = [
         'nome',
-        'quantidade_vagas'
+        'id_instituicao',
+        'professor_id',
+        // ... outros campos
     ];
 
-    public function alunos()
+    public function professor(): BelongsTo
     {
-        return $this->hasMany(User::class, 'id_turma', 'id');
+        return $this->belongsTo(User::class, 'professor_id');
+    }
+
+    public function alunos(): HasMany
+    {
+        return $this->hasMany(User::class, 'id_turma');
+    }
+
+    public function instituicao(): BelongsTo
+    {
+        return $this->belongsTo(Instituicao::class, 'id_instituicao');
     }
 }
