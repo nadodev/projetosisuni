@@ -77,46 +77,50 @@ class UserController extends Controller
 
     public function update(Request $request, User $user)
     {
-        $request->validate([
-            'cpf' => 'required|string|size:11|unique:users,cpf,' . $user->id,
-            'name' => 'required|string|max:255',
-            'data_nascimento' => 'required|date',
-            'genero' => 'required|string',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
-            'telefone' => 'nullable|string',
-            'cep' => 'required|string|size:8',
-            'endereco' => 'required|string',
-            'bairro' => 'required|string',
-            'cidade' => 'required|string',
-            'uf' => 'required|string|size:2',
-            'numero' => 'nullable|integer',
-            'complemento' => 'nullable|string',
-            'id_turma' => 'nullable|exists:turmas,id',
-            'categoria_id' => 'nullable|exists:categorias,id',
-            'id_instituicao' => 'required|exists:instituicoes,id',
-            'role' => 'required|in:user_admin,user_teacher,user_student',
-        ]);
+        try {
+            $request->validate([
+                'cpf' => 'required|string|size:11|unique:users,cpf,' . $user->id,
+                'name' => 'required|string|max:255',
+                'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+                'role' => 'required|in:user_admin,user_teacher,user_student',
+                'categoria_id' => 'nullable|exists:categorias,id',
+            ]);
 
-        $data = $request->except('password');
+            // Prepara os dados para atualização
+            $data = $request->all();
 
-        if ($request->filled('password')) {
-            $request->validate(['password' => 'required|string|min:8|confirmed']);
-            $data['password'] = Hash::make($request->password);
+            // Se uma nova senha foi fornecida
+            if ($request->filled('password')) {
+                $request->validate([
+                    'password' => 'required|string|min:8|confirmed'
+                ]);
+                $data['password'] = Hash::make($request->password);
+            } else {
+                // Remove o campo password se estiver vazio
+                unset($data['password']);
+            }
+
+            // Remove campos desnecessários
+            unset($data['_token'], $data['_method'], $data['password_confirmation']);
+
+            // Atualiza o usuário
+            $user->update($data);
+
+            // Redireciona com mensagem de sucesso
+            return redirect()
+                ->route('admin.users.index')
+                ->with('success', 'Usuário atualizado com sucesso!');
+
+        } catch (\Exception $e) {
+            // Log do erro
+            \Log::error('Erro ao atualizar usuário: ' . $e->getMessage());
+
+            // Redireciona com mensagem de erro
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', 'Erro ao atualizar usuário. Por favor, tente novamente.');
         }
-
-        // Limpa categoria se for estudante
-        if ($request->role === 'user_student') {
-            $data['id_id'] = null;
-        }
-
-        // Limpa turma se não for estudante
-        if ($request->role !== 'user_student') {
-            $data['id_turma'] = null;
-        }
-
-        $user->update($data);
-
-        return redirect()->route('admin.users.index')->with('success', 'Usuário atualizado com sucesso!');
     }
 
     public function destroy(User $user)

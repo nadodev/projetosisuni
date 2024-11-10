@@ -6,10 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Field extends Model
 {
-    protected $fillable = ['name', 'type'];
+    protected $fillable = [
+        'name',
+        'type',
+        'order'
+    ];
 
-    public function formFields()
+    public function forms()
     {
-        return $this->hasMany(FormField::class);
+        return $this->belongsToMany(Form::class, 'form_fields')
+            ->withPivot('order')
+            ->orderBy('form_fields.order');
     }
 }
