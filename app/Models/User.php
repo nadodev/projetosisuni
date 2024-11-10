@@ -25,7 +25,7 @@ class User extends Authenticatable
         'numero',
         'complemento',
         'id_turma',
-        'categoria',
+        'categoria_id',
         'id_instituicao',
         'password',
         'role',
@@ -42,7 +42,12 @@ class User extends Authenticatable
 
     public function turma()
     {
-        return $this->belongsTo(Turma::class, 'id_turma');
+        return $this->belongsTo(Turma::class, 'id_turma', 'id');
+    }
+
+    public function categoria()
+    {
+        return $this->belongsTo(Categoria::class);
     }
 
     public function instituicao()

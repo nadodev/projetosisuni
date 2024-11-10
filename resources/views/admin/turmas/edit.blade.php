@@ -39,7 +39,7 @@
                     <div class="col-span-2">
                         <div class="bg-gray-50 p-4 rounded-lg">
                             <h3 class="text-sm font-medium text-gray-700 mb-2">Informações da Turma</h3>
-                            <p class="text-sm text-gray-600">Código da Turma: {{ $turma->codigo }}</p>
+                            <p class="text-sm text-gray-600">Código da Turma: {{ $turma->id }}</p>
                             <p class="text-sm text-gray-600 mt-1">
                                 Alunos Matriculados: {{ $turma->alunos->count() }} / {{ $turma->quantidade_vagas }}
                             </p>

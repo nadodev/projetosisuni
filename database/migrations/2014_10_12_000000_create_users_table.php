@@ -29,7 +29,6 @@ return new class extends Migration
             $table->integer('numero')->nullable();
             $table->string('complemento')->nullable();
             $table->foreignId('id_turma')->nullable()->constrained('turmas');
-            $table->string('categoria');
             $table->foreignId('id_instituicao')->constrained('instituicoes');
             $table->rememberToken();
             $table->timestamps();

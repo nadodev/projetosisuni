@@ -76,6 +76,20 @@
             </ul>
         </div>
 
+        <div class="group">
+            <a href="#" class="flex items-center gap-4 py-2 px-4 hover:bg-gray-600 text-[#DEE4EE] rounded"
+                onclick="toggleSubmenu('categoriasSubmenu')">
+                <i class="fa-solid fa-tags"></i>
+                Categorias
+            </a>
+            <ul id="categoriasSubmenu" class="hidden ml-4">
+                <li><a href="{{ route('admin.categorias.create') }}"
+                       class="block px-4 py-1 rounded hover:bg-gray-700 text-[#DEE4EE]">Nova Categoria</a></li>
+                <li><a href="{{ route('admin.categorias.index') }}"
+                       class="block px-4 py-1 rounded hover:bg-gray-700 text-[#DEE4EE]">Listar Categorias</a></li>
+            </ul>
+        </div>
+
         <form method="POST" action="{{ route('logout') }}" class="mt-auto">
             @csrf
             <button type="submit" class="w-full flex items-center gap-4 py-2 px-4 text-[#DEE4EE] hover:bg-gray-600 rounded">

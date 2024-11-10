@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Turma;
+use App\Models\Categoria;
+use App\Models\Instituicao;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -19,26 +21,45 @@ class UserController extends Controller
     public function create()
     {
         $turmas = Turma::all();
-        return view('admin.users.create', compact('turmas'));
+        $categorias = Categoria::all();
+        $instituicoes = Instituicao::all();
+        return view('admin.users.create', compact('turmas', 'categorias', 'instituicoes'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
             'cpf' => 'required|unique:users|size:11',
-            'nome_completo' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
+            'data_nascimento' => 'required|date',
+            'genero' => 'required|string',
             'email' => 'required|string|email|max:255|unique:users',
+            'telefone' => 'nullable|string',
+            'cep' => 'required|string|size:8',
+            'endereco' => 'required|string',
+            'bairro' => 'required|string',
+            'cidade' => 'required|string',
+            'uf' => 'required|string|size:2',
+            'numero' => 'nullable|integer',
+            'complemento' => 'nullable|string',
+            'id_turma' => 'nullable|exists:turmas,id',
+            'categoria_id' => 'nullable|exists:categorias,id',
+            'id_instituicao' => 'required|exists:instituicoes,id',
             'password' => 'required|string|min:8|confirmed',
             'role' => 'required|in:user_admin,user_teacher,user_student',
-            'codigo_turma' => 'required_if:role,user_student|nullable|exists:turmas,codigo',
         ]);
 
         $data = $request->except('password');
         $data['password'] = Hash::make($request->password);
 
-        // Garante que apenas estudantes possam ter turma atribuída
+        // Limpa categoria se for estudante
+        if ($request->role === 'user_student') {
+            $data['categoria_id'] = null;
+        }
+
+        // Limpa turma se não for estudante
         if ($request->role !== 'user_student') {
-            $data['codigo_turma'] = null;
+            $data['id_turma'] = null;
         }
 
         User::create($data);
@@ -48,30 +69,32 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-        // Verifica se o usuário logado é admin
-        if (!auth()->user()->isAdmin()) {
-            return redirect()->route('admin.users.index')
-                ->with('error', 'Apenas administradores podem editar usuários.');
-        }
-
         $turmas = Turma::all();
-        return view('admin.users.edit', compact('user', 'turmas'));
+        $categorias = Categoria::all();
+        $instituicoes = Instituicao::all();
+        return view('admin.users.edit', compact('user', 'turmas', 'categorias', 'instituicoes'));
     }
 
     public function update(Request $request, User $user)
     {
-        // Verifica se o usuário logado é admin
-        if (!auth()->user()->isAdmin()) {
-            return redirect()->route('admin.users.index')
-                ->with('error', 'Apenas administradores podem atualizar usuários.');
-        }
-
         $request->validate([
             'cpf' => 'required|string|size:11|unique:users,cpf,' . $user->id,
             'name' => 'required|string|max:255',
+            'data_nascimento' => 'required|date',
+            'genero' => 'required|string',
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+            'telefone' => 'nullable|string',
+            'cep' => 'required|string|size:8',
+            'endereco' => 'required|string',
+            'bairro' => 'required|string',
+            'cidade' => 'required|string',
+            'uf' => 'required|string|size:2',
+            'numero' => 'nullable|integer',
+            'complemento' => 'nullable|string',
+            'id_turma' => 'nullable|exists:turmas,id',
+            'categoria_id' => 'nullable|exists:categorias,id',
+            'id_instituicao' => 'required|exists:instituicoes,id',
             'role' => 'required|in:user_admin,user_teacher,user_student',
-            'id_turma' => 'required_if:role,user_student|nullable|exists:turmas,id',
         ]);
 
         $data = $request->except('password');
@@ -81,7 +104,12 @@ class UserController extends Controller
             $data['password'] = Hash::make($request->password);
         }
 
-        // Garante que apenas estudantes possam ter turma atribuída
+        // Limpa categoria se for estudante
+        if ($request->role === 'user_student') {
+            $data['id_id'] = null;
+        }
+
+        // Limpa turma se não for estudante
         if ($request->role !== 'user_student') {
             $data['id_turma'] = null;
         }
@@ -115,6 +143,8 @@ class UserController extends Controller
         if ($user->role !== 'user_student') {
             return back()->with('error', 'Apenas estudantes podem ser atribuídos a turmas.');
         }
+
+
 
         $request->validate([
             'id_turma' => 'required|exists:turmas,id'

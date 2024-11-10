@@ -154,17 +154,17 @@
 
                     {{-- Turma --}}
                     <div>
-                        <label for="codigo_turma" class="block text-sm font-medium text-gray-700">Turma</label>
-                        <select name="codigo_turma" id="codigo_turma"
+                        <label for="id_turma" class="block text-sm font-medium text-gray-700">Turma</label>
+                        <select name="id_turma" id="id_turma"
                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                             <option value="">Selecione...</option>
                             @foreach($turmas as $turma)
-                                <option value="{{ $turma->id }}" {{ old('codigo_turma') == $turma->id ? 'selected' : '' }}>
+                                <option value="{{ $turma->id }}" {{ old('id_turma') == $turma->id ? 'selected' : '' }}>
                                     {{ $turma->nome }}
                                 </option>
                             @endforeach
                         </select>
-                        @error('codigo_turma')
+                        @error('id_turma')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
                     </div>
@@ -186,17 +186,17 @@
 
                     {{-- Instituição --}}
                     <div>
-                        <label for="codigo_instituicao" class="block text-sm font-medium text-gray-700">Instituição</label>
-                        <select name="codigo_instituicao" id="codigo_instituicao"
+                        <label for="id_instituicao" class="block text-sm font-medium text-gray-700">Instituição</label>
+                        <select name="id_instituicao" id="id_instituicao"
                             class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                             <option value="">Selecione...</option>
                             @foreach($instituicoes as $instituicao)
-                                <option value="{{ $instituicao->id }}" {{ old('codigo_instituicao') == $instituicao->id ? 'selected' : '' }}>
+                                <option value="{{ $instituicao->id }}" {{ old('id_instituicao') == $instituicao->id ? 'selected' : '' }}>
                                     {{ $instituicao->nome }}
                                 </option>
                             @endforeach
                         </select>
-                        @error('codigo_instituicao')
+                        @error('id_instituicao')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
                     </div>

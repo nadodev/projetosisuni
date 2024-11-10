@@ -106,7 +106,7 @@
             turmaField.classList.remove('hidden');
         } else {
             turmaField.classList.add('hidden');
-            document.getElementById('codigo_turma').value = '';
+            document.getElementById('id_turma').value = '';
         }
     }
 </script>

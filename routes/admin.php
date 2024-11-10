@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\FieldController;
 use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\TurmaController;
 use App\Http\Controllers\Admin\InstituicaoController;
+use App\Http\Controllers\Admin\CategoriaController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
@@ -51,5 +52,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // Adicione dentro do grupo de rotas admin
     Route::get('/atribuir-turmas', [UserController::class, 'atribuirTurmasIndex'])->name('atribuir-turmas.index');
     Route::post('/atribuir-turmas/{user}', [UserController::class, 'atribuirTurma'])->name('atribuir-turmas.update');
+
+    // Adicione junto com as outras rotas
+    Route::resource('categorias', CategoriaController::class);
 });
 

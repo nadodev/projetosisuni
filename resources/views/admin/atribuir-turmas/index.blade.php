@@ -19,6 +19,7 @@
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
                     @foreach($students as $student)
+
                         <tr>
                             <td class="px-6 py-4 whitespace-nowrap">{{ $student->name }}</td>
                             <td class="px-6 py-4 whitespace-nowrap">{{ $student->email }}</td>
