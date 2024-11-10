@@ -22,6 +22,16 @@ class Evolucao extends Model
         'hora_evolucao' => 'datetime:H:i'
     ];
 
+    public function setHoraEvolucaoAttribute($value)
+    {
+        $this->attributes['hora_evolucao'] = date('H:i:s', strtotime($value));
+    }
+
+    public function getHoraEvolucaoAttribute($value)
+    {
+        return date('H:i', strtotime($value));
+    }
+
     public function anamnese()
     {
         return $this->belongsTo(Anamnese::class);
@@ -31,4 +41,4 @@ class Evolucao extends Model
     {
         return $this->belongsTo(User::class, 'professional_id');
     }
-} 
+}

@@ -14,16 +14,20 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::all();
+        $users = User::where('id_instituicao', auth()->user()->id_instituicao)
+            ->when(!auth()->user()->isAdmin(), function($query) {
+                return $query->where('role', '!=', 'user_admin');
+            })
+            ->get();
+
         return view('admin.users.index', compact('users'));
     }
 
     public function create()
     {
-        $turmas = Turma::all();
+        $turmas = Turma::where('id_instituicao', auth()->user()->id_instituicao)->get();
         $categorias = Categoria::all();
-        $instituicoes = Instituicao::all();
-        return view('admin.users.create', compact('turmas', 'categorias', 'instituicoes'));
+        return view('admin.users.create', compact('turmas', 'categorias'));
     }
 
     public function store(Request $request)
@@ -49,22 +53,13 @@ class UserController extends Controller
             'role' => 'required|in:user_admin,user_teacher,user_student',
         ]);
 
-        $data = $request->except('password');
-        $data['password'] = Hash::make($request->password);
-
-        // Limpa categoria se for estudante
-        if ($request->role === 'user_student') {
-            $data['categoria_id'] = null;
-        }
-
-        // Limpa turma se não for estudante
-        if ($request->role !== 'user_student') {
-            $data['id_turma'] = null;
-        }
+        $data = $request->all();
+        $data['id_instituicao'] = auth()->user()->id_instituicao;
 
         User::create($data);
 
-        return redirect()->route('admin.users.index')->with('success', 'Usuário criado com sucesso!');
+        return redirect()->route('admin.users.index')
+            ->with('success', 'Usuário criado com sucesso!');
     }
 
     public function edit(User $user)

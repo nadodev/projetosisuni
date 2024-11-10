@@ -78,15 +78,29 @@
 
         <div class="group">
             <a href="#" class="flex items-center gap-4 py-2 px-4 hover:bg-gray-600 text-[#DEE4EE] rounded"
-                onclick="toggleSubmenu('categoriasSubmenu')">
-                <i class="fa-solid fa-tags"></i>
-                Categorias
+                onclick="toggleSubmenu('institutionSubmenu')">
+                <i class="fa-solid fa-building"></i>
+                Instituição
             </a>
-            <ul id="categoriasSubmenu" class="hidden ml-4">
-                <li><a href="{{ route('admin.categorias.create') }}"
-                       class="block px-4 py-1 rounded hover:bg-gray-700 text-[#DEE4EE]">Nova Categoria</a></li>
-                <li><a href="{{ route('admin.categorias.index') }}"
-                       class="block px-4 py-1 rounded hover:bg-gray-700 text-[#DEE4EE]">Listar Categorias</a></li>
+            <ul id="institutionSubmenu" class="hidden ml-4">
+                <li>
+                    <a href="{{ route('institution.invites.index') }}"
+                       class="block px-4 py-1 rounded hover:bg-gray-700 text-[#DEE4EE]">
+                        Histórico de Convites
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('institution.invites.create') }}"
+                       class="block px-4 py-1 rounded hover:bg-gray-700 text-[#DEE4EE]">
+                        Novo Convite
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('plans.index') }}"
+                       class="block px-4 py-1 rounded hover:bg-gray-700 text-[#DEE4EE]">
+                        Planos
+                    </a>
+                </li>
             </ul>
         </div>
 

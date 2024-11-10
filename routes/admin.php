@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Admin\CategoriaController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\FormController;
@@ -9,11 +8,23 @@ use App\Http\Controllers\Admin\TurmaController;
 use App\Http\Controllers\Admin\InstituicaoController;
 use App\Http\Controllers\Admin\AnamneseController;
 use App\Http\Controllers\Admin\EvolucaoController;
+use App\Http\Controllers\Admin\ReportController;
+use App\Http\Controllers\Admin\PlanController;
+use App\Http\Controllers\Admin\InstitutionInviteController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // Planos
+    Route::get('/plans', [PlanController::class, 'index'])->name('plans.index');
+    Route::put('/plans/{plan}', [PlanController::class, 'update'])->name('plans.update');
+
+    // Convites Institucionais
+    Route::get('/institution/invites', [InstitutionInviteController::class, 'index'])->name('institution.invites.index');
+    Route::get('/institution/invites/create', [InstitutionInviteController::class, 'create'])->name('institution.invites.create');
+    Route::post('/institution/invites', [InstitutionInviteController::class, 'store'])->name('institution.invites.store');
 
     // Gerenciamento de Usuários
     Route::resource('users', UserController::class);
@@ -41,7 +52,6 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         Route::get('/{form}/create-anamnese', [FormController::class, 'createAnamnese'])->name('create-anamnese');
         Route::post('/{form}/store-anamnese', [FormController::class, 'storeAnamnese'])->name('store-anamnese');
     });
-    Route::resource('categorias', CategoriaController::class);
 
     // Gerenciamento de Turmas
     Route::get('/turmas', [TurmaController::class, 'index'])->name('turmas.index');
@@ -50,8 +60,11 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/turmas/{codigo}/edit', [TurmaController::class, 'edit'])->name('turmas.edit');
     Route::put('/turmas/{codigo}', [TurmaController::class, 'update'])->name('turmas.update');
     Route::delete('/turmas/{codigo}', [TurmaController::class, 'destroy'])->name('turmas.destroy');
-    Route::get('/atribuir-turmas', [UserController::class, 'atribuirTurmasIndex'])->name('atribuir-turmas.index');
-    Route::post('/atribuir-turmas/{user}', [UserController::class, 'atribuirTurma'])->name('atribuir-turmas.update');
+
+    // Atribuição de Turmas
+    Route::get('/atribuir-turmas', [TurmaController::class, 'atribuirTurmasIndex'])->name('atribuir-turmas.index');
+    Route::post('/atribuir-turmas/{user}', [TurmaController::class, 'atribuirTurma'])->name('atribuir-turmas.update');
+
     // Gerenciamento de Instituições
     Route::get('/instituicoes', [InstituicaoController::class, 'index'])->name('instituicoes.index');
     Route::get('/instituicoes/create', [InstituicaoController::class, 'create'])->name('instituicoes.create');
@@ -59,12 +72,11 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/instituicoes/{instituicao}/edit', [InstituicaoController::class, 'edit'])->name('instituicoes.edit');
     Route::put('/instituicoes/{instituicao}', [InstituicaoController::class, 'update'])->name('instituicoes.update');
     Route::delete('/instituicoes/{instituicao}', [InstituicaoController::class, 'destroy'])->name('instituicoes.destroy');
-    Route::get('/atribuir-turmas', [UserController::class, 'atribuirTurmasIndex'])->name('atribuir-turmas.index');
-    Route::post('/atribuir-turmas/{user}', [UserController::class, 'atribuirTurma'])->name('atribuir-turmas.update');
+
     // Gerenciamento de Anamneses
     Route::resource('anamneses', AnamneseController::class);
 
-    // Evoluções
+    // Rotas de Evolução
     Route::prefix('anamneses/{anamnese}/evolucoes')->name('anamneses.evolucoes.')->group(function () {
         Route::get('/create', [EvolucaoController::class, 'create'])->name('create');
         Route::post('/', [EvolucaoController::class, 'store'])->name('store');
@@ -72,5 +84,29 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         Route::put('/{evolucao}', [EvolucaoController::class, 'update'])->name('update');
         Route::delete('/{evolucao}', [EvolucaoController::class, 'destroy'])->name('destroy');
     });
+
+    // Rotas de Relatórios
+    Route::get('/anamneses/{anamnese}/report/pdf', [ReportController::class, 'generatePDF'])->name('anamneses.report.pdf');
+    Route::get('/anamneses/{anamnese}/report/excel', [ReportController::class, 'generateExcel'])->name('anamneses.report.excel');
+    Route::get('/reports/student-progress', [ReportController::class, 'studentProgress'])->name('reports.student-progress');
+
+    // Middleware de verificação de instituição para rotas específicas
+    Route::middleware(['check.instituicao'])->group(function () {
+        Route::get('/students/by-turma/{turma}', function($turma) {
+            return User::where('role', 'user_student')
+                ->where('codigo_turma', $turma)
+                ->where('id_instituicao', auth()->user()->id_instituicao)
+                ->orderBy('name')
+                ->get(['id', 'name']);
+        })->name('students.by-turma');
+    });
+
+    // Gerenciamento de Categorias
+    Route::get('/categorias', [CategoriaController::class, 'index'])->name('categorias.index');
+    Route::get('/categorias/create', [CategoriaController::class, 'create'])->name('categorias.create');
+    Route::post('/categorias', [CategoriaController::class, 'store'])->name('categorias.store');
+    Route::get('/categorias/{categoria}/edit', [CategoriaController::class, 'edit'])->name('categorias.edit');
+    Route::put('/categorias/{categoria}', [CategoriaController::class, 'update'])->name('categorias.update');
+    Route::delete('/categorias/{categoria}', [CategoriaController::class, 'destroy'])->name('categorias.destroy');
 });
 

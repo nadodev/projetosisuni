@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Turma;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class TurmaController extends Controller
@@ -60,5 +61,38 @@ class TurmaController extends Controller
 
         return redirect()->route('admin.turmas.index')
             ->with('success', 'Turma excluída com sucesso!');
+    }
+
+    public function atribuirTurmasIndex()
+    {
+        $students = User::where('role', 'user_student')
+            ->when(!auth()->user()->is_super_admin, function($query) {
+                $query->where('id_instituicao', auth()->user()->id_instituicao);
+            })
+            ->get();
+
+        $turmas = Turma::when(!auth()->user()->is_super_admin, function($query) {
+                $query->where('id_instituicao', auth()->user()->id_instituicao);
+            })
+            ->get();
+
+        return view('admin.atribuir-turmas.index', compact('students', 'turmas'));
+    }
+
+    public function atribuirTurma(Request $request, User $user)
+    {
+        if ($user->role !== 'user_student') {
+            return back()->with('error', 'Apenas estudantes podem ser atribuídos a turmas.');
+        }
+
+        $request->validate([
+            'codigo_turma' => 'required|exists:turmas,codigo'
+        ]);
+
+        $user->update([
+            'codigo_turma' => $request->codigo_turma
+        ]);
+
+        return back()->with('success', 'Turma atribuída com sucesso!');
     }
 }

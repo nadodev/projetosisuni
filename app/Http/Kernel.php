@@ -36,6 +36,8 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            \App\Http\Middleware\CheckFirstAccess::class,
+            \App\Http\Middleware\RequireAddress::class,
         ],
 
         'api' => [
@@ -78,5 +80,8 @@ class Kernel extends HttpKernel
         'admin' => \App\Http\Middleware\AdminMiddleware::class,
         'teacher' => \App\Http\Middleware\TeacherMiddleware::class,
         'student' => \App\Http\Middleware\StudentMiddleware::class,
+        'check.instituicao' => \App\Http\Middleware\CheckInstituicao::class,
+        'super.admin' => \App\Http\Middleware\SuperAdmin::class,
+        'check.address' => \App\Http\Middleware\CheckAddress::class,
     ];
 }

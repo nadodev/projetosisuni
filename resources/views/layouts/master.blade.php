@@ -21,6 +21,7 @@
     @livewireStyles
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 
 <body class="bg-gray-100">
@@ -40,6 +41,11 @@
         <div class="flex flex-col">
                         @include('components.header')
             <main class="p-4">
+                @auth
+                    <div class="text-sm text-gray-600 mb-4">
+                        Instituição: {{ auth()->user()->instituicao->nome }}
+                    </div>
+                @endauth
                 @yield('content')
             </main>
         </div>
@@ -90,6 +96,10 @@
     </script>
 
     @stack('scripts')
+
+    @if(session('needs_institution_update'))
+        <x-institution-modal />
+    @endif
 </body>
 
 </html>

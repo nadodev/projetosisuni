@@ -20,7 +20,7 @@ class EvolucaoController extends Controller
             'descricao' => 'required|string',
             'status' => 'required|in:em_andamento,concluido,em_observacao',
             'data_evolucao' => 'required|date',
-            'hora_evolucao' => 'required'
+            'hora_evolucao' => 'required|date_format:H:i'
         ]);
 
         $anamnese->evolucoes()->create([
@@ -28,7 +28,7 @@ class EvolucaoController extends Controller
             'descricao' => $request->descricao,
             'status' => $request->status,
             'data_evolucao' => $request->data_evolucao,
-            'hora_evolucao' => $request->hora_evolucao
+            'hora_evolucao' => $request->hora_evolucao . ':00'
         ]);
 
         return redirect()->route('admin.anamneses.show', $anamnese)
@@ -46,10 +46,15 @@ class EvolucaoController extends Controller
             'descricao' => 'required|string',
             'status' => 'required|in:em_andamento,concluido,em_observacao',
             'data_evolucao' => 'required|date',
-            'hora_evolucao' => 'required'
+            'hora_evolucao' => 'required|date_format:H:i'
         ]);
 
-        $evolucao->update($request->all());
+        $evolucao->update([
+            'descricao' => $request->descricao,
+            'status' => $request->status,
+            'data_evolucao' => $request->data_evolucao,
+            'hora_evolucao' => $request->hora_evolucao . ':00'
+        ]);
 
         return redirect()->route('admin.anamneses.show', $anamnese)
             ->with('success', 'Evolução atualizada com sucesso!');
@@ -62,4 +67,4 @@ class EvolucaoController extends Controller
         return redirect()->route('admin.anamneses.show', $anamnese)
             ->with('success', 'Evolução excluída com sucesso!');
     }
-} 
+}

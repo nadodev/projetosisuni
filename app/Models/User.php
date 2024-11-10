@@ -5,18 +5,23 @@ namespace App\Models;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable;
 
     protected $fillable = [
-        'cpf',
         'name',
+        'email',
+        'password',
+        'role',
+        'id_instituicao',
+        'email_verified_at',
+        'cpf',
+        'telefone',
         'data_nascimento',
         'genero',
-        'email',
-        'telefone',
         'cep',
         'endereco',
         'bairro',
@@ -24,11 +29,7 @@ class User extends Authenticatable
         'uf',
         'numero',
         'complemento',
-        'id_turma',
-        'categoria_id',
-        'id_instituicao',
-        'password',
-        'role',
+        'photo_path',
     ];
 
     protected $hidden = [
@@ -37,7 +38,8 @@ class User extends Authenticatable
     ];
 
     protected $casts = [
-        'data_nascimento' => 'date',
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
     ];
 
     public function turma()
@@ -68,5 +70,45 @@ class User extends Authenticatable
     public function isStudent()
     {
         return $this->role === 'user_student';
+    }
+
+    public function isSuperAdmin()
+    {
+        return $this->is_super_admin ?? false;
+    }
+
+    public function isAdminOfInstitution()
+    {
+        return $this->role === 'user_admin' && $this->id_instituicao !== null;
+    }
+
+    public function scopeFromSameInstituicao($query)
+    {
+        if (!$this->is_super_admin) {
+            return $query->where('id_instituicao', $this->id_instituicao);
+        }
+        return $query;
+    }
+
+    public function canAccessInstituicao($instituicaoId)
+    {
+        return $this->id_instituicao === $instituicaoId;
+    }
+
+    public function hasCompleteAddress(): bool
+    {
+        return !empty($this->cep) &&
+               !empty($this->endereco) &&
+               !empty($this->bairro) &&
+               !empty($this->cidade) &&
+               !empty($this->uf);
+    }
+
+    public function getPhotoUrlAttribute()
+    {
+        if ($this->photo_path) {
+            return asset('storage/' . $this->photo_path);
+        }
+        return null;
     }
 }
