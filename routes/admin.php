@@ -27,6 +27,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // Instituições
     Route::resource('instituicoes', InstituicaoController::class);
 
+    Route::delete('/instituicoes/{instituicao}', [InstituicaoController::class, 'destroy'])->name('instituicoes.destroy');
+
     // Convites de Instituição
     Route::prefix('institution')->name('institution.')->group(function () {
         Route::get('/invites', [InstitutionInviteController::class, 'index'])->name('invites.index');

@@ -10,7 +10,7 @@ class StudentMiddleware
     public function handle(Request $request, Closure $next)
     {
         if (!auth()->check() || auth()->user()->role !== 'user_student') {
-            abort(403, 'Acesso não autorizado.');
+            return redirect()->route('login');
         }
 
         return $next($request);

@@ -34,11 +34,7 @@
         <div class="flex flex-col">
             @include('components.header')
             <main class="p-4">
-                @auth
-                    <div class="mb-4 text-sm text-gray-600">
-                        Instituição: {{ auth()->user()->instituicao->nome }}
-                    </div>
-                @endauth
+
                 @yield('content')
             </main>
         </div>

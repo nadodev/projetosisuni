@@ -1,40 +1,30 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\Admin\DashboardController;
 use Illuminate\Support\Facades\Route;
 
+// Rota para a página inicial
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
 
-// Rotas de autenticação
+// Rotas de autenticação (Breeze já configura automaticamente)
 require __DIR__.'/auth.php';
 
-// Rotas protegidas
-Route::middleware(['auth'])->group(function () {
-    // Dashboard
-    Route::get('/dashboard', function () {
-        if (auth()->user()->isAdmin()) {
-            return redirect()->route('admin.dashboard');
-        }
-        return view('dashboard');
-    })->name('dashboard');
+// Rota de redirecionamento após login
+Route::get('/dashboard', function () {
+    $user = auth()->user();
 
-    // Profile
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    if ($user->role === 'user_admin') {
+        return redirect()->route('admin.dashboard');
+    }
 
-    // Adicione esta rota junto com as outras rotas de perfil
-    Route::get('/profile/photo', function () {
-        return auth()->user()->getProfilePhotoUrlAttribute();
-    })->middleware(['auth'])->name('profile.photo');
+    if ($user->role === 'user_teacher') {
+        return redirect()->route('teacher.dashboard');
+    }
 
-    Route::get('/profile/address', function () {
-        return auth()->user()->address;
-    })->name('profile.address');
-});
+    if ($user->role === 'user_student') {
+        return redirect()->route('student.dashboard');
+    }
 
-// Carrega as rotas admin
-require __DIR__.'/admin.php';
+    return redirect()->route('home');
+})->middleware(['auth'])->name('dashboard');

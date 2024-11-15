@@ -22,13 +22,15 @@
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
                     @foreach($instituicoes as $instituicao)
+
+
                         <tr>
                             <td class="px-6 py-4 whitespace-nowrap">{{ $instituicao->id }}</td>
                             <td class="px-6 py-4 whitespace-nowrap">{{ $instituicao->nome }}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                 <a href="{{ route('admin.instituicoes.edit', $instituicao) }}"
                                    class="text-indigo-600 hover:text-indigo-900 mr-3">Editar</a>
-                                <form action="{{ route('admin.instituicoes.destroy', $instituicao) }}" method="POST" class="inline">
+                                <form action="{{ route('admin.instituicoes.destroy', $instituicao->id) }}" method="POST" class="inline">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="text-red-600 hover:text-red-900"

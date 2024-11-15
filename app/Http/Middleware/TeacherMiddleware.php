@@ -10,7 +10,7 @@ class TeacherMiddleware
     public function handle(Request $request, Closure $next)
     {
         if (!auth()->check() || auth()->user()->role !== 'user_teacher') {
-            abort(403, 'Acesso não autorizado.');
+            return redirect()->route('login');
         }
 
         return $next($request);

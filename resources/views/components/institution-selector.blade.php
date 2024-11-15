@@ -16,8 +16,6 @@
                 <button type="submit" class="px-4 py-2 mt-2 text-white bg-blue-500 rounded">Trocar Instituição</button>
             </noscript>
         </form>
-    @else
-        <span class="px-3 py-2 text-sm text-gray-500">Nenhuma instituição disponível</span>
     @endif
 </div>
 

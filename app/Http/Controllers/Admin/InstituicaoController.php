@@ -48,8 +48,10 @@ class InstituicaoController extends Controller
             ->with('success', 'Instituição atualizada com sucesso!');
     }
 
-    public function destroy(Instituicao $instituicao)
+    public function destroy($id)
     {
+        $instituicao = Instituicao::find($id);
+
         $instituicao->delete();
         return redirect()->route('admin.instituicoes.index')
             ->with('success', 'Instituição excluída com sucesso!');
