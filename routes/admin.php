@@ -6,107 +6,74 @@ use App\Http\Controllers\Admin\FormController;
 use App\Http\Controllers\Admin\FieldController;
 use App\Http\Controllers\Admin\TurmaController;
 use App\Http\Controllers\Admin\InstituicaoController;
+use App\Http\Controllers\Admin\InstitutionInviteController;
+use App\Http\Controllers\Admin\UserInstitutionController;
 use App\Http\Controllers\Admin\AnamneseController;
 use App\Http\Controllers\Admin\EvolucaoController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\PlanController;
-use App\Http\Controllers\Admin\InstitutionInviteController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     // Dashboard
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // Users
+    Route::resource('users', UserController::class);
+    Route::get('/users/{user}/institutions', [UserInstitutionController::class, 'edit'])->name('users.institutions.edit');
+    Route::put('/users/{user}/institutions', [UserInstitutionController::class, 'update'])->name('users.institutions.update');
+
+    // Instituições
+    Route::resource('instituicoes', InstituicaoController::class);
+
+    // Convites de Instituição
+    Route::prefix('institution')->name('institution.')->group(function () {
+        Route::get('/invites', [InstitutionInviteController::class, 'index'])->name('invites.index');
+        Route::get('/invites/create', [InstitutionInviteController::class, 'create'])->name('invites.create');
+        Route::post('/invites', [InstitutionInviteController::class, 'store'])->name('invites.store');
+        Route::delete('/invites/{invite}', [InstitutionInviteController::class, 'destroy'])->name('invites.destroy');
+    });
 
     // Planos
     Route::get('/plans', [PlanController::class, 'index'])->name('plans.index');
+    Route::get('/plans/create', [PlanController::class, 'create'])->name('plans.create');
+    Route::post('/plans', [PlanController::class, 'store'])->name('plans.store');
+    Route::get('/plans/{plan}/edit', [PlanController::class, 'edit'])->name('plans.edit');
     Route::put('/plans/{plan}', [PlanController::class, 'update'])->name('plans.update');
+    Route::delete('/plans/{plan}', [PlanController::class, 'destroy'])->name('plans.destroy');
 
-    // Convites Institucionais
-    Route::get('/institution/invites', [InstitutionInviteController::class, 'index'])->name('institution.invites.index');
-    Route::get('/institution/invites/create', [InstitutionInviteController::class, 'create'])->name('institution.invites.create');
-    Route::post('/institution/invites', [InstitutionInviteController::class, 'store'])->name('institution.invites.store');
+    // Forms
+    Route::resource('forms', FormController::class);
+    Route::post('/forms/update-order', [FormController::class, 'updateOrder'])->name('forms.updateOrder');
+    Route::get('/forms/{form}/create-anamnese', [FormController::class, 'createAnamnese'])
+        ->name('forms.create-anamnese');
+    Route::post('/forms/{form}/create-anamnese', [FormController::class, 'storeAnamnese'])
+        ->name('forms.store-anamnese');
 
-    // Gerenciamento de Usuários
-    Route::resource('users', UserController::class);
+    // Fields
+    Route::resource('fields', FieldController::class);
+    Route::post('fields/update-order', [FieldController::class, 'updateOrder'])->name('fields.update-order');
 
-    // Gerenciamento de Campos
-    Route::prefix('fields')->name('fields.')->group(function () {
-        Route::get('/', [FieldController::class, 'index'])->name('index');
-        Route::get('/create', [FieldController::class, 'create'])->name('create');
-        Route::post('/', [FieldController::class, 'store'])->name('store');
-        Route::get('/{field}/edit', [FieldController::class, 'edit'])->name('edit');
-        Route::put('/{field}', [FieldController::class, 'update'])->name('update');
-        Route::delete('/{field}', [FieldController::class, 'destroy'])->name('destroy');
-        Route::post('/update-order', [FieldController::class, 'updateOrder'])->name('updateOrder');
-    });
-
-    // Gerenciamento de Formulários
-    Route::prefix('forms')->name('forms.')->group(function () {
-        Route::get('/', [FormController::class, 'index'])->name('index');
-        Route::get('/create', [FormController::class, 'create'])->name('create');
-        Route::post('/', [FormController::class, 'store'])->name('store');
-        Route::get('/{form}', [FormController::class, 'show'])->name('show');
-        Route::get('/{form}/edit', [FormController::class, 'edit'])->name('edit');
-        Route::put('/{form}', [FormController::class, 'update'])->name('update');
-        Route::delete('/{form}', [FormController::class, 'destroy'])->name('destroy');
-        Route::get('/{form}/create-anamnese', [FormController::class, 'createAnamnese'])->name('create-anamnese');
-        Route::post('/{form}/store-anamnese', [FormController::class, 'storeAnamnese'])->name('store-anamnese');
-    });
-
-    // Gerenciamento de Turmas
-    Route::get('/turmas', [TurmaController::class, 'index'])->name('turmas.index');
-    Route::get('/turmas/create', [TurmaController::class, 'create'])->name('turmas.create');
-    Route::post('/turmas', [TurmaController::class, 'store'])->name('turmas.store');
-    Route::get('/turmas/{id}/edit', [TurmaController::class, 'edit'])->name('turmas.edit');
-    Route::put('/turmas/{id}', [TurmaController::class, 'update'])->name('turmas.update');
-    Route::delete('/turmas/{id}', [TurmaController::class, 'destroy'])->name('turmas.destroy');
-
-    // Atribuição de Turmas
+    // Turmas
+    Route::resource('turmas', TurmaController::class);
     Route::get('/atribuir-turmas', [TurmaController::class, 'atribuirTurmasIndex'])->name('atribuir-turmas.index');
     Route::post('/atribuir-turmas/{user}', [TurmaController::class, 'atribuirTurma'])->name('atribuir-turmas.update');
 
-    // Gerenciamento de Instituições
-    Route::get('/instituicoes', [InstituicaoController::class, 'index'])->name('instituicoes.index');
-    Route::get('/instituicoes/create', [InstituicaoController::class, 'create'])->name('instituicoes.create');
-    Route::post('/instituicoes', [InstituicaoController::class, 'store'])->name('instituicoes.store');
-    Route::get('/instituicoes/{instituicao}/edit', [InstituicaoController::class, 'edit'])->name('instituicoes.edit');
-    Route::put('/instituicoes/{instituicao}', [InstituicaoController::class, 'update'])->name('instituicoes.update');
-    Route::delete('/instituicoes/{instituicao}', [InstituicaoController::class, 'destroy'])->name('instituicoes.destroy');
-
-    // Gerenciamento de Anamneses
+    // Anamneses
     Route::resource('anamneses', AnamneseController::class);
+    Route::get('/anamneses/{anamnese}/evolucoes/create', [EvolucaoController::class, 'create'])->name('anamneses.evolucoes.create');
+    Route::post('/anamneses/{anamnese}/evolucoes', [EvolucaoController::class, 'store'])->name('anamneses.evolucoes.store');
+    Route::get('/anamneses/{anamnese}/evolucoes/{evolucao}/edit', [EvolucaoController::class, 'edit'])->name('anamneses.evolucoes.edit');
+    Route::put('/anamneses/{anamnese}/evolucoes/{evolucao}', [EvolucaoController::class, 'update'])->name('anamneses.evolucoes.update');
+    Route::delete('/anamneses/{anamnese}/evolucoes/{evolucao}', [EvolucaoController::class, 'destroy'])->name('anamneses.evolucoes.destroy');
 
-    // Rotas de Evolução
-    Route::prefix('anamneses/{anamnese}/evolucoes')->name('anamneses.evolucoes.')->group(function () {
-        Route::get('/create', [EvolucaoController::class, 'create'])->name('create');
-        Route::post('/', [EvolucaoController::class, 'store'])->name('store');
-        Route::get('/{evolucao}/edit', [EvolucaoController::class, 'edit'])->name('edit');
-        Route::put('/{evolucao}', [EvolucaoController::class, 'update'])->name('update');
-        Route::delete('/{evolucao}', [EvolucaoController::class, 'destroy'])->name('destroy');
+    // Reports
+    Route::prefix('reports')->name('reports.')->group(function () {
+        Route::get('/anamneses', [ReportController::class, 'anamneses'])->name('anamneses');
+        Route::get('/anamneses/pdf', [ReportController::class, 'exportAnamneseListPDF'])->name('anamneses.pdf');
+        Route::get('/anamnese/{anamnese}/pdf', [ReportController::class, 'exportAnamnesePDF'])->name('anamnese.pdf');
+        Route::get('/anamnese/{anamnese}/excel', [ReportController::class, 'generateExcel'])->name('anamnese.excel');
     });
-
-    // Rotas de Relatórios
-    Route::get('/anamneses/{anamnese}/report/pdf', [ReportController::class, 'generatePDF'])->name('anamneses.report.pdf');
-    Route::get('/anamneses/{anamnese}/report/excel', [ReportController::class, 'generateExcel'])->name('anamneses.report.excel');
-    Route::get('/reports/student-progress', [ReportController::class, 'studentProgress'])->name('reports.student-progress');
-
-    // Middleware de verificação de instituição para rotas específicas
-    Route::middleware(['check.instituicao'])->group(function () {
-        Route::get('/students/by-turma/{turma}', function($turma) {
-            return User::where('role', 'user_student')
-                ->where('codigo_turma', $turma)
-                ->where('id_instituicao', auth()->user()->id_instituicao)
-                ->orderBy('name')
-                ->get(['id', 'name']);
-        })->name('students.by-turma');
-    });
-
-    // Gerenciamento de Categorias
-    Route::get('/categorias', [CategoriaController::class, 'index'])->name('categorias.index');
-    Route::get('/categorias/create', [CategoriaController::class, 'create'])->name('categorias.create');
-    Route::post('/categorias', [CategoriaController::class, 'store'])->name('categorias.store');
-    Route::get('/categorias/{categoria}/edit', [CategoriaController::class, 'edit'])->name('categorias.edit');
-    Route::put('/categorias/{categoria}', [CategoriaController::class, 'update'])->name('categorias.update');
-    Route::delete('/categorias/{categoria}', [CategoriaController::class, 'destroy'])->name('categorias.destroy');
 });
 

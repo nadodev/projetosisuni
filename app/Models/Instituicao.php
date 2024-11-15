@@ -3,8 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Instituicao extends Model
 {
@@ -22,49 +20,53 @@ class Instituicao extends Model
         'uf',
         'numero',
         'complemento',
-        'plan_id',
-        'available_invites'
+        'plan_id'
     ];
 
-    public function users(): HasMany
+    public function users()
     {
         return $this->hasMany(User::class, 'id_instituicao');
     }
 
-    public function plan(): BelongsTo
+    public function currentUsers()
+    {
+        return $this->hasMany(User::class, 'current_institution_id');
+    }
+
+    public function plan()
     {
         return $this->belongsTo(Plan::class);
     }
 
-    public function invites(): HasMany
+    public function invites()
     {
-        return $this->hasMany(InstitutionInvite::class, 'instituicoes_id');
+        return $this->hasMany(InstitutionInvite::class, 'id_institution');
     }
 
-    // Método para calcular convites restantes
-    public function getRemainingInvitesAttribute(): int
+    public function canSendInvite()
     {
-        $totalInvites = $this->plan->invite_limit ?? 0;
-        $usedInvites = $this->invites()
-            ->whereIn('status', ['pending', 'accepted'])
-            ->count();
-
-        return max(0, $totalInvites - $usedInvites);
-    }
-
-    // Método para verificar se ainda tem convites disponíveis
-    public function hasAvailableInvites(): bool
-    {
-        return $this->remaining_invites > 0;
-    }
-
-    // Método para verificar se pode enviar convite
-    public function canSendInvite(): bool
-    {
+        // Se não tem plano, não pode enviar convites
         if (!$this->plan) {
             return false;
         }
 
-        return $this->remaining_invites > 0;
+        // Verifica o limite de convites do plano
+        $usedInvites = $this->invites()->count();
+        $inviteLimit = $this->plan->invite_limit ?? 0;
+
+        // Retorna true se ainda não atingiu o limite de convites
+        return $usedInvites < $inviteLimit;
+    }
+
+    public function getRemainingInvites()
+    {
+        if (!$this->plan) {
+            return 0;
+        }
+
+        $usedInvites = $this->invites()->count();
+        $inviteLimit = $this->plan->invite_limit ?? 0;
+
+        return max(0, $inviteLimit - $usedInvites);
     }
 }

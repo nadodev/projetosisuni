@@ -8,18 +8,16 @@ return new class extends Migration
 {
     public function up()
     {
-        if (!Schema::hasTable('form_fields')) {
-            Schema::create('form_fields', function (Blueprint $table) {
-                $table->id();
-                $table->foreignId('form_id')->constrained()->onDelete('cascade');
-                $table->foreignId('field_id')->constrained()->onDelete('cascade');
-                $table->integer('order')->default(0);
-                $table->timestamps();
+        Schema::create('form_fields', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('form_id')->constrained('forms')->onDelete('cascade');
+            $table->foreignId('field_id')->constrained('fields')->onDelete('cascade');
+            $table->integer('order')->default(0);
+            $table->timestamps();
 
-                // Índices
-                $table->unique(['form_id', 'field_id']);
-            });
-        }
+            // Adiciona índice único para evitar duplicatas
+            $table->unique(['form_id', 'field_id']);
+        });
     }
 
     public function down()

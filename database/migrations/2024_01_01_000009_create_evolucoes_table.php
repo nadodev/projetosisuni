@@ -10,12 +10,13 @@ return new class extends Migration
     {
         Schema::create('evolucoes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('anamnese_id')->constrained()->onDelete('cascade');
+            $table->foreignId('anamnese_id')->constrained('anamneses')->onDelete('cascade');
             $table->foreignId('professional_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('id_institution')->constrained('instituicoes')->onDelete('cascade');
+            $table->datetime('data_evolucao');
+            $table->datetime('hora_evolucao');
             $table->text('descricao');
-            $table->enum('status', ['em_andamento', 'concluido', 'em_observacao'])->default('em_andamento');
-            $table->date('data_evolucao');
-            $table->time('hora_evolucao');
+            $table->enum('status', ['em_andamento', 'em_observacao', 'concluido'])->default('em_andamento');
             $table->timestamps();
         });
     }
@@ -24,4 +25,4 @@ return new class extends Migration
     {
         Schema::dropIfExists('evolucoes');
     }
-}; 
+};

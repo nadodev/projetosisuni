@@ -6,7 +6,7 @@
             <span class="text-4xl">sisUni</span>
         </h2>
     </div>
-    <nav class="flex flex-col mt-4 gap-y-4">
+    <nav class="flex flex-col gap-y-4 mt-4">
         <a href="{{ route('admin.dashboard') }}"
             class="flex items-center gap-4 py-2 px-4 text-[#DEE4EE] hover:bg-gray-600 rounded
           {{ Route::is('admin.dashboard') ? 'bg-gray-600' : '' }}">
@@ -15,7 +15,8 @@
         </a>
 
         <div class="group">
-            <a href="#" class="flex items-center gap-4 py-2 px-4 hover:bg-gray-600 text-[#DEE4EE] rounded
+            <a href="#"
+                class="flex items-center gap-4 py-2 px-4 hover:bg-gray-600 text-[#DEE4EE] rounded
                 {{ Route::is('admin.users.*') ? 'bg-gray-600' : '' }}"
                 onclick="toggleSubmenu('userSubmenu')">
                 <i class="fa-solid fa-users"></i>
@@ -23,31 +24,48 @@
             </a>
             <ul id="userSubmenu" class="ml-4 {{ Route::is('admin.users.*') ? '' : 'hidden' }}">
                 <li><a href="{{ route('admin.users.create') }}"
-                       class="block px-4 py-1 rounded hover:bg-gray-700 text-[#DEE4EE]">Criar Usuário</a></li>
+                        class="block px-4 py-1 rounded hover:bg-gray-700 text-[#DEE4EE]">Criar Usuário</a></li>
                 <li><a href="{{ route('admin.users.index') }}"
-                       class="block px-4 py-1 rounded hover:bg-gray-700 text-[#DEE4EE]">Listar Usuários</a></li>
+                        class="block px-4 py-1 rounded hover:bg-gray-700 text-[#DEE4EE]">Listar Usuários</a></li>
+            </ul>
+        </div>
+        <div class="group">
+            <a href="#"
+                class="flex items-center gap-4 py-2 px-4 hover:bg-gray-600 text-[#DEE4EE] rounded
+                {{ Route::is('admin.anamneses.*') ? 'bg-gray-600' : '' }}"
+                onclick="toggleSubmenu('anamnesesSubmenu')">
+                <i class="fa-solid fa-users"></i>
+                Anamneses
+            </a>
+            <ul id="anamnesesSubmenu" class="ml-4 {{ Route::is('admin.anamneses.*') ? '' : 'hidden' }}">
+                <li><a href="{{ route('admin.anamneses.index') }}"
+                        class="block px-4 py-1 rounded hover:bg-gray-700 text-[#DEE4EE]">Listar </a></li>
+
             </ul>
         </div>
 
         <div class="group">
-            <a href="#" class="flex items-center gap-4 py-2 px-4 hover:bg-gray-600 text-[#DEE4EE] rounded
+            <a href="#"
+                class="flex items-center gap-4 py-2 px-4 hover:bg-gray-600 text-[#DEE4EE] rounded
                 {{ Route::is('admin.turmas.*') || Route::is('admin.atribuir-turmas.*') ? 'bg-gray-600' : '' }}"
                 onclick="toggleSubmenu('turmaSubmenu')">
                 <i class="fa-solid fa-chalkboard"></i>
                 Turmas
             </a>
-            <ul id="turmaSubmenu" class="ml-4 {{ Route::is('admin.turmas.*') || Route::is('admin.atribuir-turmas.*') ? '' : 'hidden' }}">
+            <ul id="turmaSubmenu"
+                class="ml-4 {{ Route::is('admin.turmas.*') || Route::is('admin.atribuir-turmas.*') ? '' : 'hidden' }}">
                 <li><a href="{{ route('admin.turmas.create') }}"
-                       class="block px-4 py-1 rounded hover:bg-gray-700 text-[#DEE4EE]">Criar Turma</a></li>
+                        class="block px-4 py-1 rounded hover:bg-gray-700 text-[#DEE4EE]">Criar Turma</a></li>
                 <li><a href="{{ route('admin.turmas.index') }}"
-                       class="block px-4 py-1 rounded hover:bg-gray-700 text-[#DEE4EE]">Listar Turmas</a></li>
+                        class="block px-4 py-1 rounded hover:bg-gray-700 text-[#DEE4EE]">Listar Turmas</a></li>
                 <li><a href="{{ route('admin.atribuir-turmas.index') }}"
-                       class="block px-4 py-1 rounded hover:bg-gray-700 text-[#DEE4EE]">Atribuir Turmas</a></li>
+                        class="block px-4 py-1 rounded hover:bg-gray-700 text-[#DEE4EE]">Atribuir Turmas</a></li>
             </ul>
         </div>
 
         <div class="group">
-            <a href="#" class="flex items-center gap-4 py-2 px-4 hover:bg-gray-600 text-[#DEE4EE] rounded
+            <a href="#"
+                class="flex items-center gap-4 py-2 px-4 hover:bg-gray-600 text-[#DEE4EE] rounded
                 {{ Route::is('admin.instituicoes.*') ? 'bg-gray-600' : '' }}"
                 onclick="toggleSubmenu('instituicaoSubmenu')">
                 <i class="fa-solid fa-building"></i>
@@ -55,24 +73,30 @@
             </a>
             <ul id="instituicaoSubmenu" class="ml-4 {{ Route::is('admin.instituicoes.*') ? '' : 'hidden' }}">
                 <li><a href="{{ route('admin.instituicoes.create') }}"
-                       class="block px-4 py-1 rounded hover:bg-gray-700 text-[#DEE4EE]">Criar Instituição</a></li>
+                        class="block px-4 py-1 rounded hover:bg-gray-700 text-[#DEE4EE]">Criar Instituição</a></li>
                 <li><a href="{{ route('admin.instituicoes.index') }}"
-                       class="block px-4 py-1 rounded hover:bg-gray-700 text-[#DEE4EE]">Listar Instituições</a></li>
+                        class="block px-4 py-1 rounded hover:bg-gray-700 text-[#DEE4EE]">Listar Instituições</a></li>
             </ul>
         </div>
 
         <div class="group">
-            <a href="#" class="flex items-center gap-4 py-2 px-4 hover:bg-gray-600 text-[#DEE4EE] rounded
+            <a href="#"
+                class="flex items-center gap-4 py-2 px-4 hover:bg-gray-600 text-[#DEE4EE] rounded
                 {{ Route::is('admin.forms.*') || Route::is('admin.fields.*') ? 'bg-gray-600' : '' }}"
                 onclick="toggleSubmenu('formSubmenu')">
                 <i class="fa-solid fa-wpforms"></i>
                 Formulários
             </a>
-            <ul id="formSubmenu" class="ml-4 {{ Route::is('admin.forms.*') || Route::is('admin.fields.*') ? '' : 'hidden' }}">
-                <li><a href="{{ route('admin.fields.create') }}" class="block px-4 py-1 rounded hover:bg-gray-700">Criar Campo</a></li>
-                <li><a href="{{ route('admin.fields.index') }}" class="block px-4 py-1 rounded hover:bg-gray-700">Gerenciar Campos</a></li>
-                <li><a href="{{ route('admin.forms.create') }}" class="block px-4 py-1 rounded hover:bg-gray-700">Criar Formulário</a></li>
-                <li><a href="{{ route('admin.forms.index') }}" class="block px-4 py-1 rounded hover:bg-gray-700">Administrar Formulários</a></li>
+            <ul id="formSubmenu"
+                class="ml-4 {{ Route::is('admin.forms.*') || Route::is('admin.fields.*') ? '' : 'hidden' }}">
+                <li><a href="{{ route('admin.fields.create') }}"
+                        class="block px-4 py-1 rounded hover:bg-gray-700">Criar Campo</a></li>
+                <li><a href="{{ route('admin.fields.index') }}"
+                        class="block px-4 py-1 rounded hover:bg-gray-700">Gerenciar Campos</a></li>
+                <li><a href="{{ route('admin.forms.create') }}" class="block px-4 py-1 rounded hover:bg-gray-700">Criar
+                        Formulário</a></li>
+                <li><a href="{{ route('admin.forms.index') }}"
+                        class="block px-4 py-1 rounded hover:bg-gray-700">Administrar Formulários</a></li>
             </ul>
         </div>
 
@@ -84,20 +108,20 @@
             </a>
             <ul id="institutionSubmenu" class="hidden ml-4">
                 <li>
-                    <a href="{{ route('institution.invites.index') }}"
-                       class="block px-4 py-1 rounded hover:bg-gray-700 text-[#DEE4EE]">
+                    <a href="{{ route('admin.institution.invites.index') }}"
+                        class="block px-4 py-1 rounded hover:bg-gray-700 text-[#DEE4EE]">
                         Histórico de Convites
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('institution.invites.create') }}"
-                       class="block px-4 py-1 rounded hover:bg-gray-700 text-[#DEE4EE]">
+                    <a href="{{ route('admin.institution.invites.create') }}"
+                        class="block px-4 py-1 rounded hover:bg-gray-700 text-[#DEE4EE]">
                         Novo Convite
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('plans.index') }}"
-                       class="block px-4 py-1 rounded hover:bg-gray-700 text-[#DEE4EE]">
+                    <a href="{{ route('admin.plans.index') }}"
+                        class="block px-4 py-1 rounded hover:bg-gray-700 text-[#DEE4EE]">
                         Planos
                     </a>
                 </li>
@@ -106,10 +130,57 @@
 
         <form method="POST" action="{{ route('logout') }}" class="mt-auto">
             @csrf
-            <button type="submit" class="w-full flex items-center gap-4 py-2 px-4 text-[#DEE4EE] hover:bg-gray-600 rounded">
+            <button type="submit"
+                class="w-full flex items-center gap-4 py-2 px-4 text-[#DEE4EE] hover:bg-gray-600 rounded">
                 <i class="fa-solid fa-sign-out-alt"></i>
                 Sair
             </button>
         </form>
     </nav>
 </aside>
+
+<script>
+function toggleSubmenu(submenuId) {
+    const submenu = document.getElementById(submenuId);
+    if (submenu) {
+        // Toggle a classe 'hidden'
+        submenu.classList.toggle('hidden');
+
+        // Fecha outros submenus
+        const allSubmenus = document.querySelectorAll('ul[id$="Submenu"]');
+        allSubmenus.forEach(menu => {
+            if (menu.id !== submenuId && !menu.classList.contains('hidden')) {
+                menu.classList.add('hidden');
+            }
+        });
+    }
+}
+
+// Mantém o submenu aberto na página atual
+document.addEventListener('DOMContentLoaded', function() {
+    const currentPath = window.location.pathname;
+
+    // Lista de todos os submenus
+    const submenus = {
+        'userSubmenu': '/admin/users',
+        'anamnesesSubmenu': '/admin/anamneses',
+        'turmaSubmenu': '/admin/turmas',
+        'instituicaoSubmenu': '/admin/instituicoes',
+        'formSubmenu': ['/admin/forms', '/admin/fields'],
+        'institutionSubmenu': ['/admin/institution/invites', '/admin/plans']
+    };
+
+    // Verifica qual submenu deve estar aberto
+    for (const [submenuId, paths] of Object.entries(submenus)) {
+        if (Array.isArray(paths)) {
+            if (paths.some(path => currentPath.startsWith(path))) {
+                const submenu = document.getElementById(submenuId);
+                if (submenu) submenu.classList.remove('hidden');
+            }
+        } else if (currentPath.startsWith(paths)) {
+            const submenu = document.getElementById(submenuId);
+            if (submenu) submenu.classList.remove('hidden');
+        }
+    }
+});
+</script>

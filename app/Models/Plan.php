@@ -8,7 +8,14 @@ class Plan extends Model
 {
     protected $fillable = [
         'name',
-        'invite_limit'
+        'description',
+        'price',
+        'invite_limit',
+        'features'
+    ];
+
+    protected $casts = [
+        'features' => 'array'
     ];
 
     public function instituicoes()

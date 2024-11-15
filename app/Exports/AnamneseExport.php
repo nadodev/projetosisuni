@@ -2,6 +2,7 @@
 
 namespace App\Exports;
 
+use App\Models\Anamnese;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
@@ -11,61 +12,39 @@ class AnamneseExport implements FromCollection, WithHeadings, WithMapping, Shoul
 {
     protected $anamnese;
 
-    public function __construct($anamnese)
+    public function __construct(Anamnese $anamnese)
     {
-        $this->anamnese = $anamnese;
+        $this->anamnese = $anamnese->load(['student', 'professional', 'form']);
     }
 
     public function collection()
     {
-        return $this->anamnese->evolucoes()
-            ->with(['professional'])
-            ->orderBy('data_evolucao', 'desc')
-            ->orderBy('hora_evolucao', 'desc')
-            ->get();
+        return collect([$this->anamnese]);
     }
 
     public function headings(): array
     {
         return [
-            'Data',
-            'Hora',
+            'ID',
+            'Aluno',
             'Profissional',
-            'Status',
-            'Progresso',
-            'Descrição'
+            'Formulário',
+            'Data de Criação',
+            'Respostas',
+            'Status'
         ];
     }
 
-    public function map($evolucao): array
+    public function map($anamnese): array
     {
         return [
-            $evolucao->data_evolucao->format('d/m/Y'),
-            $evolucao->hora_evolucao->format('H:i'),
-            $evolucao->professional->name,
-            $this->getStatusText($evolucao->status),
-            $this->getProgressoFromStatus($evolucao->status) . '%',
-            $evolucao->descricao
+            $anamnese->id,
+            $anamnese->student->name,
+            $anamnese->professional->name,
+            $anamnese->form->name,
+            $anamnese->created_at->format('d/m/Y'),
+            json_encode($anamnese->respostas),
+            $anamnese->status,
         ];
-    }
-
-    private function getStatusText($status)
-    {
-        return [
-            'pendente' => 'Pendente',
-            'em_andamento' => 'Em Andamento',
-            'em_observacao' => 'Em Observação',
-            'concluido' => 'Concluído'
-        ][$status] ?? $status;
-    }
-
-    private function getProgressoFromStatus($status)
-    {
-        return [
-            'pendente' => 0,
-            'em_andamento' => 50,
-            'em_observacao' => 75,
-            'concluido' => 100
-        ][$status] ?? 0;
     }
 }

@@ -2,11 +2,10 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
 {
@@ -18,19 +17,7 @@ class User extends Authenticatable
         'password',
         'role',
         'id_instituicao',
-        'email_verified_at',
-        'cpf',
-        'telefone',
-        'data_nascimento',
-        'genero',
-        'cep',
-        'endereco',
-        'bairro',
-        'cidade',
-        'uf',
-        'numero',
-        'complemento',
-        'photo_path',
+        'current_institution_id'
     ];
 
     protected $hidden = [
@@ -42,26 +29,6 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-
-    public function turma()
-    {
-        return $this->belongsTo(Turma::class, 'id_turma', 'id');
-    }
-
-    public function turmas(): HasMany
-    {
-        return $this->hasMany(Turma::class, 'professor_id');
-    }
-
-    public function categoria()
-    {
-        return $this->belongsTo(Categoria::class);
-    }
-
-    public function instituicao()
-    {
-        return $this->belongsTo(Instituicao::class, 'id_instituicao');
-    }
 
     public function isAdmin()
     {
@@ -78,43 +45,13 @@ class User extends Authenticatable
         return $this->role === 'user_student';
     }
 
-    public function isSuperAdmin()
+    public function instituicao()
     {
-        return $this->is_super_admin ?? false;
+        return $this->belongsTo(Instituicao::class, 'id_instituicao');
     }
 
-    public function isAdminOfInstitution()
+    public function currentInstitution()
     {
-        return $this->role === 'user_admin' && $this->id_instituicao !== null;
-    }
-
-    public function scopeFromSameInstituicao($query)
-    {
-        if (!$this->is_super_admin) {
-            return $query->where('id_instituicao', $this->id_instituicao);
-        }
-        return $query;
-    }
-
-    public function canAccessInstituicao($instituicaoId)
-    {
-        return $this->id_instituicao === $instituicaoId;
-    }
-
-    public function hasCompleteAddress(): bool
-    {
-        return !empty($this->cep) &&
-               !empty($this->endereco) &&
-               !empty($this->bairro) &&
-               !empty($this->cidade) &&
-               !empty($this->uf);
-    }
-
-    public function getPhotoUrlAttribute()
-    {
-        if ($this->photo_path) {
-            return asset('storage/' . $this->photo_path);
-        }
-        return null;
+        return $this->belongsTo(Instituicao::class, 'current_institution_id');
     }
 }

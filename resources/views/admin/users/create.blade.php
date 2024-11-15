@@ -41,7 +41,29 @@
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
                     </div>
-
+                    {{-- Data de nascimento --}}
+                    <div>
+                        <label for="data_nascimento" class="block text-sm font-medium text-gray-700">Data de Nascimento</label>
+                        <input type="date" name="data_nascimento" id="data_nascimento" value="{{ old('data_nascimento') }}"
+                            class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                        @error('data_nascimento')
+                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
+                    </div>
+                     {{-- Genero --}}
+                     <div>
+                        <label for="genero" class="block text-sm font-medium text-gray-700">Genero</label>
+                        <select name="genero" id="genero"
+                        class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                        <option value="">Selecione um genero</option>
+                        <option value="Masculino" >Masculino</option>
+                        <option value="Feminino" >Feminino</option>
+                            <option value="Outros">Outros</option>
+                        </select>
+                        @error('genero')
+                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
+                    </div>
                     {{-- Role --}}
                     <div>
                         <label for="role" class="block text-sm font-medium text-gray-700">Função</label>

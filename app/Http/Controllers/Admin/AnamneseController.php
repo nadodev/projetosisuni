@@ -7,6 +7,7 @@ use App\Models\Anamnese;
 use App\Models\Turma;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class AnamneseController extends Controller
 {
@@ -16,6 +17,8 @@ class AnamneseController extends Controller
             $query->where('id_instituicao', auth()->user()->id_instituicao);
         })->get();
 
+
+        dd($anamneses);
         $turmas = Turma::where('id_instituicao', auth()->user()->id_instituicao)->get();
         $students = User::where('id_instituicao', auth()->user()->id_instituicao)
             ->where('role', 'user_student')
@@ -50,5 +53,36 @@ class AnamneseController extends Controller
 
         return redirect()->route('admin.anamneses.show', $anamnese)
             ->with('success', 'Anamnese atualizada com sucesso!');
+    }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'form_id' => 'required|exists:forms,id',
+            'student_id' => 'required|exists:users,id',
+            'respostas' => 'nullable|array'
+        ]);
+
+        try {
+            $anamnese = new Anamnese($validated);
+            $anamnese->professional_id = auth()->id();
+            $anamnese->id_institution = auth()->user()->id_institution;
+
+            if (!$anamnese->id_institution) {
+                throw new \Exception('Não foi possível determinar a instituição.');
+            }
+
+            $anamnese->status = 'pendente';
+            $anamnese->save();
+
+            return redirect()->route('admin.anamneses.show', $anamnese)
+                ->with('success', 'Anamnese criada com sucesso!');
+
+        } catch (\Exception $e) {
+            Log::error('Erro ao criar anamnese: ' . $e->getMessage());
+            return back()
+                ->withInput()
+                ->with('error', 'Erro ao criar anamnese: ' . $e->getMessage());
+        }
     }
 }

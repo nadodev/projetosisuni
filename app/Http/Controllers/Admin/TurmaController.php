@@ -4,14 +4,16 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Turma;
-use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class TurmaController extends Controller
 {
     public function index()
     {
-        $turmas = Turma::all();
+        $turmas = Turma::where('id_instituicao', auth()->user()->id_instituicao)
+            ->orderBy('nome')
+            ->get();
         return view('admin.turmas.index', compact('turmas'));
     }
 
@@ -22,76 +24,65 @@ class TurmaController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'nome' => 'required|string|max:255|unique:turmas',
+        $validated = $request->validate([
+            'nome' => 'required|string|max:255',
             'quantidade_vagas' => 'required|integer|min:1'
         ]);
 
-        Turma::create($request->all());
+        $turma = new Turma($validated);
+        $turma->id_instituicao = auth()->user()->id_instituicao;
+        $turma->quantidade_vagas = $validated['quantidade_vagas'];
+        $turma->save();
 
         return redirect()->route('admin.turmas.index')
             ->with('success', 'Turma criada com sucesso!');
     }
 
-    public function edit($id)
+    public function edit(Turma $turma)
     {
-        $turma = Turma::findOrFail($id);
         return view('admin.turmas.edit', compact('turma'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, Turma $turma)
     {
-        $turma = Turma::findOrFail($id);
-
-        $request->validate([
-            'nome' => 'required|string|max:255|unique:turmas,nome,' . $turma->id . ',id',
-            'quantidade_vagas' => 'required|integer|min:1'
+        $validated = $request->validate([
+            'nome' => 'required|string|max:255',
+            'codigo' => 'required|string|max:50|unique:turmas,codigo,' . $turma->id
         ]);
 
-        $turma->update($request->all());
+        $turma->update($validated);
 
         return redirect()->route('admin.turmas.index')
             ->with('success', 'Turma atualizada com sucesso!');
     }
 
-    public function destroy($id)
+    public function destroy(Turma $turma)
     {
-        $turma = Turma::findOrFail($id);
-        $turma->delete();
 
+        $turma->delete();
         return redirect()->route('admin.turmas.index')
             ->with('success', 'Turma excluída com sucesso!');
     }
 
     public function atribuirTurmasIndex()
     {
-        $students = User::where('role', 'user_student')
-            ->when(!auth()->user()->is_super_admin, function($query) {
-                $query->where('id_instituicao', auth()->user()->id_instituicao);
-            })
+        $turmas = Turma::where('id_institution', auth()->user()->id_institution)->get();
+        $users = User::where('id_institution', auth()->user()->id_institution)
+            ->where('role', 'user_student')
+            ->with('turma')
             ->get();
 
-        $turmas = Turma::when(!auth()->user()->is_super_admin, function($query) {
-                $query->where('id_instituicao', auth()->user()->id_instituicao);
-            })
-            ->get();
-
-        return view('admin.atribuir-turmas.index', compact('students', 'turmas'));
+        return view('admin.turmas.atribuir', compact('turmas', 'users'));
     }
 
     public function atribuirTurma(Request $request, User $user)
     {
-        if ($user->role !== 'user_student') {
-            return back()->with('error', 'Apenas estudantes podem ser atribuídos a turmas.');
-        }
-
         $request->validate([
-            'codigo_turma' => 'required|exists:turmas,codigo'
+            'turma_id' => 'required|exists:turmas,id'
         ]);
 
-        $user->update([
-            'codigo_turma' => $request->codigo_turma
-        ]);
+        $user->turma_id = $request->turma_id;
+        $user->save();
 
         return back()->with('success', 'Turma atribuída com sucesso!');
     }

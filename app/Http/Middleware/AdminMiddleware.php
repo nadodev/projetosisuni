@@ -9,8 +9,13 @@ class AdminMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
-        if (!auth()->check() || auth()->user()->role !== 'user_admin') {
-            abort(403, 'Acesso não autorizado.');
+        if (!auth()->check()) {
+            return redirect()->route('login');
+        }
+
+        if (!auth()->user()->isAdmin()) {
+            return redirect()->route('dashboard')
+                ->with('error', 'Acesso não autorizado.');
         }
 
         return $next($request);

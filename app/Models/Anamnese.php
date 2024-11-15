@@ -3,19 +3,30 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
+use App\Models\Traits\BelongsToInstitution;
 
 class Anamnese extends Model
 {
+    use BelongsToInstitution;
+
     protected $fillable = [
         'form_id',
         'student_id',
         'professional_id',
+        'id_institution',
         'respostas',
         'status'
     ];
 
     protected $casts = [
         'respostas' => 'array'
+    ];
+
+    protected $dates = [
+        'date',
+        'created_at',
+        'updated_at'
     ];
 
     public function form()
@@ -103,5 +114,56 @@ class Anamnese extends Model
         if ($progresso < 50) return 'yellow';
         if ($progresso < 75) return 'blue';
         return 'green';
+    }
+
+    public function progressPercentage()
+    {
+        return match($this->status) {
+            'concluida' => 100,
+            'em_andamento' => 50,
+            'em_observacao' => 25,
+            default => 0,
+        };
+    }
+
+    // Método para calcular a porcentagem de progresso
+    public function calculateProgressPercentage()
+    {
+        switch ($this->status) {
+            case 'pendente':
+                return 25;
+            case 'em_andamento':
+                return 50;
+            case 'concluida':
+                return 100;
+            default:
+                return 0;
+        }
+    }
+
+    // Método para obter a cor da barra de progresso
+    public function getProgressBarColor()
+    {
+        switch ($this->status) {
+            case 'pendente':
+                return 'bg-yellow-500';
+            case 'em_andamento':
+                return 'bg-blue-500';
+            case 'concluida':
+                return 'bg-green-500';
+            default:
+                return 'bg-gray-500';
+        }
+    }
+
+    public function institution()
+    {
+        return $this->belongsTo(Instituicao::class, 'id_institution');
+    }
+
+    // Método para garantir que temos o id_institution
+    public function getInstitutionId()
+    {
+        return $this->id_institution ?? $this->student->id_institution ?? $this->professional->id_institution;
     }
 }

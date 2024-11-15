@@ -30,6 +30,10 @@ return new class extends Migration
             $table->string('complemento')->nullable();
             $table->foreignId('id_turma')->nullable()->constrained('turmas');
             $table->foreignId('id_instituicao')->constrained('instituicoes');
+            $table->foreignId('current_institution_id')
+            ->nullable()
+            ->constrained('instituicoes')
+            ->nullOnDelete();
             $table->rememberToken();
             $table->timestamps();
         });

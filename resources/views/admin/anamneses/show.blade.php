@@ -26,11 +26,11 @@
                     <div x-show="open"
                          @click.away="open = false"
                          class="absolute right-0 z-50 mt-2 w-48 bg-white rounded-md shadow-lg">
-                        <a href="{{ route('admin.anamneses.report.pdf', $anamnese) }}"
+                        <a href="{{ route('admin.reports.anamnese.pdf', $anamnese) }}"
                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                             Exportar PDF
                         </a>
-                        <a href="{{ route('admin.anamneses.report.excel', $anamnese) }}"
+                        <a href="{{ route('admin.reports.anamnese.excel', $anamnese) }}"
                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                             Exportar Excel
                         </a>
@@ -106,10 +106,22 @@
                         <div class="flex justify-between items-start mb-2">
                             <div>
                                 <p class="text-sm font-medium text-gray-900">
-                                    {{ $evolucao->data_evolucao->format('d/m/Y') }} às {{ $evolucao->hora_evolucao->format('H:i') }}
+                                    @if($evolucao->data_evolucao instanceof \Carbon\Carbon)
+                                        {{ $evolucao->data_evolucao->format('d/m/Y') }}
+                                    @else
+                                        {{ Carbon\Carbon::parse($evolucao->data_evolucao)->format('d/m/Y') }}
+                                    @endif
+
+                                    às
+
+                                    @if($evolucao->hora_evolucao instanceof \Carbon\Carbon)
+                                        {{ $evolucao->hora_evolucao->format('H:i') }}
+                                    @else
+                                        {{ Carbon\Carbon::parse($evolucao->hora_evolucao)->format('H:i') }}
+                                    @endif
                                 </p>
                                 <p class="text-sm text-gray-500">
-                                    Por: {{ $evolucao->professional->name }}
+                                    Por: {{ $evolucao->professional->name ?? 'Profissional não especificado' }}
                                 </p>
                             </div>
                             <div class="flex gap-2">

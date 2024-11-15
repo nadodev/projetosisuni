@@ -27,11 +27,14 @@ class InstitutionInviteController extends Controller
 
     public function store(Request $request)
     {
-        $instituicao = auth()->user()->instituicao;
+        $instituicao = auth()->user()->currentInstitution;
+
+        if (!$instituicao) {
+            return back()->with('error', 'Nenhuma instituição selecionada.');
+        }
 
         if (!$instituicao->canSendInvite()) {
-            return redirect()->route('institution.invites.index')
-                ->with('error', 'Você não tem mais convites disponíveis. Por favor, atualize seu plano.');
+            return back()->with('error', 'Limite de convites atingido para seu plano atual.');
         }
 
         $request->validate([
@@ -43,7 +46,7 @@ class InstitutionInviteController extends Controller
             'email' => $request->email,
             'role' => $request->role,
             'token' => Str::random(32),
-            'instituicoes_id' => $instituicao->id,
+            'id_institution' => $instituicao->id,
             'status' => 'pending',
             'expires_at' => now()->addDays(7),
         ]);
@@ -57,7 +60,7 @@ class InstitutionInviteController extends Controller
     public function index()
     {
         $instituicao = auth()->user()->instituicao;
-        $invites = InstitutionInvite::where('instituicoes_id', $instituicao->id)
+        $invites = InstitutionInvite::where('id_institution', $instituicao->id)
             ->latest()
             ->paginate(10);
 

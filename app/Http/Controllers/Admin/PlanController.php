@@ -4,40 +4,53 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Plan;
-use App\Models\Instituicao;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class PlanController extends Controller
 {
     public function index()
     {
         $plans = Plan::all();
-        $instituicao = auth()->user()->instituicao;
-        return view('admin.plans.index', compact('plans', 'instituicao'));
+        return view('admin.plans.index', compact('plans'));
+    }
+
+    public function create()
+    {
+        return view('admin.plans.create');
+    }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'price' => 'required|numeric',
+        ]);
+
+        Plan::create($validated);
+        return redirect()->route('admin.plans.index')->with('success', 'Plan created successfully.');
+    }
+
+    public function edit(Plan $plan)
+    {
+        return view('admin.plans.edit', compact('plan'));
     }
 
     public function update(Request $request, Plan $plan)
     {
-        try {
-            DB::beginTransaction();
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'price' => 'required|numeric',
+        ]);
 
-            $instituicao = auth()->user()->instituicao;
+        $plan->update($validated);
+        return redirect()->route('admin.plans.index')->with('success', 'Plan updated successfully.');
+    }
 
-            // Atualiza o plano da instituição
-            $instituicao->update([
-                'plan_id' => $plan->id,
-                'available_invites' => $plan->total_invites, // Atualiza a quantidade de convites disponíveis
-            ]);
-
-            DB::commit();
-
-            return redirect()->route('plans.index')
-                ->with('success', 'Plano atualizado com sucesso! Você agora tem ' . $plan->total_invites . ' convites disponíveis.');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return redirect()->route('plans.index')
-                ->with('error', 'Erro ao atualizar o plano: ' . $e->getMessage());
-        }
+    public function destroy(Plan $plan)
+    {
+        $plan->delete();
+        return redirect()->route('admin.plans.index')->with('success', 'Plan deleted successfully.');
     }
 }

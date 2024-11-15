@@ -29,9 +29,13 @@
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <form action="{{ route('admin.atribuir-turmas.update', $student) }}" method="POST" class="flex gap-2">
                                     @csrf
+
+
+
                                     <select name="id_turma" class="rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                         <option value="">Selecione uma turma</option>
                                         @foreach($turmas as $turma)
+
                                             <option value="{{ $turma->id }}" {{ $student->id_turma == $turma->id ? 'selected' : '' }}>
                                                 {{ $turma->nome }}
                                             </option>

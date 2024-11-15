@@ -11,26 +11,17 @@ class Evolucao extends Model
     protected $fillable = [
         'anamnese_id',
         'professional_id',
-        'descricao',
-        'status',
+        'id_institution',
         'data_evolucao',
-        'hora_evolucao'
+        'hora_evolucao',
+        'descricao',
+        'status'
     ];
 
     protected $casts = [
-        'data_evolucao' => 'date',
-        'hora_evolucao' => 'datetime:H:i'
+        'data_evolucao' => 'datetime',
+        'hora_evolucao' => 'datetime'
     ];
-
-    public function setHoraEvolucaoAttribute($value)
-    {
-        $this->attributes['hora_evolucao'] = date('H:i:s', strtotime($value));
-    }
-
-    public function getHoraEvolucaoAttribute($value)
-    {
-        return date('H:i', strtotime($value));
-    }
 
     public function anamnese()
     {
@@ -40,5 +31,10 @@ class Evolucao extends Model
     public function professional()
     {
         return $this->belongsTo(User::class, 'professional_id');
+    }
+
+    public function institution()
+    {
+        return $this->belongsTo(Instituicao::class, 'id_institution');
     }
 }

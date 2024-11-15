@@ -12,6 +12,7 @@ class Turma extends Model
         'nome',
         'id_instituicao',
         'professor_id',
+        'quantidade_vagas',
         // ... outros campos
     ];
 

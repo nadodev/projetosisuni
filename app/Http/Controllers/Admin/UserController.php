@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
-use App\Models\Turma;
 use App\Models\Categoria;
+use App\Models\User;
 use App\Models\Instituicao;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -25,38 +25,28 @@ class UserController extends Controller
 
     public function create()
     {
-        $turmas = Turma::where('id_instituicao', auth()->user()->id_instituicao)->get();
+        $instituicoes = Instituicao::all();
         $categorias = Categoria::all();
-        return view('admin.users.create', compact('turmas', 'categorias'));
+        return view('admin.users.create', compact('instituicoes', 'categorias'));
     }
 
     public function store(Request $request)
     {
-        $request->validate([
-            'cpf' => 'required|unique:users|size:11',
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'data_nascimento' => 'required|date',
-            'genero' => 'required|string',
             'email' => 'required|string|email|max:255|unique:users',
-            'telefone' => 'nullable|string',
-            'cep' => 'required|string|size:8',
-            'endereco' => 'required|string',
-            'bairro' => 'required|string',
-            'cidade' => 'required|string',
-            'uf' => 'required|string|size:2',
-            'numero' => 'nullable|integer',
-            'complemento' => 'nullable|string',
-            'id_turma' => 'nullable|exists:turmas,id',
-            'categoria_id' => 'nullable|exists:categorias,id',
-            'id_instituicao' => 'required|exists:instituicoes,id',
             'password' => 'required|string|min:8|confirmed',
-            'role' => 'required|in:user_admin,user_teacher,user_student',
+            'role' => 'required|string',
+            'id_institution' => 'required|exists:instituicoes,id'
         ]);
 
-        $data = $request->all();
-        $data['id_instituicao'] = auth()->user()->id_instituicao;
-
-        User::create($data);
+        $user = User::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
+            'role' => $validated['role'],
+            'id_institution' => $validated['id_institution']
+        ]);
 
         return redirect()->route('admin.users.index')
             ->with('success', 'Usuário criado com sucesso!');
@@ -64,58 +54,36 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-        $turmas = Turma::all();
         $categorias = Categoria::all();
         $instituicoes = Instituicao::all();
-        return view('admin.users.edit', compact('user', 'turmas', 'categorias', 'instituicoes'));
+        return view('admin.users.edit', compact('user', 'categorias', 'instituicoes'));
     }
 
     public function update(Request $request, User $user)
     {
-        try {
-            $request->validate([
-                'cpf' => 'required|string|size:11|unique:users,cpf,' . $user->id,
-                'name' => 'required|string|max:255',
-                'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
-                'role' => 'required|in:user_admin,user_teacher,user_student',
-                'categoria_id' => 'nullable|exists:categorias,id',
-            ]);
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+            'role' => 'required|string',
+            'id_institution' => 'required|exists:instituicoes,id',
+            'password' => 'nullable|string|min:8|confirmed'
+        ]);
 
-            // Prepara os dados para atualização
-            $data = $request->all();
+        $userData = [
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'role' => $validated['role'],
+            'id_institution' => $validated['id_institution']
+        ];
 
-            // Se uma nova senha foi fornecida
-            if ($request->filled('password')) {
-                $request->validate([
-                    'password' => 'required|string|min:8|confirmed'
-                ]);
-                $data['password'] = Hash::make($request->password);
-            } else {
-                // Remove o campo password se estiver vazio
-                unset($data['password']);
-            }
-
-            // Remove campos desnecessários
-            unset($data['_token'], $data['_method'], $data['password_confirmation']);
-
-            // Atualiza o usuário
-            $user->update($data);
-
-            // Redireciona com mensagem de sucesso
-            return redirect()
-                ->route('admin.users.index')
-                ->with('success', 'Usuário atualizado com sucesso!');
-
-        } catch (\Exception $e) {
-            // Log do erro
-            \Log::error('Erro ao atualizar usuário: ' . $e->getMessage());
-
-            // Redireciona com mensagem de erro
-            return redirect()
-                ->back()
-                ->withInput()
-                ->with('error', 'Erro ao atualizar usuário. Por favor, tente novamente.');
+        if (!empty($validated['password'])) {
+            $userData['password'] = Hash::make($validated['password']);
         }
+
+        $user->update($userData);
+
+        return redirect()->route('admin.users.index')
+            ->with('success', 'Usuário atualizado com sucesso!');
     }
 
     public function destroy(User $user)

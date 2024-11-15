@@ -64,16 +64,19 @@ class FieldController extends Controller
 
     public function updateOrder(Request $request)
     {
-        $request->validate([
-            'order' => 'required|array',
-            'order.*.id' => 'required|exists:fields,id',
-            'order.*.order' => 'required|integer|min:0'
-        ]);
+        $orderedFields = $request->input('order', []);
 
-        foreach ($request->order as $item) {
-            Field::where('id', $item['id'])->update(['order' => $item['order']]);
+        try {
+            foreach ($orderedFields as $field) {
+                Field::where('id', $field['id'])->update(['order' => $field['order']]);
+            }
+
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Erro ao atualizar ordem: ' . $e->getMessage()
+            ], 500);
         }
-
-        return response()->json(['success' => true]);
     }
 }

@@ -21,6 +21,7 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
+        dd($request->all());
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
@@ -74,4 +75,4 @@ class UserController extends Controller
         $user->delete();
         return redirect()->route('users.index')->with('success', 'Usuário deletado com sucesso!');
     }
-} 
+}

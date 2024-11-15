@@ -17,7 +17,6 @@ return new class extends Migration
 
         // Adicionar coluna de plano na tabela de instituições
         Schema::table('instituicoes', function (Blueprint $table) {
-            $table->foreignId('plan_id')->nullable()->constrained()->onDelete('set null');
             $table->integer('invites_used')->default(0);
         });
     }

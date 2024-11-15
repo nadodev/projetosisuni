@@ -84,46 +84,41 @@ class FormController extends Controller
 
     public function createAnamnese(Form $form)
     {
-        // Busca estudantes
-        $students = User::where('role', 'user_student')->get();
-
-        // Busca profissionais (professores e admins com categoria)
-        $professionals = User::whereIn('role', ['user_teacher', 'user_admin'])
-            ->whereNotNull('categoria_id')
-            ->with('categoria')
+        // Busca os estudantes disponíveis
+        $students = User::where('role', 'user_student')
+            ->where('id_instituicao', auth()->user()->id_instituicao)
             ->get();
 
-        return view('admin.forms.create-anamnese', compact('form', 'students', 'professionals'));
+        // Busca os profissionais disponíveis
+        $professionals = User::where('role', 'user_teacher')
+            ->where('id_instituicao', auth()->user()->id_instituicao)
+            ->get();
+
+        return view('admin.forms.create-anamnese', [
+            'form' => $form,
+            'students' => $students,
+            'professionals' => $professionals
+        ]);
     }
 
     public function storeAnamnese(Request $request, Form $form)
     {
-        $request->validate([
+        $validated = $request->validate([
             'student_id' => 'required|exists:users,id',
-            'professional_id' => 'required|exists:users,id'
+            'professional_id' => 'required|exists:users,id',
+            'respostas' => 'nullable|array'
         ]);
 
-        // Verifica se o estudante selecionado é realmente um estudante
-        $student = User::findOrFail($request->student_id);
-        if ($student->role !== 'user_student') {
-            return back()->with('error', 'O usuário selecionado não é um estudante.');
-        }
-
-        // Verifica se o profissional selecionado tem uma categoria
-        $professional = User::findOrFail($request->professional_id);
-        if (!$professional->categoria_id) {
-            return back()->with('error', 'O profissional selecionado não possui uma categoria.');
-        }
-
-        // Cria a anamnese
         $anamnese = Anamnese::create([
             'form_id' => $form->id,
-            'student_id' => $request->student_id,
-            'professional_id' => $request->professional_id,
+            'student_id' => $validated['student_id'],
+            'professional_id' => $validated['professional_id'],
+            'id_instituicao' => auth()->user()->id_instituicao,
+            'respostas' => $validated['respostas'] ?? [],
             'status' => 'pendente'
         ]);
 
-        return redirect()->route('admin.anamneses.show', $anamnese)
+        return redirect()->route('admin.anamneses.edit', $anamnese)
             ->with('success', 'Anamnese criada com sucesso!');
     }
 }

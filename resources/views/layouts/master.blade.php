@@ -4,30 +4,23 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Laravel</title>
+    <title>{{ config('app.name', 'Laravel') }}</title>
+
+    <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="{{ asset('build/assets/app-BnevzZkE.css') }}">
-    @livewireStyles
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+    <!-- Alpine.js -->
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 
-<body class="bg-gray-100">
+<body class="font-sans antialiased">
     <div id="layout"
-    class="grid grid-cols-1 md:grid-cols-[16rem,1fr] transition-all duration-300 ease-in-out h-screen">        @auth
-            @if(auth()->user()->role === 'user_admin')
+        class="grid grid-cols-1 md:grid-cols-[16rem,1fr] transition-all duration-300 ease-in-out h-screen"> @auth
+            @if (auth()->user()->role === 'user_admin')
                 <x-admin-sidebar />
             @elseif(auth()->user()->role === 'user_teacher')
                 <x-teacher-sidebar />
@@ -39,10 +32,10 @@
         @endauth
 
         <div class="flex flex-col">
-                        @include('components.header')
+            @include('components.header')
             <main class="p-4">
                 @auth
-                    <div class="text-sm text-gray-600 mb-4">
+                    <div class="mb-4 text-sm text-gray-600">
                         Instituição: {{ auth()->user()->instituicao->nome }}
                     </div>
                 @endauth
@@ -50,56 +43,21 @@
             </main>
         </div>
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
-    <script>
-        toastr.options = {
-            "closeButton": true,
-            "progressBar": true,
-            "positionClass": "toast-top-right",
-            "showDuration": "300",
-            "hideDuration": "1000",
-            "timeOut": "5000",
-            "extendedTimeOut": "1000",
-            "showEasing": "swing",
-            "hideEasing": "linear",
-            "showMethod": "fadeIn",
-            "hideMethod": "fadeOut"
-        };
-
-        @if(Session::has('success'))
-            toastr.success("{{ Session::get('success') }}");
-        @endif
-
-        @if(Session::has('error'))
-            toastr.error("{{ Session::get('error') }}");
-        @endif
-
-        @if(Session::has('warning'))
-            toastr.warning("{{ Session::get('warning') }}");
-        @endif
-
-        @if(Session::has('info'))
-            toastr.info("{{ Session::get('info') }}");
-        @endif
-    </script>
-
-    <script>
-        function toggleSubmenu(submenuId) {
-            const submenu = document.getElementById(submenuId);
-            if (submenu) {
-                submenu.classList.toggle('hidden');
-            }
-        }
-    </script>
-
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
     @stack('scripts')
-
-    @if(session('needs_institution_update'))
-        <x-institution-modal />
-    @endif
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sortable/0.8.0/js/sortable.min.js"
+        integrity="sha512-DEcSaL0BWApJ//v7ZfqAI04nvK+NQcUVwrrx/l1x7OJgU0Cwbq7e459NBMzLPrm8eLPzAwBtiJJS4AvLZDZ8xA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        // Garante que o token CSRF está disponível globalmente
+        window.csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+    </script>
+    <script>
+        $(function() {
+            $("#sortable").sortable();
+        });
+    </script>
 </body>
 
 </html>

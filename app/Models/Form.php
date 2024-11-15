@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Traits\BelongsToInstitution;
 
 class Form extends Model
 {
+    use BelongsToInstitution;
+
     protected $fillable = [
         'name',
         'user_id'
