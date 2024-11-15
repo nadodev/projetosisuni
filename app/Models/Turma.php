@@ -30,4 +30,10 @@ class Turma extends Model
     {
         return $this->belongsTo(Instituicao::class, 'id_instituicao');
     }
+
+    //recuperar quantidade de vagas ocupadas nas turmas por aluno
+    public function vagasOcupadas(): HasMany
+    {
+        return $this->hasMany(User::class, 'id_turma');
+    }
 }

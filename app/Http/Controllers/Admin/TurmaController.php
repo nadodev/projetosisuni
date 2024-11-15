@@ -66,13 +66,26 @@ class TurmaController extends Controller
 
     public function atribuirTurmasIndex()
     {
-        $turmas = Turma::where('id_institution', auth()->user()->id_institution)->get();
-        $users = User::where('id_institution', auth()->user()->id_institution)
+        $turmas = Turma::where('id_instituicao', auth()->user()->id_instituicao)->get();
+        $user = User::where('id_instituicao', auth()->user()->id_instituicao)
             ->where('role', 'user_student')
             ->with('turma')
-            ->get();
+            ->first();
+            $users = User::get();
 
-        return view('admin.turmas.atribuir', compact('turmas', 'users'));
+
+        return view('admin.turmas.atribuir', compact('turmas', 'users', 'user'));
+    }
+
+    public function atribuirTurmasEdit(User $user)
+    {
+        $turmas = Turma::where('id_instituicao', auth()->user()->id_instituicao)->get();
+
+        $user = User::where('id_instituicao', auth()->user()->id_instituicao)
+        ->where('role', 'user_student')
+        ->with('turma')
+        ->first();
+        return view('admin.turmas.atribuir-edit', compact( 'turmas','user'));
     }
 
     public function atribuirTurma(Request $request, User $user)
@@ -81,9 +94,10 @@ class TurmaController extends Controller
             'turma_id' => 'required|exists:turmas,id'
         ]);
 
-        $user->turma_id = $request->turma_id;
+        $user->id_turma = $request->turma_id;
         $user->save();
 
-        return back()->with('success', 'Turma atribuída com sucesso!');
+        return redirect()->route('admin.atribuir-turmas.index')
+            ->with('success', 'Turma atribuída com sucesso!');
     }
 }

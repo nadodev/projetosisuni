@@ -21,7 +21,7 @@
                     </div>
                 @endif
 
-                <form action="{{ route('admin.atribuir-turmas.update', ['user' => $user->id]) }}" method="POST" class="space-y-6">
+                <form action="{{ route('admin.atribuir-turmas.update', $user) }}" method="POST" class="space-y-6">
                     @csrf
 
                     <div>
@@ -30,7 +30,7 @@
                             <option value="">Selecione uma turma</option>
                             @foreach($turmas as $turma)
                                 <option value="{{ $turma->id }}" {{ old('turma_id', $user->turma_id) == $turma->id ? 'selected' : '' }}>
-                                    {{ $turma->nome }} ({{ $turma->codigo }})
+                                    {{ $turma->nome }} ({{ $turma->quantidade_vagas }})
                                 </option>
                             @endforeach
                         </select>

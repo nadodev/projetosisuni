@@ -18,7 +18,6 @@ class AnamneseController extends Controller
         })->get();
 
 
-        dd($anamneses);
         $turmas = Turma::where('id_instituicao', auth()->user()->id_instituicao)->get();
         $students = User::where('id_instituicao', auth()->user()->id_instituicao)
             ->where('role', 'user_student')

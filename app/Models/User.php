@@ -17,7 +17,11 @@ class User extends Authenticatable
         'password',
         'role',
         'id_instituicao',
-        'current_institution_id'
+        'current_institution_id',
+        'cpf',
+        'data_nascimento',
+        'genero',
+        'categoria_id'
     ];
 
     protected $hidden = [
@@ -53,5 +57,10 @@ class User extends Authenticatable
     public function currentInstitution()
     {
         return $this->belongsTo(Instituicao::class, 'current_institution_id');
+    }
+
+    public function turma()
+    {
+        return $this->belongsTo(Turma::class, 'turma_id');
     }
 }

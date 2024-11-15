@@ -58,6 +58,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // Turmas
     Route::resource('turmas', TurmaController::class);
     Route::get('/atribuir-turmas', [TurmaController::class, 'atribuirTurmasIndex'])->name('atribuir-turmas.index');
+    Route::get('/atribuir-turmas/{user}/edit', [TurmaController::class, 'atribuirTurmasEdit'])->name('atribuir-turmas.edit');
     Route::post('/atribuir-turmas/{user}', [TurmaController::class, 'atribuirTurma'])->name('atribuir-turmas.update');
 
     // Anamneses

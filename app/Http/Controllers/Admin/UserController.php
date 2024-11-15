@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Instituicao;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -32,20 +33,28 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
+
         $validated = $request->validate([
+            'cpf' => 'required|string|max:11|unique:users',
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
+            'data_nascimento' => 'required',
+            'genero' => 'required',
             'role' => 'required|string',
-            'id_institution' => 'required|exists:instituicoes,id'
+            'categoria' => 'nullable|exists:categorias,id',
+            'password' => 'required|string|min:8|confirmed',
         ]);
 
         $user = User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
+            'cpf' => $validated['cpf'],
+            'data_nascimento' => $validated['data_nascimento'],
+            'genero' => $validated['genero'],
+            'categoria_id' => $validated['categoria'] ?? null,
             'password' => Hash::make($validated['password']),
             'role' => $validated['role'],
-            'id_institution' => $validated['id_institution']
+            'id_instituicao' => Auth::user()->id_instituicao
         ]);
 
         return redirect()->route('admin.users.index')

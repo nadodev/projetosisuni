@@ -22,6 +22,9 @@
                             Quantidade de Vagas
                         </th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Vagas Ocupadas
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Ações
                         </th>
                     </tr>
@@ -31,6 +34,7 @@
                         <tr>
                             <td class="px-6 py-4 whitespace-nowrap">{{ $turma->nome }}</td>
                             <td class="px-6 py-4 whitespace-nowrap">{{ $turma->quantidade_vagas }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ $turma->vagasOcupadas->count() }}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm">
                                 <a href="{{ route('admin.turmas.edit', ['turma' => $turma->id]) }}"
                                    class="text-blue-600 hover:text-blue-900 mr-3">

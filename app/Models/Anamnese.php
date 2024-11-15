@@ -14,7 +14,7 @@ class Anamnese extends Model
         'form_id',
         'student_id',
         'professional_id',
-        'id_institution',
+        'id_instituicao',
         'respostas',
         'status'
     ];
@@ -158,7 +158,7 @@ class Anamnese extends Model
 
     public function institution()
     {
-        return $this->belongsTo(Instituicao::class, 'id_institution');
+        return $this->belongsTo(Instituicao::class, 'id_instituicao');
     }
 
     // Método para garantir que temos o id_institution
