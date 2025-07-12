@@ -152,11 +152,7 @@
                 <i class="fa-solid fa-sign-in-alt w-5 text-center"></i>
                 <span>Login</span>
             </a>
-            <a href="{{ route('register') }}"
-                class="flex items-center gap-3 py-3 px-4 text-gray-300 hover:bg-gray-700/50 rounded-lg transition-colors duration-200">
-                <i class="fa-solid fa-user-plus w-5 text-center"></i>
-                <span>Registrar</span>
-            </a>
+           
         @endauth
     </nav>
 </aside>

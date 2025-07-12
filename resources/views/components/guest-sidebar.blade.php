@@ -21,12 +21,7 @@
             <span>Login</span>
         </a>
 
-        <a href="{{ route('register') }}"
-            class="flex items-center gap-3 py-3 px-4 text-gray-300 hover:bg-gray-700/50 rounded-lg transition-colors duration-200
-            {{ Route::is('register') ? 'bg-gray-700/50 text-white' : '' }}">
-            <i class="fa-solid fa-user-plus w-5 text-center"></i>
-            <span>Registrar</span>
-        </a>
+       
 
         <a href="{{ route('chat') }}"
             class="flex items-center gap-3 py-3 px-4 text-gray-300 hover:bg-gray-700/50 rounded-lg transition-colors duration-200

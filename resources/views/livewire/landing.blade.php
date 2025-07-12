@@ -11,7 +11,7 @@
                         Gerencie documentos, cadastre alunos e promova a inclusão de forma simples e humana.
                     </p>
                     <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 justify-center md:justify-start">
-                        <a href="{{ route('register') }}" class="btn btn-primary">
+                        <a href="#" class="btn btn-primary">
                             Começar agora
                         </a>
                         <a href="#sobre" class="btn btn-outline">

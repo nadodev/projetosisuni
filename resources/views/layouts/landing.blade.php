@@ -72,7 +72,7 @@
                     <a href="#depoimentos" class="block px-3 py-2 text-gray-600 hover:text-purple-600">Depoimentos</a>
                     <a href="#contato" class="block px-3 py-2 text-gray-600 hover:text-purple-600">Contato</a>
                     <a href="{{ route('login') }}" class="block px-3 py-2 text-gray-600 hover:text-purple-600">Entrar</a>
-                    <a href="{{ route('register') }}" class="block px-3 py-2 text-gray-600 font-semibold">Começar Agora</a>
+                   
                 </div>
             </div>
         </div>
