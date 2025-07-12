@@ -136,7 +136,6 @@
                     <ul class="space-y-2">
                         <li><button wire:click="$dispatch('openModal', { component: 'privacidade' })" class="text-gray-400 hover:text-white transition-colors text-left">Política de Privacidade</button></li>
                         <li><button wire:click="$dispatch('openModal', { component: 'termos-uso' })" class="text-gray-400 hover:text-white transition-colors text-left">Termos de Uso</button></li>
-                        <li><a href="https://www.gov.br/anpd" target="_blank" class="text-gray-400 hover:text-white transition-colors">LGPD</a></li>
                     </ul>
                 </div>
                 <div>

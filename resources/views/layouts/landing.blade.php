@@ -186,6 +186,7 @@
 
     @livewireScripts
     @livewire('wire-elements-modal')
+   
     <script src="{{ asset('js/cookie-consent.js') }}"></script>
     <script src="{{ asset('js/accessibility.js') }}"></script>
 
