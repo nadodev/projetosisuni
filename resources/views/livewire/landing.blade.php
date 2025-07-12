@@ -120,7 +120,7 @@
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
                 <div>
                     <h3 class="text-xl font-bold mb-4">SisUni</h3>
-                    <p class="text-gray-400">Tecnologia com propósito teste</p>
+                    <p class="text-gray-400">Tecnologia com propósito</p>
                 </div>
                 <div>
                     <h4 class="font-semibold mb-4">Links Rápidos</h4>
