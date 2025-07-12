@@ -17,6 +17,17 @@ use App\Http\Controllers\FormController;
 use App\Http\Controllers\Teacher\DashboardController as TeacherDashboardController;
 use App\Http\Controllers\Student\DashboardController as StudentDashboardController;
 
+
+Route::get('/', App\Livewire\Landing::class)->name('landing');
+
+// Rotas legais
+Route::get('/termos-uso', App\Livewire\TermosUso::class)->name('legal.terms');
+Route::get('/politica-privacidade', App\Livewire\Privacidade::class)->name('legal.privacy');
+
+
+
+
+
 // Rotas públicas para formulários
 Route::get('forms/{uuid}', [FormController::class, 'show'])->name('forms.show');
 Route::post('forms/{uuid}/submit', [FormController::class, 'submit'])->name('forms.submit');
@@ -144,7 +155,6 @@ Route::middleware(['auth', 'student'])->group(function () {
     })->name('student.calendar');
 });
 
-Route::get('/', App\Livewire\Landing::class)->name('landing');
 
 Route::get('/clear-cache', function () {
     Artisan::call('cache:clear');

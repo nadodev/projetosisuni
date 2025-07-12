@@ -7,5 +7,7 @@ return [
     'include_css' => true,
     'components' => [
         'students.educational-profile' => App\Livewire\Students\EducationalProfile::class,
+        'privacidade' => App\Livewire\Privacidade::class,
+        'termos-uso' => App\Livewire\TermosUso::class,
     ],
 ]; 

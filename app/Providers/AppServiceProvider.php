@@ -7,6 +7,8 @@ use App\Models\Anamnese;
 use App\Observers\AnamneseObserver;
 use Livewire\Livewire;
 use App\Livewire\Students\EducationalProfile;
+use App\Livewire\Privacidade;
+use App\Livewire\TermosUso;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,5 +28,7 @@ class AppServiceProvider extends ServiceProvider
         Anamnese::observe(AnamneseObserver::class);
 
         Livewire::component('students.educational-profile', EducationalProfile::class);
+        Livewire::component('privacidade', Privacidade::class);
+        Livewire::component('termos-uso', TermosUso::class);
     }
 }

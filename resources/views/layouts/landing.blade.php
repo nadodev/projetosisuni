@@ -15,7 +15,8 @@
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="{{ asset('build/assets/app-DhyQ1ege.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/assets/app-CyEKRNSM.css') }}">
+
     <!-- Styles -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
@@ -184,6 +185,7 @@
     </div>
 
     @livewireScripts
+    @livewire('wire-elements-modal')
     <script src="{{ asset('js/cookie-consent.js') }}"></script>
     <script src="{{ asset('js/accessibility.js') }}"></script>
 
