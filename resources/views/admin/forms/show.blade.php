@@ -1,0 +1,60 @@
+@extends('layouts.master')
+
+@section('content')
+<div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+    <div class="px-4 py-6 sm:px-0">
+        <div class="mb-6 flex justify-between items-center">
+            <h2 class="text-2xl font-semibold text-gray-900">Visualizar Formulário</h2>
+            <div class="flex gap-2">
+                <a href="{{ route('admin.forms.edit', $form) }}"
+                   class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">
+                    Editar
+                </a>
+                <a href="{{ route('admin.forms.create-anamnese', $form) }}"
+                   class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                    Criar Anamnese
+                </a>
+            </div>
+        </div>
+
+        <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+            <div class="px-4 py-5 sm:px-6">
+                <h3 class="text-lg leading-6 font-medium text-gray-900">
+                    {{ $form->name }}
+                </h3>
+            </div>
+            <div class="border-t border-gray-200">
+                <dl>
+                    <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                        <dt class="text-sm font-medium text-gray-500">Total de Campos</dt>
+                        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            {{ $form->fields->count() }}
+                        </dd>
+                    </div>
+
+                    <div class="bg-white px-4 py-5 sm:px-6">
+                        <dt class="text-sm font-medium text-gray-500 mb-4">Campos do Formulário</dt>
+                        <dd class="mt-1 text-sm text-gray-900">
+                            <div class="space-y-4">
+                                @foreach($form->fields as $field)
+                                    <div class="border rounded-lg p-4">
+                                        <h4 class="font-medium">{{ $field->name }}</h4>
+                                        <p class="text-gray-500">Tipo: {{ ucfirst($field->type) }}</p>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </dd>
+                    </div>
+                </dl>
+            </div>
+        </div>
+
+        <div class="mt-6">
+            <a href="{{ route('admin.forms.index') }}"
+               class="text-indigo-600 hover:text-indigo-900">
+                ← Voltar para lista de formulários
+            </a>
+        </div>
+    </div>
+</div>
+@endsection
