@@ -15,10 +15,15 @@
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+   
+
+
+    @if (app()->environment('production'))
     <link rel="stylesheet" href="{{ asset('build/assets/app-CyEKRNSM.css') }}">
 
-    <!-- Styles -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @else
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @endif
     @livewireStyles
 </head>
 <body class="font-['Poppins'] antialiased">
@@ -189,6 +194,8 @@
    
     <script src="{{ asset('js/cookie-consent.js') }}"></script>
     <script src="{{ asset('js/accessibility.js') }}"></script>
-
+    @if (app()->environment('production'))
+    <script src="{{ asset('build/assets/app-B-q6ydEb.js') }}"></script>
+    @endif
 </body>
 </html> 
