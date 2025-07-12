@@ -34,8 +34,7 @@
                 <!-- Logo -->
                 <div class="flex items-center">
                     <a href="{{ route('landing') }}" class="flex items-center space-x-2">
-                        <img src="{{ asset('/assets/img/logo.svg') }}" alt="SisUni Logo" class="h-8 w-auto">
-                        <span class="text-2xl font-bold text-purple-600">sisUni</span>
+                        <img src="{{ asset('/images/logo.png') }}" alt="SisUni Logo" class="h-16 w-auto">
                     </a>
                 </div>
 
