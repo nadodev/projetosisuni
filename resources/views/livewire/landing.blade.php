@@ -128,7 +128,7 @@
                         <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Início</a></li>
                         <li><a href="#sobre" class="text-gray-400 hover:text-white transition-colors">Sobre</a></li>
                         <li><a href="#funcionalidades" class="text-gray-400 hover:text-white transition-colors">Funcionalidades</a></li>
-                        <li><a href="#contato" class="text-gray-400 hover:text-white transition-colors">Contato</a></li>
+                        <li><a href="/contato" class="text-gray-400 hover:text-white transition-colors">Contato</a></li>
                     </ul>
                 </div>
                 <div>
