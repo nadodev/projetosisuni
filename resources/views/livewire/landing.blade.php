@@ -42,11 +42,11 @@
             </div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
                 @foreach([
-                    ['icon' => 'fa-brain', 'color' => 'purple', 'title' => 'Gestão Inteligente', 'description' => 'Sistema especializado no gerenciamento de informações de alunos neurodivergentes.'],
+                    ['icon' => 'fa-brain', 'color' => 'gray', 'title' => 'Gestão Inteligente', 'description' => 'Sistema especializado no gerenciamento de informações de alunos neurodivergentes.'],
                     ['icon' => 'fa-heart', 'color' => 'blue', 'title' => 'Foco na Inclusão', 'description' => 'Interface acolhedora e adaptável às necessidades específicas de cada usuário.'],
                     ['icon' => 'fa-shield-alt', 'color' => 'green', 'title' => 'Segurança Total', 'description' => 'Proteção e privacidade dos dados garantidas em conformidade com a LGPD.']
                 ] as $feature)
-                <div class="p-6 bg-{{ $feature['color'] }}-50 rounded-lg">
+                <div class="p-6 bg-{{ $feature['color'] }}-50 rounded-lg text-{{ $feature['color'] }}-500">
                     <i class="fas {{ $feature['icon'] }} text-3xl md:text-4xl text-{{ $feature['color'] }}-500 mb-4"></i>
                     <h3 class="text-lg md:text-xl font-semibold mb-2">{{ $feature['title'] }}</h3>
                     <p class="text-gray-600">{{ $feature['description'] }}</p>
@@ -75,7 +75,7 @@
                     <div class="relative">
                         <i class="fas {{ $feature['icon'] }} text-2xl md:text-3xl text-primary mb-4"></i>
                     </div>
-                    <h3 class="text-lg md:text-xl font-semibold mb-2">{{ $feature['title'] }}</h3>
+                    <h3 class="text-lg md:text-xl font-semibold mb-2 text-gray-500">{{ $feature['title'] }}</h3>
                     <p class="text-gray-600">{{ $feature['description'] }}</p>
                 </div>
                 @endforeach
@@ -101,7 +101,7 @@
                         <div class="w-12 h-12 md:w-16 md:h-16 bg-gradient-to-br from-purple-500 to-blue-500 rounded-full flex items-center justify-center mb-4">
                             <i class="fas {{ $step['icon'] }} text-xl md:text-2xl text-white"></i>
                         </div>
-                        <h3 class="text-lg md:text-xl font-semibold mb-2">{{ $step['title'] }}</h3>
+                        <h3 class="text-lg md:text-xl font-semibold mb-2 text-gray-500">{{ $step['title'] }}</h3>
                         <p class="text-gray-600">{{ $step['description'] }}</p>
                     </div>
                     @if(!$loop->last)
@@ -134,8 +134,8 @@
                 <div>
                     <h4 class="font-semibold mb-4">Legal</h4>
                     <ul class="space-y-2">
-                        <li><button wire:click="$dispatch('openModal', { component: 'privacidade' })" class="text-gray-400 hover:text-white transition-colors text-left">Política de Privacidade</button></li>
-                        <li><button wire:click="$dispatch('openModal', { component: 'termos-uso' })" class="text-gray-400 hover:text-white transition-colors text-left">Termos de Uso</button></li>
+                        <li><a href="/privacidade" class="text-gray-400 hover:text-white transition-colors">Política de Privacidade</a></li>
+                        <li><a href="/termos-uso" class="text-gray-400 hover:text-white transition-colors">Termos de Uso</a></li>
                     </ul>
                 </div>
                 <div>
@@ -156,174 +156,7 @@
         </div>
     </footer>
 
-    <!-- Cookie Consent -->
-    <div x-data="{
-        showBanner: false,
-        showSettings: false,
-        preferences: {
-            necessary: true,
-            analytics: false,
-            marketing: false,
-            preferences: false
-        },
-        init() {
-            const saved = localStorage.getItem('cookiePreferences');
-            if (saved) {
-                this.preferences = JSON.parse(saved);
-                // Não mostrar o banner automaticamente
-                this.showBanner = false;
-            }
-        },
-        acceptAll() {
-            this.preferences = {
-                necessary: true,
-                analytics: true,
-                marketing: true,
-                preferences: true
-            };
-            this.savePreferences();
-        },
-        openSettings() {
-            this.showSettings = true;
-            this.showBanner = false;
-        },
-        closeSettings() {
-            this.showSettings = false;
-            if (!this.hasConsent()) {
-                this.showBanner = false;
-            }
-        },
-        savePreferences() {
-            localStorage.setItem('cookiePreferences', JSON.stringify(this.preferences));
-            this.showSettings = false;
-            this.showBanner = false;
-        },
-        hasConsent() {
-            return Object.values(this.preferences).some(value => value === true);
-        }
-    }" x-init="init()">
-        <!-- Cookie Consent Banner -->
-        <div x-show="showBanner" x-cloak
-             class="fixed bottom-4 left-4 md:left-4 md:w-96 bg-white rounded-lg shadow-lg p-4 z-50">
-            <div class="flex items-start space-x-4">
-                <div class="flex-shrink-0">
-                    <i class="fas fa-cookie text-2xl text-purple-600"></i>
-                </div>
-                <div class="flex-1">
-                    <h3 class="font-semibold text-gray-900 mb-1">Cookies e Privacidade</h3>
-                    <p class="text-sm text-gray-600 mb-4">
-                        Utilizamos cookies para melhorar sua experiência. Ao continuar navegando, você concorda com nossa 
-                        <a href="#" class="text-purple-600 hover:text-purple-700">Política de Privacidade</a> e 
-                        <a href="#" class="text-purple-600 hover:text-purple-700">Termos de Uso</a>.
-                    </p>
-                    <div class="flex space-x-4">
-                        <button @click="acceptAll()" class="btn btn-sm btn-primary">
-                            Aceitar Todos
-                        </button>
-                        <button @click="openSettings()" class="btn btn-sm btn-outline">
-                            Configurar
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Cookie Settings Button -->
-        <div class="fixed bottom-4 left-4 z-50">
-            <button @click="showBanner = true" class="btn btn-circle btn-primary">
-                <i class="fas fa-cookie"></i>
-            </button>
-        </div>
-
-        <!-- Cookie Settings Modal -->
-        <div x-show="showSettings" 
-             x-cloak
-             class="fixed inset-0 bg-black bg-opacity-50 z-50">
-            <div class="min-h-screen flex items-center justify-center p-4">
-                <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full p-6">
-                    <div class="flex justify-between items-center mb-6">
-                        <h3 class="text-xl font-semibold text-gray-900">Configurações de Cookies</h3>
-                        <button @click="closeSettings()" class="text-gray-400 hover:text-gray-500">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                    
-                    <div class="space-y-6">
-                        <div class="flex items-start space-x-4">
-                            <div class="flex-shrink-0">
-                                <input type="checkbox" x-model="preferences.necessary" class="cookie-checkbox" disabled>
-                            </div>
-                            <div>
-                                <h4 class="font-medium text-gray-900">Cookies Necessários</h4>
-                                <p class="text-sm text-gray-600">Essenciais para o funcionamento do site. Não podem ser desativados.</p>
-                            </div>
-                        </div>
-
-                        <div class="flex items-start space-x-4">
-                            <div class="flex-shrink-0">
-                                <input type="checkbox" x-model="preferences.analytics" class="cookie-checkbox">
-                            </div>
-                            <div>
-                                <h4 class="font-medium text-gray-900">Cookies Analíticos</h4>
-                                <p class="text-sm text-gray-600">Nos ajudam a entender como você usa o site.</p>
-                            </div>
-                        </div>
-
-                        <div class="flex items-start space-x-4">
-                            <div class="flex-shrink-0">
-                                <input type="checkbox" x-model="preferences.marketing" class="cookie-checkbox">
-                            </div>
-                            <div>
-                                <h4 class="font-medium text-gray-900">Cookies de Marketing</h4>
-                                <p class="text-sm text-gray-600">Usados para personalizar anúncios e conteúdo.</p>
-                            </div>
-                        </div>
-
-                        <div class="flex items-start space-x-4">
-                            <div class="flex-shrink-0">
-                                <input type="checkbox" x-model="preferences.preferences" class="cookie-checkbox">
-                            </div>
-                            <div>
-                                <h4 class="font-medium text-gray-900">Cookies de Preferências</h4>
-                                <p class="text-sm text-gray-600">Lembram suas configurações e preferências.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="mt-6 flex justify-end space-x-4">
-                        <button @click="closeSettings()" class="btn btn-outline">
-                            Cancelar
-                        </button>
-                        <button @click="savePreferences()" class="btn btn-primary">
-                            Salvar Preferências
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Accessibility Menu -->
-    <div x-data="{ open: false }" class="fixed bottom-4 right-4 z-50">
-        <button @click="open = !open" class="btn btn-circle btn-primary">
-            <i class="fas fa-universal-access"></i>
-        </button>
-        
-        <div x-show="open" 
-        x-cloak
-             class="absolute bottom-16 right-0 bg-white rounded-lg shadow-lg p-4 w-64">
-            <h3 class="font-semibold mb-4">Acessibilidade</h3>
-            <div class="space-y-4">
-                <button class="btn btn-sm btn-block" onclick="increaseFontSize()">
-                    <i class="fas fa-text-height mr-2"></i> Aumentar Fonte
-                </button>
-                <button class="btn btn-sm btn-block" onclick="decreaseFontSize()">
-                    <i class="fas fa-text-height fa-flip-vertical mr-2"></i> Diminuir Fonte
-                </button>
-               
-            </div>
-        </div>
-    </div>
+   
 
     <style>
         @keyframes blob {

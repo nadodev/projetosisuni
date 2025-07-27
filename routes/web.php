@@ -91,7 +91,8 @@ Route::get('/calendar', function() {
     ]);
 })->name('calendar');
 Route::get('/contato', App\Livewire\Contato::class)->name('contato');
-
+Route::get('/privacidade', App\Livewire\Privacidade::class)->name('privacidade');
+Route::get('/termos-uso', App\Livewire\TermosUso::class)->name('termos-uso');
 // Rotas de convite para instituição
 Route::get('/institution/invite/{token}', [InstitutionInviteController::class, 'accept'])
     ->name('institution.invite.accept');

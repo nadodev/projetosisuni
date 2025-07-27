@@ -79,115 +79,52 @@
     </header>
 
     <!-- Main Content -->
-    <main class="pt-16">
+    <main class="pt-16 bg-gray-100">
         {{ $slot }}
     </main>
 
-    <!-- Accessibility Menu -->
-    <div x-data="{ open: false }" class="fixed bottom-4 right-4 z-50">
-        <button @click="open = true" class="btn btn-primary btn-circle">
-            <i class="fas fa-universal-access"></i>
-        </button>
-
-        <!-- Modal -->
-        <div x-show="open" x-cloak class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md" @click.away="open = false">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-xl font-semibold">Acessibilidade</h3>
-                    <button @click="open = false" class="text-gray-500 hover:text-gray-700">
-                        <i class="fas fa-times"></i>
-                    </button>
+    @if (Route::currentRouteName() == 'privacidade' || Route::currentRouteName() == 'termos-uso')
+    <footer class="bg-gray-900 text-white py-12 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">SisUni</h3>
+                    <p class="text-gray-400">Tecnologia com propósito</p>
                 </div>
-                <div class="space-y-4">
-                    <div>
-                        <h4 class="font-semibold mb-2">Tamanho da Fonte</h4>
-                        <div class="flex space-x-2">
-                            <button class="btn btn-sm flex-1" onclick="fontOriginal()">
-                                <i class="fas fa-text-height mr-2"></i> Original
-                            </button>
-                            <button class="btn btn-sm flex-1" onclick="increaseFontSize()">
-                                <i class="fas fa-search-plus mr-2"></i> Aumentar
-                            </button>
-                            <button class="btn btn-sm flex-1" onclick="decreaseFontSize()">
-                                <i class="fas fa-search-minus mr-2"></i> Diminuir
-                            </button>
-                        </div>
-                    </div>
-                    <div>
-                        <h4 class="font-semibold mb-2">Contraste</h4>
-                        <div class="flex items-center justify-between">
-                            <span>Alto Contraste</span>
-                            <input type="checkbox" class="toggle toggle-primary" onchange="toggleHighContrast()" />
-                        </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Links Rápidos</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Início</a></li>
+                        <li><a href="#sobre" class="text-gray-400 hover:text-white transition-colors">Sobre</a></li>
+                        <li><a href="#funcionalidades" class="text-gray-400 hover:text-white transition-colors">Funcionalidades</a></li>
+                        <li><a href="/contato" class="text-gray-400 hover:text-white transition-colors">Contato</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Legal</h4>
+                    <ul class="space-y-2">
+                        <li><a href="/privacidade" class="text-gray-400 hover:text-white transition-colors">Política de Privacidade</a></li>
+                        <li><a href="/termos-uso" class="text-gray-400 hover:text-white transition-colors">Termos de Uso</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Redes Sociais</h4>
+                    <div class="flex space-x-4">
+                        <a href="https://www.instagram.com/uniao_sistemas" target="_blank" class="text-gray-400 hover:text-white transition-colors transform hover:scale-110">
+                            <i class="fab fa-instagram text-2xl"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/uni%C3%A3o-sistemas/" target="_blank" class="text-gray-400 hover:text-white transition-colors transform hover:scale-110">
+                            <i class="fab fa-linkedin text-2xl"></i>
+                        </a>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-
-    <!-- Cookie Consent -->
-    <div x-data="cookieConsent" x-show="showBanner" x-cloak class="fixed bottom-0 inset-x-0 pb-2 sm:pb-5 z-50">
-        <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
-            <div class="p-4 bg-gray-800 rounded-lg shadow-lg sm:p-6">
-                <div class="flex items-center justify-between flex-wrap">
-                    <div class="w-0 flex-1 flex items-center">
-                        <p class="ml-3 font-medium text-white">
-                            <span class="md:hidden">Nós usamos cookies para te dar a melhor experiência.</span>
-                            <span class="hidden md:inline">Este site usa cookies para garantir que você tenha a melhor experiência de navegação.</span>
-                        </p>
-                    </div>
-                    <div class="order-3 mt-2 flex-shrink-0 w-full sm:order-2 sm:mt-0 sm:w-auto">
-                        <button @click="acceptAll" class="btn btn-primary btn-block">Aceitar todos</button>
-                    </div>
-                    <div class="order-2 flex-shrink-0 sm:order-3 sm:ml-2">
-                        <button @click="openSettings" class="btn btn-secondary btn-block">Preferências</button>
-                    </div>
-                </div>
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+                <p>&copy; {{ date('Y') }} SisUni. Todos os direitos reservados.</p>
             </div>
         </div>
-
-        <!-- Settings Modal -->
-        <div x-show="showSettings" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md" @click.away="closeSettings">
-                <h3 class="text-xl font-semibold mb-4">Preferências de Cookies</h3>
-                <div class="space-y-4">
-                    <div>
-                        <label class="flex items-center justify-between">
-                            <span>Necessários</span>
-                            <input type="checkbox" class="checkbox" name="necessary" checked disabled>
-                        </label>
-                        <p class="text-sm text-gray-500 mt-1">Esses cookies são essenciais para o funcionamento do site.</p>
-                    </div>
-                    <div>
-                        <label class="flex items-center justify-between">
-                            <span>Analytics</span>
-                            <input type="checkbox" class="checkbox cookie-checkbox" name="analytics">
-                        </label>
-                        <p class="text-sm text-gray-500 mt-1">Esses cookies nos ajudam a entender como os visitantes usam o site.</p>
-                    </div>
-                    <div>
-                        <label class="flex items-center justify-between">
-                            <span>Marketing</span>
-                            <input type="checkbox" class="checkbox cookie-checkbox" name="marketing">
-                        </label>
-                        <p class="text-sm text-gray-500 mt-1">Esses cookies são usados para exibir anúncios relevantes.</p>
-                    </div>
-                    <div>
-                        <label class="flex items-center justify-between">
-                            <span>Preferências</span>
-                            <input type="checkbox" class="checkbox cookie-checkbox" name="preferences">
-                        </label>
-                        <p class="text-sm text-gray-500 mt-1">Esses cookies armazenam suas preferências de personalização.</p>
-                    </div>
-                </div>
-                <div class="mt-6 flex justify-end space-x-4">
-                    <button @click="savePreferences" class="btn btn-primary">Salvar</button>
-                    <button @click="closeSettings" class="btn btn-ghost">Fechar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
+    </footer>
+    @endif
     @livewireScripts
     @livewire('wire-elements-modal')
    

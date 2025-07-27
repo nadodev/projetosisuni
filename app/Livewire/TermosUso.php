@@ -10,6 +10,6 @@ class TermosUso extends ModalComponent
 {
     public function render()
     {
-        return view('livewire.termos-uso');
+        return view('livewire.termos-uso')->layout('layouts.landing');;
     }
 } 

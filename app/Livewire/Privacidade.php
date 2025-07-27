@@ -10,6 +10,6 @@ class Privacidade extends ModalComponent
 {
     public function render()
     {
-        return view('livewire.privacidade');
+        return view('livewire.privacidade')->layout('layouts.landing');;
     }
 } 
