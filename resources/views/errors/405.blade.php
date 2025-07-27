@@ -11,7 +11,7 @@
         <div class="mb-6 animate-bounce-slow">
             <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <ellipse cx="50" cy="50" rx="48" ry="48" fill="#fef9c3"/>
-                <text x="50%" y="54%" text-anchor="middle" fill="#eab308" font-size="48" font-weight="bold" dy=".3em">405</text>
+                <text x="50%" y="54%" text-anchor="middle" fill="#eab308" font-size="48" font-weight="bold" dy=".3em">404</text>
             </svg>
         </div>
         <h1 class="text-4xl font-extrabold mb-2 text-yellow-600 drop-shadow">Página não Encontrada</h1>
