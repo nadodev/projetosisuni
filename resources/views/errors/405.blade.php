@@ -14,8 +14,8 @@
                 <text x="50%" y="54%" text-anchor="middle" fill="#eab308" font-size="48" font-weight="bold" dy=".3em">405</text>
             </svg>
         </div>
-        <h1 class="text-4xl font-extrabold mb-2 text-yellow-600 drop-shadow">Método não permitido</h1>
-        <p class="text-gray-600 mb-8 text-center text-lg">O método HTTP utilizado não é permitido para esta rota.<br>Por favor, utilize a navegação do site ou volte para a página inicial.</p>
+        <h1 class="text-4xl font-extrabold mb-2 text-yellow-600 drop-shadow">Página não Encontrada</h1>
+        <p class="text-gray-600 mb-8 text-center text-lg">A página que você está procurando não existe ou foi removida.<br>Por favor, volte para a página inicial.</p>
         <a href="/" class="btn btn-primary btn-lg shadow-lg transition-transform hover:scale-105"><i class="fas fa-home mr-2"></i> Voltar para o início</a>
     </div>
 </div>
