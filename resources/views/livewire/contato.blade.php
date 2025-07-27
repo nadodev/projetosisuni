@@ -36,14 +36,23 @@
                         <i class="fab fa-whatsapp text-2xl text-green-600"></i>
                         <div>
                             <h3 class="text-lg font-semibold text-green-700">WhatsApp</h3>
-                            <p class="text-gray-700">(11) 98888-8888</p>
+                            <p class="text-gray-700">
+                                <a href="https://wa.me/5511988888888" target="_blank" class="hover:underline text-green-700 font-medium flex items-center gap-2">
+                                    (11) 98888-8888 <i class="fas fa-arrow-up-right-from-square text-xs"></i>
+                                </a>
+                            </p>
                         </div>
                     </div>
                     <div class="bg-gray-50 p-6 rounded-lg flex items-center gap-4 shadow-sm">
                         <i class="fas fa-map-marker-alt text-2xl text-gray-600"></i>
                         <div>
                             <h3 class="text-lg font-semibold text-gray-700">Endereço</h3>
-                            <p class="text-gray-700">Rua Exemplo, 123 - São Paulo, SP</p>
+                            <p class="text-gray-700 flex items-center gap-2">
+                                Rua Exemplo, 123 - São Paulo, SP
+                                <button type="button" onclick="document.getElementById('map-modal').showModal()" class="btn btn-xs btn-outline ml-2">
+                                    <i class="fas fa-map-location-dot"></i> Ver mapa
+                                </button>
+                            </p>
                         </div>
                     </div>
                     <div class="flex space-x-4 mt-2">
@@ -109,4 +118,21 @@
             </div>
         </div>
     </section>
+
+    <!-- Modal do Mapa -->
+    <dialog id="map-modal" class="modal">
+      <div class="modal-box max-w-2xl">
+        <h3 class="font-bold text-lg mb-4 flex items-center gap-2"><i class="fas fa-map-marker-alt text-purple-600"></i> Localização</h3>
+        <div class="w-full aspect-video rounded-lg overflow-hidden mb-4">
+          <iframe
+            src="https://www.google.com/maps?q=-23.55052,-46.633308&z=15&output=embed"
+            width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+        <div class="modal-action">
+          <form method="dialog">
+            <button class="btn">Fechar</button>
+          </form>
+        </div>
+      </div>
+    </dialog>
 </div>
