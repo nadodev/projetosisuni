@@ -20,7 +20,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+     @if (app()->environment('production'))
+    <link rel="stylesheet" href="{{ asset('build/assets/app-El_R8l8g.css') }}">
+
+    @else
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @endif
     @livewireStyles
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>

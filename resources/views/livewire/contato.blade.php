@@ -48,7 +48,7 @@
                         <div>
                             <h3 class="text-lg font-semibold text-gray-700">Endereço</h3>
                             <p class="text-gray-700 flex items-center gap-2">
-                                Rua Exemplo, 123 - São Paulo, SP
+                                Rua Exemplo, 123 - Joaçaba, SC
                                 <button type="button" onclick="document.getElementById('map-modal').showModal()" class="btn btn-xs btn-outline ml-2">
                                     <i class="fas fa-map-location-dot"></i> Ver mapa
                                 </button>
