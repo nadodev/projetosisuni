@@ -30,7 +30,6 @@ class TurmaController extends Controller
 
     public function store(Request $request)
     {
-
         // dd($request->all()); // Debugging line, remove in production
         $validated = $request->validate([
             'nome' => 'required|string|max:255',
@@ -70,30 +69,35 @@ class TurmaController extends Controller
         }
     }
 
-    public function edit(Turma $turma)
+    public function edit($id)
     {
         $teachers = User::where('institution_id', auth()->user()->institution_id)
             ->where('role', 'user_teacher')
             ->get();
 
-        return view('admin.turmas.edit', compact('turma', 'teachers'));
+
+            $turma = Turma::findOrFail($id);
+
+        return view('admin.turmas.edit', compact('turma', 'teachers', 'id'));
     }
 
     public function update(Request $request, Turma $turma)
     {
-        $validated = $request->validate([
+       $validated = $request->validate([
             'nome' => 'required|string|max:255',
             'serie' => 'required|string|max:255',
             'turno' => 'required|in:manha,tarde,integral,noite',
-            'teacher_id' => 'required|exists:users,id',
+            'professor_id' => 'required|exists:users,id',
             'capacidade' => 'required|integer|min:1',
             'sala' => 'nullable|string|max:255',
             'descricao' => 'nullable|string',
             'ano_letivo' => 'required|integer|min:2024|max:2100',
+            'institution_id' => 'required|exists:instituicoes,id',
+        ])->merge([
+            'institution_id' => auth()->user()->institution_id, // Ensure institution_id is set to the current user's institution
         ]);
-
         try {
-            $turma->update($validated);
+            $turma->save($validated);
 
             return redirect()
                 ->route('admin.turmas.index')
@@ -109,9 +113,12 @@ class TurmaController extends Controller
 
     public function destroy(Turma $turma)
     {
+
+      
         try {
             User::where('id_turma', $turma->id)->update(['id_turma' => null]);
             $turma->delete();
+
             return redirect()
                 ->route('admin.turmas.index')
                 ->with('success', 'Turma excluída com sucesso!');

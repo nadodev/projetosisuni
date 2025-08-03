@@ -15,7 +15,7 @@ class Turma extends Model
         'nome',
         'serie',
         'turno',
-        'teacher_id',
+        'professor_id',
         'capacidade',
         'sala',
         'descricao',
