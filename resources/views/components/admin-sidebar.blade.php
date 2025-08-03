@@ -23,7 +23,6 @@
                 'turmas' => ['icon' => 'fa-chalkboard', 'label' => 'Turmas', 'routes' => ['admin.turmas.create', 'admin.turmas.index', 'admin.atribuir-turmas.index'], 'subItems' => [
                     ['route' => 'admin.turmas.create', 'label' => 'Criar Turma'],
                     ['route' => 'admin.turmas.index', 'label' => 'Listar Turmas'],
-                    ['route' => 'admin.atribuir-turmas.index', 'label' => 'Atribuir Turmas'],
                 ]],
                 'students' => ['icon' => 'fa-graduation-cap', 'label' => 'Alunos', 'routes' => ['admin.students.create', 'admin.students.index'], 'subItems' => [
                     ['route' => 'admin.students.create', 'label' => 'Cadastrar Aluno'],
@@ -31,12 +30,12 @@
                 ]],
                 'forms' => ['icon' => 'fa-wpforms', 'label' => 'Formulários', 'routes' => ['admin.fields.create', 'admin.fields.index', 'admin.forms.create', 'admin.forms.index'], 'subItems' => [
                     ['route' => 'admin.fields.create', 'label' => 'Criar Campo'],
-                    ['route' => 'admin.fields.index', 'label' => 'Gerenciar Campos'],
+                    ['route' => 'admin.fields.index', 'label' => 'Listar Campos'],
                     ['route' => 'admin.forms.create', 'label' => 'Criar Formulário'],
-                    ['route' => 'admin.forms.index', 'label' => 'Administrar Formulários'],
+                    ['route' => 'admin.forms.index', 'label' => 'Listar Formulários'],
                 ]],
                 'anamneses' => ['icon' => 'fa-file-medical', 'label' => 'Anamneses', 'routes' => ['admin.anamneses.index'], 'subItems' => [
-                    ['route' => 'admin.anamneses.index', 'label' => 'Gerenciar Anamneses'],
+                    ['route' => 'admin.anamneses.index', 'label' => 'Listar Anamneses'],
                 ]],
             ];
         @endphp
