@@ -81,8 +81,11 @@ class TurmaController extends Controller
         return view('admin.turmas.edit', compact('turma', 'teachers', 'id'));
     }
 
-    public function update(Request $request, Turma $turma)
+    public function update(Request $request, $id)
     {
+
+        $turma = Turma::findOrFail($id);
+        
        $validated = $request->validate([
             'nome' => 'required|string|max:255',
             'serie' => 'required|string|max:255',
