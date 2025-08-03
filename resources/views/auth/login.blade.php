@@ -54,7 +54,7 @@
                             <input id="email" 
                                    name="email" 
                                    type="email" 
-                                   class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-purple-600" 
+                                   class="text-gray-700 block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-purple-600" 
                                    :value="old('email')" 
                                    required 
                                    autofocus 
@@ -74,7 +74,7 @@
                             <input id="password" 
                                    name="password" 
                                    type="password" 
-                                   class="block w-full pl-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-purple-600" 
+                                   class="text-gray-700 block w-full pl-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 focus:border-purple-600" 
                                    required 
                                    autocomplete="current-password"
                                    placeholder="••••••••">
@@ -107,7 +107,7 @@
         <div class="hidden sm:flex md:flex lg:flex lg:w-1/2 bg-gradient-to-br from-purple-600 to-blue-600 p-12">
             <div class="w-full max-w-2xl mx-auto flex flex-col justify-center">
                 <div class="mb-12">
-                    <img src="{{ asset('/assets/img/logo.svg') }}" alt="SisUni Logo" class="h-16 w-auto mb-6">
+                    <img src="{{ asset('/images/logo.png') }}" alt="SisUni Logo" class="h-20 w-auto mb-6">
                     <h2 class="text-4xl font-bold text-white mb-4">SisUni</h2>
                     <p class="text-xl text-purple-100">Tecnologia com propósito</p>
                 </div>
@@ -146,10 +146,10 @@
 
                 <div class="mt-12 pt-8 border-t border-purple-500">
                     <div class="flex space-x-6">
-                        <a href="#" class="text-purple-200 hover:text-white transition-colors">
+                        <a href="https://www.instagram.com/uniao_sistemas" target="_blank" class="text-purple-200 hover:text-white transition-colors">
                             <i class="fab fa-instagram text-2xl"></i>
                         </a>
-                        <a href="#" class="text-purple-200 hover:text-white transition-colors">
+                        <a href="https://www.linkedin.com/in/uni%C3%A3o-sistemas/"  target="_blank" class="text-purple-200 hover:text-white transition-colors">
                             <i class="fab fa-linkedin text-2xl"></i>
                         </a>
                     </div>

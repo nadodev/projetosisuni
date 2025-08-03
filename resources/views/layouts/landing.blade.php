@@ -47,7 +47,7 @@
                   @auth
                     <a href="{{ route('dashboard') }}" class="text-gray-600 hover:text-purple-600 transition-colors">Dashboard</a>
                 @else
-                    <a href="{{ route('login') }}" class="text-gray-600 hover:text-purple-600 transition-colors">Entrar</a>
+                    <a href="{{ route('login') }}" class="bg-purple-600 text-gray-100 px-4  py-1 rounded-full hover:bg-purple-800 transition-colors font-light">Entrar</a>
                 @endauth
 
                 </nav>
@@ -71,7 +71,7 @@
                     <a href="#planos" class="block px-3 py-2 text-gray-600 hover:text-purple-600">Planos</a>
                     <a href="#depoimentos" class="block px-3 py-2 text-gray-600 hover:text-purple-600">Depoimentos</a>
                     <a href="/contato" class="block px-3 py-2 text-gray-600 hover:text-purple-600">Contato</a>
-                    <a href="{{ route('login') }}" class="block px-3 py-2 text-gray-600 hover:text-purple-600">Entrar</a>
+                    <a href="{{ route('login') }}" class="bg-purple-600 block px-3 py-2 text-gray-100 hover:text-purple-600">Entrar</a>
                    
                 </div>
             </div>
