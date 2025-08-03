@@ -45,7 +45,7 @@
                     <a href="#funcionalidades" class="text-gray-600 hover:text-purple-600 transition-colors">Funcionalidades</a>
                     <a href="/contato" class="text-gray-600 hover:text-purple-600 transition-colors">Contato</a>
                   @auth
-                    <a href="{{ route('dashboard') }}" class="bg-purple-600 text-gray-100 hover:bg-purple-800 transition-colors">Dashboard</a>
+                    <a href="{{ route('dashboard') }}" class="bg-purple-600 text-gray-100 hover:bg-purple-800 transition-colors px-4  py-1 rounded-full">Dashboard</a>
                 @else
                     <a href="{{ route('login') }}" class="bg-purple-600 text-gray-100 px-4  py-1 rounded-full hover:bg-purple-800 transition-colors font-light">Entrar</a>
                 @endauth
