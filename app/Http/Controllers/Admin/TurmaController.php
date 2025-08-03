@@ -36,7 +36,7 @@ class TurmaController extends Controller
             'nome' => 'required|string|max:255',
             'serie' => 'required|string|max:255',
             'turno' => 'required|in:manha,tarde,integral,noite',
-            'teacher_id' => 'required|exists:users,id',
+            'professor_id' => 'required|exists:users,id',
             'capacidade' => 'required|integer|min:1',
             'sala' => 'nullable|string|max:255',
             'descricao' => 'nullable|string',
