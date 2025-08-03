@@ -21,19 +21,19 @@
                 <h2 class="text-lg font-semibold text-gray-800 mb-4">Informações Básicas</h2>
 
                 <div>
-                    <label class="label text-gray-500" for="nome">Nome da Turma</label>
+                    <label class="label text-gray-500 text-gray-500" for="nome">Nome da Turma</label>
                     <input type="text" name="nome" id="nome" class="bg-gray-100 border-gray-200 w-full rounded" required value="{{ old('nome') }}" placeholder="Ex: 1º Ano A">
                     @error('nome') <span class="text-error text-sm">{{ $message }}</span> @enderror
                 </div>
 
                 <div>
-                    <label class="label" for="serie">Série/Ano</label>
+                    <label class="label text-gray-500" for="serie">Série/Ano</label>
                     <input type="text" name="serie" id="serie" class="bg-gray-100 border-gray-200 w-full rounded" required value="{{ old('serie') }}" placeholder="Ex: 1º Ano">
                     @error('serie') <span class="text-error text-sm">{{ $message }}</span> @enderror
                 </div>
 
                 <div>
-                    <label class="label" for="turno">Turno</label>
+                    <label class="label text-gray-500" for="turno">Turno</label>
                     <select name="turno" id="turno" class="bg-gray-100 border-gray-200 w-full rounded text-gray-500" required>
                         <option value="">Selecione...</option>
                         <option value="manha" {{ old('turno') == 'manha' ? 'selected' : '' }}>Manhã</option>
@@ -45,7 +45,7 @@
                 </div>
 
                 <div>
-                    <label class="label" for="professor_id">Professor Responsável</label>
+                    <label class="label text-gray-500" for="professor_id">Professor Responsável</label>
                     <select name="professor_id" id="professor_id" class="bg-gray-100 border-gray-200 w-full rounded text-gray-500" required>
                         <option value="">Selecione...</option>
                         @foreach($teachers as $teacher)
@@ -63,25 +63,25 @@
                 <h2 class="text-lg font-semibold text-gray-800 mb-4">Detalhes Adicionais</h2>
 
                 <div>
-                    <label class="label" for="capacidade">Capacidade de Alunos</label>
+                    <label class="label text-gray-500" for="capacidade">Capacidade de Alunos</label>
                     <input type="number" name="capacidade" id="capacidade" class="bg-gray-100 border-gray-200 w-full rounded text-gray-500" required value="{{ old('capacidade') }}" min="1" placeholder="Ex: 30">
                     @error('capacidade') <span class="text-error text-sm">{{ $message }}</span> @enderror
                 </div>
 
                 <div>
-                    <label class="label" for="sala">Sala</label>
+                    <label class="label text-gray-500" for="sala">Sala</label>
                     <input type="text" name="sala" id="sala" class="bg-gray-100 border-gray-200 w-full rounded text-gray-500" value="{{ old('sala') }}" placeholder="Ex: Sala 101">
                     @error('sala') <span class="text-error text-sm">{{ $message }}</span> @enderror
                 </div>
 
                 <div>
-                    <label class="label" for="ano_letivo">Ano Letivo</label>
+                    <label class="label text-gray-500" for="ano_letivo">Ano Letivo</label>
                     <input type="number" name="ano_letivo" id="ano_letivo" class="bg-gray-100 border-gray-200 w-full rounded text-gray-500" required value="{{ old('ano_letivo', date('Y')) }}" min="2024" max="2100">
                     @error('ano_letivo') <span class="text-error text-sm">{{ $message }}</span> @enderror
                 </div>
 
                 <div>
-                    <label class="label" for="descricao">Descrição</label>
+                    <label class="label text-gray-500" for="descricao">Descrição</label>
                     <textarea name="descricao" id="descricao" class="bg-gray-100 border-gray-200 w-full rounded text-gray-500" rows="3" placeholder="Informações adicionais sobre a turma...">{{ old('descricao') }}</textarea>
                     @error('descricao') <span class="text-error text-sm">{{ $message }}</span> @enderror
                 </div>
