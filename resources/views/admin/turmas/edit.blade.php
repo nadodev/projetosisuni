@@ -20,7 +20,7 @@
             <!-- Informações Básicas -->
             <div class="space-y-4">
                 <h2 class="text-lg font-semibold text-gray-800 mb-4">Informações Básicas</h2>
-
+                
                 <div>
                     <label class="label" for="nome">Nome da Turma</label>
                     <input type="text" name="nome" id="nome" class="input input-bordered w-full" required value="{{ old('nome', $turma->nome) }}" placeholder="Ex: 1º Ano A">

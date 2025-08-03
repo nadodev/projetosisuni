@@ -83,7 +83,7 @@ class TurmaController extends Controller
 
     public function update(Request $request, Turma $turma)
     {
-        dd($request->all()); // Debugging line, remove in production
+       // dd($request->all()); // Debugging line, remove in production
        $validated = $request->validate([
             'nome' => 'required|string|max:255',
             'serie' => 'required|string|max:255',
@@ -91,13 +91,19 @@ class TurmaController extends Controller
             'professor_id' => 'required|exists:users,id',
             'capacidade' => 'required|integer|min:1',
             'sala' => 'nullable|string|max:255',
-            'descricao' => 'nullable|string',
             'ano_letivo' => 'required|integer|min:2024|max:2100',
-            'institution_id' => 'required|exists:instituicoes,id',
-        ])->merge([
-            'institution_id' => auth()->user()->institution_id, // Ensure institution_id is set to the current user's institution
-        ]);
-
+            'descricao' => 'nullable|string',
+       ]);
+//  "_token" => "ciZ8VXDohSD2xo9zOHccdLIiYKBY77qtO6RnQPlA"
+//   "_method" => "PUT"
+//   "nome" => "101dsadasdas"
+//   "serie" => "2025"
+//   "turno" => "manha"
+//   "professor_id" => "5"
+//   "capacidade" => "30"
+//   "sala" => "101"
+//   "ano_letivo" => "2025"
+//   "descricao" => "dsadsa"
         
         try {
             $turma->save($validated);
