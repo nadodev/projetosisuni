@@ -12,12 +12,6 @@
         </a>
     </div>
 
-    @if(session('error'))
-        <div class="alert alert-error mb-4">
-            {{ session('error') }}
-        </div>
-    @endif
-
     <form action="{{ route('admin.turmas.store') }}" method="POST" class="bg-white rounded-lg shadow-sm p-6">
         @csrf
 
