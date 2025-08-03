@@ -83,7 +83,6 @@ class TurmaController extends Controller
 
     public function update(Request $request, Turma $turma)
     {
-        dd($request->all()); // Debugging line, remove in production
        $validated = $request->validate([
             'nome' => 'required|string|max:255',
             'serie' => 'required|string|max:255',
@@ -94,19 +93,11 @@ class TurmaController extends Controller
             'ano_letivo' => 'required|integer|min:2024|max:2100',
             'descricao' => 'nullable|string',
        ]);
-//  "_token" => "ciZ8VXDohSD2xo9zOHccdLIiYKBY77qtO6RnQPlA"
-//   "_method" => "PUT"
-//   "nome" => "101dsadasdas"
-//   "serie" => "2025"
-//   "turno" => "manha"
-//   "professor_id" => "5"
-//   "capacidade" => "30"
-//   "sala" => "101"
-//   "ano_letivo" => "2025"
-//   "descricao" => "dsadsa"
+
         
         try {
-            $turma->save($validated);
+            $turma->fill($validated);
+            $turma->save();
 
             return redirect()
                 ->route('admin.turmas.index')
