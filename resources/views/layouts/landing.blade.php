@@ -19,7 +19,7 @@
 
 
     @if (app()->environment('production'))
-    <link rel="stylesheet" href="{{ asset('build/assets/app-CyEKRNSM.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/assets/app-El_R8l8g.css') }}">
 
     @else
         @vite(['resources/css/app.css', 'resources/js/app.js'])
