@@ -32,6 +32,8 @@ class TurmaController extends Controller
 
     public function store(Request $request)
     {
+
+        dd($request->all()); // Debugging line, remove in production
         $validated = $request->validate([
             'nome' => 'required|string|max:255',
             'serie' => 'required|string|max:255',
@@ -42,6 +44,16 @@ class TurmaController extends Controller
             'descricao' => 'nullable|string',
             'ano_letivo' => 'required|integer|min:2024|max:2100',
         ]);
+
+//           "_token" => "YdRnGxRnZ2ZJqK94FPiSDYM1nSirLFFMl0fP7yUM"
+//   "nome" => "1 ano"
+//   "serie" => "2025"
+//   "turno" => "manha"
+//   "teacher_id" => "6"
+//   "capacidade" => "30"
+//   "sala" => "101"
+//   "ano_letivo" => "2025"
+//   "descricao" => "dsadsa"
 
         try {
             $validated['institution_id'] = auth()->user()->institution_id;

@@ -51,16 +51,16 @@
                 </div>
 
                 <div>
-                    <label class="label" for="teacher_id">Professor Responsável</label>
-                    <select name="teacher_id" id="teacher_id" class="select select-bordered w-full" required>
+                    <label class="label" for="professor_id">Professor Responsável</label>
+                    <select name="professor_id" id="professor_id" class="select select-bordered w-full" required>
                         <option value="">Selecione...</option>
                         @foreach($teachers as $teacher)
-                            <option value="{{ $teacher->id }}" {{ old('teacher_id') == $teacher->id ? 'selected' : '' }}>
+                            <option value="{{ $teacher->id }}" {{ old('professor_id') == $teacher->id ? 'selected' : '' }}>
                                 {{ $teacher->name }}
                             </option>
                         @endforeach
                     </select>
-                    @error('teacher_id') <span class="text-error text-sm">{{ $message }}</span> @enderror
+                    @error('professor_id') <span class="text-error text-sm">{{ $message }}</span> @enderror
                 </div>
             </div>
 
