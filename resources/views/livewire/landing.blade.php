@@ -20,7 +20,7 @@
                     </div>
                 </div>
                 <div>
-                    <img src="{{ asset('images/8097618d-f1cd-4e97-9ea3-95322349c91a.png') }}" 
+                    <img src="{{ asset('images/hero.png') }}" 
                          alt="Estudantes diversos estudando juntos" 
                          class="w-full rounded-full shadow-sm">
                 </div>
