@@ -33,7 +33,7 @@ class TurmaController extends Controller
     public function store(Request $request)
     {
 
-        dd($request->all()); // Debugging line, remove in production
+        // dd($request->all()); // Debugging line, remove in production
         $validated = $request->validate([
             'nome' => 'required|string|max:255',
             'serie' => 'required|string|max:255',
