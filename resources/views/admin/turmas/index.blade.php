@@ -11,19 +11,6 @@
             <i class="fas fa-plus mr-2"></i> Nova Turma
         </a>
     </div>
-
-    @if(session('success'))
-        <div class="alert alert-success mb-4">
-            {{ session('success') }}
-        </div>
-    @endif
-
-    @if(session('error'))
-        <div class="alert alert-error mb-4">
-            {{ session('error') }}
-        </div>
-    @endif
-
     <div class="bg-white rounded-lg shadow-sm overflow-hidden">
         <div class="min-w-full align-middle">
             <table class="min-w-full divide-y divide-gray-200">
