@@ -14,9 +14,7 @@ class TurmaController extends Controller
 {
     public function index()
     {
-        $turmas = Turma::with(['teacher'])
-            ->where('institution_id', auth()->user()->institution_id)
-            ->paginate(10);
+        $turmas = Turma::paginate(10);
 
         return view('admin.turmas.index', compact('turmas'));
     }
@@ -112,8 +110,8 @@ class TurmaController extends Controller
     public function destroy(Turma $turma)
     {
         try {
+            User::where('id_turma', $turma->id)->update(['id_turma' => null]);
             $turma->delete();
-
             return redirect()
                 ->route('admin.turmas.index')
                 ->with('success', 'Turma excluída com sucesso!');
