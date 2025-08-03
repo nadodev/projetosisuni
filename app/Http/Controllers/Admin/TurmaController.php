@@ -83,6 +83,7 @@ class TurmaController extends Controller
 
     public function update(Request $request, Turma $turma)
     {
+        dd($turma); // Debugging line, remove in production
        $validated = $request->validate([
             'nome' => 'required|string|max:255',
             'serie' => 'required|string|max:255',
@@ -96,6 +97,8 @@ class TurmaController extends Controller
         ])->merge([
             'institution_id' => auth()->user()->institution_id, // Ensure institution_id is set to the current user's institution
         ]);
+
+        
         try {
             $turma->save($validated);
 
