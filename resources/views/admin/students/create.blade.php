@@ -8,21 +8,6 @@
             <i class="fas fa-arrow-left mr-2"></i> Voltar
         </a>
     </div>
-
-    @if(session('error'))
-        <div class="alert alert-error">
-            <i class="fas fa-exclamation-circle mr-2"></i>
-            {{ session('error') }}
-        </div>
-    @endif
-
-    @if(session('success'))
-        <div class="alert alert-success">
-            <i class="fas fa-check-circle mr-2"></i>
-            {{ session('success') }}
-        </div>
-    @endif
-
     @if($errors->any())
         <div class="alert alert-error">
             <i class="fas fa-exclamation-circle mr-2"></i>
@@ -43,9 +28,9 @@
             <h2 class="text-lg font-semibold text-gray-800 mb-4">🧑‍🎓 Identificação do Aluno</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                    <label class="label" for="full_name">Nome completo</label>
+                    <label class="label text-gray-500" for="full_name">Nome completo</label>
                     <input type="text" name="full_name" id="full_name" 
-                           class="input input-bordered w-full {{ $errors->has('full_name') ? 'input-error' : '' }}" 
+                           class="bg-gray-100 border-gray-200 w-full rounded text-gray-500 {{ $errors->has('full_name') ? 'input-error' : '' }}" 
                            required value="{{ old('full_name') }}">
                     @error('full_name') 
                         <span class="text-error text-sm mt-1 block">
@@ -55,9 +40,9 @@
                 </div>
 
                 <div>
-                    <label class="label" for="social_name">Nome social (se houver)</label>
+                    <label class="label text-gray-500" for="social_name">Nome social (se houver)</label>
                     <input type="text" name="social_name" id="social_name" 
-                           class="input input-bordered w-full {{ $errors->has('social_name') ? 'input-error' : '' }}" 
+                           class="bg-gray-100 border-gray-200 w-full rounded text-gray-500 {{ $errors->has('social_name') ? 'input-error' : '' }}" 
                            value="{{ old('social_name') }}">
                     @error('social_name') 
                         <span class="text-error text-sm mt-1 block">
@@ -67,9 +52,9 @@
                 </div>
 
                 <div>
-                    <label class="label" for="gender">Gênero</label>
+                    <label class="label text-gray-500" for="gender">Gênero</label>
                     <select name="gender" id="gender" 
-                            class="select select-bordered w-full {{ $errors->has('gender') ? 'select-error' : '' }}">
+                            class="bg-gray-100 border-gray-200 w-full rounded text-gray-500 {{ $errors->has('gender') ? 'select-error' : '' }}">
                         <option value="">Selecione...</option>
                         <option value="masculino" {{ old('gender') == 'masculino' ? 'selected' : '' }}>Masculino</option>
                         <option value="feminino" {{ old('gender') == 'feminino' ? 'selected' : '' }}>Feminino</option>
@@ -84,9 +69,9 @@
                 </div>
 
                 <div>
-                    <label class="label" for="birth_date">Data de nascimento</label>
+                    <label class="label text-gray-500" for="birth_date">Data de nascimento</label>
                     <input type="date" name="birth_date" id="birth_date" 
-                           class="input input-bordered w-full {{ $errors->has('birth_date') ? 'input-error' : '' }}" 
+                           class="bg-gray-100 border-gray-200 w-full rounded text-gray-500 {{ $errors->has('birth_date') ? 'input-error' : '' }}" 
                            required value="{{ old('birth_date') }}">
                     @error('birth_date') 
                         <span class="text-error text-sm mt-1 block">
@@ -96,9 +81,9 @@
                 </div>
 
                 <div>
-                    <label class="label" for="cpf">CPF</label>
+                    <label class="label text-gray-500" for="cpf">CPF</label>
                     <input type="text" name="cpf" id="cpf" 
-                           class="input input-bordered w-full {{ $errors->has('cpf') ? 'input-error' : '' }}" 
+                           class="bg-gray-100 border-gray-200 w-full rounded text-gray-500 {{ $errors->has('cpf') ? 'input-error' : '' }}" 
                            required value="{{ old('cpf') }}">
                     @error('cpf') 
                         <span class="text-error text-sm mt-1 block">
@@ -108,9 +93,9 @@
                 </div>
 
                 <div>
-                    <label class="label" for="school_code">Código interno da escola</label>
+                    <label class="label text-gray-500" for="school_code">Código interno da escola</label>
                     <input type="text" name="school_code" id="school_code" 
-                           class="input input-bordered w-full {{ $errors->has('school_code') ? 'input-error' : '' }}" 
+                           class="bg-gray-100 border-gray-200 w-full rounded text-gray-500 {{ $errors->has('school_code') ? 'input-error' : '' }}" 
                            value="{{ old('school_code') }}">
                     @error('school_code') 
                         <span class="text-error text-sm mt-1 block">
@@ -120,9 +105,9 @@
                 </div>
 
                 <div>
-                    <label class="label" for="registration_number">Registro escolar (RA/matrícula)</label>
+                    <label class="label text-gray-500" for="registration_number">Registro escolar (RA/matrícula)</label>
                     <input type="text" name="registration_number" id="registration_number" 
-                           class="input input-bordered w-full {{ $errors->has('registration_number') ? 'input-error' : '' }}" 
+                           class="bg-gray-100 border-gray-200 w-full rounded text-gray-500 {{ $errors->has('registration_number') ? 'input-error' : '' }}" 
                            required value="{{ old('registration_number') }}">
                     @error('registration_number') 
                         <span class="text-error text-sm mt-1 block">
@@ -138,9 +123,9 @@
             <h2 class="text-lg font-semibold text-gray-800 mb-4">🏫 Dados Escolares</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                    <label class="label" for="grade_year">Série/Ano</label>
+                    <label class="label text-gray-500" for="grade_year">Série/Ano</label>
                     <input type="text" name="grade_year" id="grade_year" 
-                           class="input input-bordered w-full {{ $errors->has('grade_year') ? 'input-error' : '' }}" 
+                           class="bg-gray-100 border-gray-200 w-full rounded text-gray-500 {{ $errors->has('grade_year') ? 'input-error' : '' }}" 
                            required value="{{ old('grade_year') }}">
                     @error('grade_year') 
                         <span class="text-error text-sm mt-1 block">
@@ -150,9 +135,9 @@
                 </div>
 
                 <div>
-                    <label class="label" for="class_id">Turma</label>
+                    <label class="label text-gray-500" for="class_id">Turma</label>
                     <select name="class_id" id="class_id" 
-                            class="select select-bordered w-full {{ $errors->has('class_id') ? 'select-error' : '' }}" 
+                            class="bg-gray-100 border-gray-200 w-full rounded text-gray-500 {{ $errors->has('class_id') ? 'select-error' : '' }}" 
                             required>
                         <option value="">Selecione uma turma...</option>
                         @foreach($classes as $class)
@@ -173,9 +158,9 @@
                 </div>
 
                 <div>
-                    <label class="label" for="shift">Turno</label>
+                    <label class="label text-gray-500" for="shift">Turno</label>
                     <select name="shift" id="shift" 
-                            class="select select-bordered w-full {{ $errors->has('shift') ? 'select-error' : '' }}" 
+                            class="bg-gray-100 border-gray-200 w-full rounded text-gray-500 {{ $errors->has('shift') ? 'select-error' : '' }}" 
                             required>
                         <option value="">Selecione...</option>
                         <option value="manha" {{ old('shift') == 'manha' ? 'selected' : '' }}>Manhã</option>
@@ -191,9 +176,9 @@
                 </div>
 
                 <div>
-                    <label class="label" for="unit">Unidade (se for rede)</label>
+                    <label class="label text-gray-500" for="unit">Unidade (se for rede)</label>
                     <input type="text" name="unit" id="unit" 
-                           class="input input-bordered w-full {{ $errors->has('unit') ? 'input-error' : '' }}" 
+                           class="bg-gray-100 border-gray-200 w-full rounded text-gray-500 {{ $errors->has('unit') ? 'input-error' : '' }}" 
                            value="{{ old('unit') }}">
                     @error('unit') 
                         <span class="text-error text-sm mt-1 block">
@@ -203,9 +188,9 @@
                 </div>
 
                 <div>
-                    <label class="label" for="teacher_id">Professor responsável</label>
+                    <label class="label text-gray-500" for="teacher_id">Professor responsável</label>
                     <select name="teacher_id" id="teacher_id" 
-                            class="select select-bordered w-full {{ $errors->has('teacher_id') ? 'select-error' : '' }}" 
+                            class="bg-gray-100 border-gray-200 w-full rounded text-gray-500 {{ $errors->has('teacher_id') ? 'select-error' : '' }}" 
                             required>
                         <option value="">Selecione um professor...</option>
                         @foreach($teachers as $teacher)
@@ -228,18 +213,18 @@
             <h2 class="text-lg font-semibold text-gray-800 mb-4">🧠 Perfil Neurodivergente</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="col-span-2">
-                    <label class="label">Tipo(s) de neurodivergência <span class="text-red-500">*</span></label>
+                    <label class="label text-gray-500">Tipo(s) de neurodivergência <span class="text-red-500">*</span></label>
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                         @php
                             $types = ['TEA', 'TDAH', 'Dislexia', 'Não informado'];
                             $oldTypes = old('neurodivergence_types', ['Não informado']);
                         @endphp
                         @foreach($types as $type)
-                            <label class="flex items-center gap-2">
+                            <label class="flex items-center gap-2 text-gray-500">
                                 <input type="checkbox" 
                                        name="neurodivergence_types[]" 
                                        value="{{ $type }}"
-                                       class="checkbox"
+                                       class=" border-gray-500"
                                        {{ in_array($type, $oldTypes) ? 'checked' : '' }}>
                                 <span>{{ $type }}</span>
                             </label>
@@ -253,15 +238,15 @@
                 </div>
 
                 <div>
-                    <label class="label">Diagnóstico oficial?</label>
+                    <label class="label text-gray-500">Diagnóstico oficial?</label>
                     <div class="flex gap-4">
                         <label class="flex items-center gap-2">
-                            <input type="radio" name="has_official_diagnosis" value="1" class="radio" {{ old('has_official_diagnosis') == '1' ? 'checked' : '' }}>
-                            <span>Sim</span>
+                            <input type="radio" name="has_official_diagnosis" value="1" class="" {{ old('has_official_diagnosis') == '1' ? 'checked' : '' }}>
+                            <span class="text-gray-500">Sim</span>
                         </label>
-                        <label class="flex items-center gap-2">
-                            <input type="radio" name="has_official_diagnosis" value="0" class="radio" {{ old('has_official_diagnosis') == '0' ? 'checked' : (old('has_official_diagnosis') === null ? 'checked' : '') }}>
-                            <span>Não</span>
+                        <label class="flex items-center gap-2 text-gray-500">
+                            <input type="radio" name="has_official_diagnosis" value="0" class="" {{ old('has_official_diagnosis') == '0' ? 'checked' : (old('has_official_diagnosis') === null ? 'checked' : '') }}>
+                            <span class="text-gray-500">Não</span>
                         </label>
                     </div>
                     @error('has_official_diagnosis') 
@@ -272,9 +257,9 @@
                 </div>
 
                 <div class="col-span-2">
-                    <label class="label" for="pedagogical_observations">Observações pedagógicas iniciais</label>
+                    <label class="label text-gray-500" for="pedagogical_observations">Observações pedagógicas iniciais</label>
                     <textarea name="pedagogical_observations" id="pedagogical_observations" rows="3" 
-                              class="textarea textarea-bordered w-full {{ $errors->has('pedagogical_observations') ? 'textarea-error' : '' }}">{{ old('pedagogical_observations') }}</textarea>
+                              class="bg-gray-100 border-gray-200 w-full rounded text-gray-500 {{ $errors->has('pedagogical_observations') ? 'textarea-error' : '' }}">{{ old('pedagogical_observations') }}</textarea>
                     @error('pedagogical_observations') 
                         <span class="text-error text-sm mt-1 block">
                             <i class="fas fa-exclamation-circle mr-1"></i>{{ $message }}
@@ -283,7 +268,7 @@
                 </div>
 
                 <div class="col-span-2">
-                    <label class="label">Necessidades específicas</label>
+                    <label class="label text-gray-500">Necessidades específicas</label>
                     <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
                         @php
                             $needs = ['Leitura em voz alta', 'Fonte ampliada', 'Tempo extra'];
@@ -294,9 +279,9 @@
                                 <input type="checkbox" 
                                        name="specific_needs[]" 
                                        value="{{ $need }}"
-                                       class="checkbox"
+                                       class=""
                                        {{ in_array($need, $oldNeeds) ? 'checked' : '' }}>
-                                <span>{{ $need }}</span>
+                                <span class="text-gray-500">{{ $need }}</span>
                             </label>
                         @endforeach
                     </div>
@@ -308,9 +293,9 @@
                 </div>
 
                 <div>
-                    <label class="label" for="learning_style">Estilo de aprendizagem preferido</label>
+                    <label class="label text-gray-500" for="learning_style">Estilo de aprendizagem preferido</label>
                     <select name="learning_style" id="learning_style" 
-                            class="select select-bordered w-full {{ $errors->has('learning_style') ? 'select-error' : '' }}">
+                            class="bg-gray-100 border-gray-200 w-full rounded text-gray-500 {{ $errors->has('learning_style') ? 'select-error' : '' }}">
                         <option value="">Selecione...</option>
                         <option value="visual" {{ old('learning_style') == 'visual' ? 'selected' : '' }}>Visual</option>
                         <option value="auditivo" {{ old('learning_style') == 'auditivo' ? 'selected' : '' }}>Auditivo</option>
@@ -325,9 +310,9 @@
                 </div>
 
                 <div>
-                    <label class="label" for="sensitivities">Sensibilidades</label>
+                    <label class="label text-gray-500" for="sensitivities">Sensibilidades</label>
                     <input type="text" name="sensitivities" id="sensitivities" 
-                           class="input input-bordered w-full {{ $errors->has('sensitivities') ? 'input-error' : '' }}" 
+                           class="bg-gray-100 border-gray-200 w-full rounded text-gray-500 {{ $errors->has('sensitivities') ? 'input-error' : '' }}" 
                            value="{{ old('sensitivities') }}">
                     @error('sensitivities') 
                         <span class="text-error text-sm mt-1 block">
@@ -343,9 +328,9 @@
             <h2 class="text-lg font-semibold text-gray-800 mb-4">👨‍👩‍👧‍👦 Responsável Principal</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                    <label class="label" for="guardian_name">Nome do responsável</label>
+                    <label class="label text-gray-500" for="guardian_name">Nome do responsável</label>
                     <input type="text" name="guardian_name" id="guardian_name" 
-                           class="input input-bordered w-full {{ $errors->has('guardian_name') ? 'input-error' : '' }}" 
+                           class="bg-gray-100 border-gray-200 w-full rounded text-gray-500 {{ $errors->has('guardian_name') ? 'input-error' : '' }}" 
                            required value="{{ old('guardian_name') }}">
                     @error('guardian_name') 
                         <span class="text-error text-sm mt-1 block">
@@ -355,9 +340,9 @@
                 </div>
 
                 <div>
-                    <label class="label" for="guardian_kinship">Grau de parentesco</label>
+                    <label class="label text-gray-500" for="guardian_kinship">Grau de parentesco</label>
                     <select name="guardian_kinship" id="guardian_kinship" 
-                            class="select select-bordered w-full {{ $errors->has('guardian_kinship') ? 'select-error' : '' }}" 
+                            class="bg-gray-100 border-gray-200 w-full rounded text-gray-500 {{ $errors->has('guardian_kinship') ? 'select-error' : '' }}" 
                             required>
                         <option value="">Selecione...</option>
                         <option value="pai" {{ old('guardian_kinship') == 'pai' ? 'selected' : '' }}>Pai</option>
@@ -373,9 +358,9 @@
                 </div>
 
                 <div>
-                    <label class="label" for="guardian_cpf">CPF do responsável</label>
+                    <label class="label text-gray-500" for="guardian_cpf">CPF do responsável</label>
                     <input type="text" name="guardian_cpf" id="guardian_cpf" 
-                           class="input input-bordered w-full {{ $errors->has('guardian_cpf') ? 'input-error' : '' }}" 
+                           class="bg-gray-100 border-gray-200 w-full rounded text-gray-500 {{ $errors->has('guardian_cpf') ? 'input-error' : '' }}" 
                            required value="{{ old('guardian_cpf') }}">
                     @error('guardian_cpf') 
                         <span class="text-error text-sm mt-1 block">
@@ -385,9 +370,9 @@
                 </div>
 
                 <div>
-                    <label class="label" for="guardian_email">E-mail</label>
+                    <label class="label text-gray-500" for="guardian_email">E-mail</label>
                     <input type="email" name="guardian_email" id="guardian_email" 
-                           class="input input-bordered w-full {{ $errors->has('guardian_email') ? 'input-error' : '' }}" 
+                           class="bg-gray-100 border-gray-200 w-full rounded text-gray-500 {{ $errors->has('guardian_email') ? 'input-error' : '' }}" 
                            required value="{{ old('guardian_email') }}">
                     @error('guardian_email') 
                         <span class="text-error text-sm mt-1 block">
@@ -397,9 +382,9 @@
                 </div>
 
                 <div>
-                    <label class="label" for="guardian_phone">Telefone/WhatsApp</label>
+                    <label class="label text-gray-500" for="guardian_phone">Telefone/WhatsApp</label>
                     <input type="text" name="guardian_phone" id="guardian_phone" 
-                           class="input input-bordered w-full {{ $errors->has('guardian_phone') ? 'input-error' : '' }}" 
+                           class="bg-gray-100 border-gray-200 w-full rounded text-gray-500 {{ $errors->has('guardian_phone') ? 'input-error' : '' }}" 
                            required value="{{ old('guardian_phone') }}">
                     @error('guardian_phone') 
                         <span class="text-error text-sm mt-1 block">
@@ -413,9 +398,9 @@
                     <h3 class="text-md font-medium text-gray-700 mb-4">Endereço do Responsável</h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <label class="label" for="guardian_cep">CEP</label>
+                            <label class="label text-gray-500" for="guardian_cep">CEP</label>
                             <input type="text" name="guardian_cep" id="guardian_cep" 
-                                   class="input input-bordered w-full {{ $errors->has('guardian_cep') ? 'input-error' : '' }}" 
+                                   class="bg-gray-100 border-gray-200 w-full rounded text-gray-500 {{ $errors->has('guardian_cep') ? 'input-error' : '' }}" 
                                    required value="{{ old('guardian_cep') }}">
                             @error('guardian_cep') 
                                 <span class="text-error text-sm mt-1 block">
@@ -425,9 +410,9 @@
                         </div>
 
                         <div>
-                            <label class="label" for="guardian_endereco">Endereço</label>
+                            <label class="label text-gray-500" for="guardian_endereco">Endereço</label>
                             <input type="text" name="guardian_endereco" id="guardian_endereco" 
-                                   class="input input-bordered w-full {{ $errors->has('guardian_endereco') ? 'input-error' : '' }}" 
+                                   class="bg-gray-100 border-gray-200 w-full rounded text-gray-500 {{ $errors->has('guardian_endereco') ? 'input-error' : '' }}" 
                                    required value="{{ old('guardian_endereco') }}">
                             @error('guardian_endereco') 
                                 <span class="text-error text-sm mt-1 block">
@@ -437,9 +422,9 @@
                         </div>
 
                         <div>
-                            <label class="label" for="guardian_bairro">Bairro</label>
+                            <label class="label text-gray-500" for="guardian_bairro">Bairro</label>
                             <input type="text" name="guardian_bairro" id="guardian_bairro" 
-                                   class="input input-bordered w-full {{ $errors->has('guardian_bairro') ? 'input-error' : '' }}" 
+                                   class="bg-gray-100 border-gray-200 w-full rounded text-gray-500 {{ $errors->has('guardian_bairro') ? 'input-error' : '' }}" 
                                    required value="{{ old('guardian_bairro') }}">
                             @error('guardian_bairro') 
                                 <span class="text-error text-sm mt-1 block">
@@ -449,9 +434,9 @@
                         </div>
 
                         <div>
-                            <label class="label" for="guardian_cidade">Cidade</label>
+                            <label class="label text-gray-500" for="guardian_cidade">Cidade</label>
                             <input type="text" name="guardian_cidade" id="guardian_cidade" 
-                                   class="input input-bordered w-full {{ $errors->has('guardian_cidade') ? 'input-error' : '' }}" 
+                                   class="bg-gray-100 border-gray-200 w-full rounded text-gray-500 {{ $errors->has('guardian_cidade') ? 'input-error' : '' }}" 
                                    required value="{{ old('guardian_cidade') }}">
                             @error('guardian_cidade') 
                                 <span class="text-error text-sm mt-1 block">
@@ -461,9 +446,9 @@
                         </div>
 
                         <div>
-                            <label class="label" for="guardian_uf">UF</label>
+                            <label class="label text-gray-500" for="guardian_uf">UF</label>
                             <select name="guardian_uf" id="guardian_uf" 
-                                    class="select select-bordered w-full {{ $errors->has('guardian_uf') ? 'select-error' : '' }}" 
+                                    class="bg-gray-100 border-gray-200 w-full rounded text-gray-500 {{ $errors->has('guardian_uf') ? 'select-error' : '' }}" 
                                     required>
                                 <option value="">Selecione...</option>
                                 @foreach(['AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RS', 'RO', 'RR', 'SC', 'SP', 'SE', 'TO'] as $uf)
@@ -478,9 +463,9 @@
                         </div>
 
                         <div>
-                            <label class="label" for="guardian_numero">Número</label>
+                            <label class="label text-gray-500" for="guardian_numero">Número</label>
                             <input type="text" name="guardian_numero" id="guardian_numero" 
-                                   class="input input-bordered w-full {{ $errors->has('guardian_numero') ? 'input-error' : '' }}" 
+                                   class="bg-gray-100 border-gray-200 w-full rounded text-gray-500 {{ $errors->has('guardian_numero') ? 'input-error' : '' }}" 
                                    required value="{{ old('guardian_numero') }}">
                             @error('guardian_numero') 
                                 <span class="text-error text-sm mt-1 block">
@@ -490,9 +475,9 @@
                         </div>
 
                         <div>
-                            <label class="label" for="guardian_complemento">Complemento</label>
+                            <label class="label text-gray-500" for="guardian_complemento">Complemento</label>
                             <input type="text" name="guardian_complemento" id="guardian_complemento" 
-                                   class="input input-bordered w-full {{ $errors->has('guardian_complemento') ? 'input-error' : '' }}" 
+                                   class="bg-gray-100 border-gray-200 w-full rounded text-gray-500 {{ $errors->has('guardian_complemento') ? 'input-error' : '' }}" 
                                    value="{{ old('guardian_complemento') }}">
                             @error('guardian_complemento') 
                                 <span class="text-error text-sm mt-1 block">
@@ -508,9 +493,9 @@
                 <h3 class="text-md font-medium text-gray-700 mb-4">Responsável Secundário (opcional)</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label class="label" for="secondary_guardian_name">Nome do responsável</label>
+                        <label class="label text-gray-500" for="secondary_guardian_name">Nome do responsável</label>
                         <input type="text" name="secondary_guardian_name" id="secondary_guardian_name" 
-                               class="input input-bordered w-full {{ $errors->has('secondary_guardian_name') ? 'input-error' : '' }}" 
+                               class="bg-gray-100 border-gray-200 w-full rounded text-gray-500 {{ $errors->has('secondary_guardian_name') ? 'input-error' : '' }}" 
                                value="{{ old('secondary_guardian_name') }}">
                         @error('secondary_guardian_name') 
                             <span class="text-error text-sm mt-1 block">
@@ -520,9 +505,9 @@
                     </div>
 
                     <div>
-                        <label class="label" for="secondary_guardian_kinship">Grau de parentesco</label>
+                        <label class="label text-gray-500" for="secondary_guardian_kinship">Grau de parentesco</label>
                         <select name="secondary_guardian_kinship" id="secondary_guardian_kinship" 
-                                class="select select-bordered w-full {{ $errors->has('secondary_guardian_kinship') ? 'select-error' : '' }}">
+                                class="bg-gray-100 border-gray-200 w-full rounded text-gray-500 {{ $errors->has('secondary_guardian_kinship') ? 'select-error' : '' }}">
                             <option value="">Selecione...</option>
                             <option value="pai" {{ old('secondary_guardian_kinship') == 'pai' ? 'selected' : '' }}>Pai</option>
                             <option value="mae" {{ old('secondary_guardian_kinship') == 'mae' ? 'selected' : '' }}>Mãe</option>
@@ -537,9 +522,9 @@
                     </div>
 
                     <div>
-                        <label class="label" for="secondary_guardian_cpf">CPF do responsável</label>
+                        <label class="label text-gray-500" for="secondary_guardian_cpf">CPF do responsável</label>
                         <input type="text" name="secondary_guardian_cpf" id="secondary_guardian_cpf" 
-                               class="input input-bordered w-full {{ $errors->has('secondary_guardian_cpf') ? 'input-error' : '' }}" 
+                               class="bg-gray-100 border-gray-200 w-full rounded text-gray-500 {{ $errors->has('secondary_guardian_cpf') ? 'input-error' : '' }}" 
                                value="{{ old('secondary_guardian_cpf') }}">
                         @error('secondary_guardian_cpf') 
                             <span class="text-error text-sm mt-1 block">
@@ -549,9 +534,9 @@
                     </div>
 
                     <div>
-                        <label class="label" for="secondary_guardian_email">E-mail</label>
+                        <label class="label text-gray-500" for="secondary_guardian_email">E-mail</label>
                         <input type="email" name="secondary_guardian_email" id="secondary_guardian_email" 
-                               class="input input-bordered w-full {{ $errors->has('secondary_guardian_email') ? 'input-error' : '' }}" 
+                               class="bg-gray-100 border-gray-200 w-full rounded text-gray-500 {{ $errors->has('secondary_guardian_email') ? 'input-error' : '' }}" 
                                value="{{ old('secondary_guardian_email') }}">
                         @error('secondary_guardian_email') 
                             <span class="text-error text-sm mt-1 block">
@@ -561,9 +546,9 @@
                     </div>
 
                     <div>
-                        <label class="label" for="secondary_guardian_phone">Telefone/WhatsApp</label>
+                        <label class="label text-gray-500" for="secondary_guardian_phone">Telefone/WhatsApp</label>
                         <input type="text" name="secondary_guardian_phone" id="secondary_guardian_phone" 
-                               class="input input-bordered w-full {{ $errors->has('secondary_guardian_phone') ? 'input-error' : '' }}" 
+                               class="bg-gray-100 border-gray-200 w-full rounded text-gray-500 {{ $errors->has('secondary_guardian_phone') ? 'input-error' : '' }}" 
                                value="{{ old('secondary_guardian_phone') }}">
                         @error('secondary_guardian_phone') 
                             <span class="text-error text-sm mt-1 block">
@@ -584,9 +569,9 @@
                         <input type="checkbox" 
                                name="guardian_panel_access" 
                                value="1"
-                               class="checkbox"
+                               class=""
                                {{ old('guardian_panel_access') ? 'checked' : '' }}>
-                        <span>Liberar acesso ao painel dos responsáveis?</span>
+                        <span class="text-gray-500">Liberar acesso ao painel dos responsáveis?</span>
                     </label>
                     @error('guardian_panel_access') 
                         <span class="text-error text-sm mt-1 block">
@@ -602,9 +587,9 @@
             <h2 class="text-lg font-semibold text-gray-800 mb-4">📎 Extras</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                    <label class="label" for="photo">Foto do aluno</label>
+                    <label class="label text-gray-500" for="photo">Foto do aluno</label>
                     <input type="file" name="photo" id="photo" 
-                           class="file-input file-input-bordered w-full {{ $errors->has('photo') ? 'input-error' : '' }}" 
+                           class="bg-gray-100 border-gray-200 w-full rounded text-gray-500 {{ $errors->has('photo') ? 'input-error' : '' }}" 
                            accept="image/*">
                     @error('photo') 
                         <span class="text-error text-sm mt-1 block">
@@ -614,9 +599,9 @@
                 </div>
 
                 <div>
-                    <label class="label" for="evaluation_file">Arquivo de avaliação ou laudo (PDF)</label>
+                    <label class="label text-gray-500" for="evaluation_file">Arquivo de avaliação ou laudo (PDF)</label>
                     <input type="file" name="evaluation_file" id="evaluation_file" 
-                           class="file-input file-input-bordered w-full {{ $errors->has('evaluation_file') ? 'input-error' : '' }}" 
+                           class="bg-gray-100 border-gray-200 w-full rounded text-gray-500 {{ $errors->has('evaluation_file') ? 'input-error' : '' }}" 
                            accept=".pdf">
                     @error('evaluation_file') 
                         <span class="text-error text-sm mt-1 block">
@@ -626,9 +611,9 @@
                 </div>
 
                 <div>
-                    <label class="label" for="external_support_name">Nome do terapeuta/apoio externo</label>
+                    <label class="label text-gray-500" for="external_support_name">Nome do terapeuta/apoio externo</label>
                     <input type="text" name="external_support_name" id="external_support_name" 
-                           class="input input-bordered w-full {{ $errors->has('external_support_name') ? 'input-error' : '' }}" 
+                           class="bg-gray-100 border-gray-200 w-full rounded text-gray-500 {{ $errors->has('external_support_name') ? 'input-error' : '' }}" 
                            value="{{ old('external_support_name') }}">
                     @error('external_support_name') 
                         <span class="text-error text-sm mt-1 block">
